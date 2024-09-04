@@ -17,6 +17,7 @@
                 <th style="text-align: center;">Brand ID</th>
                 <th style="text-align: center;">Brand Name</th>
                 <th style="text-align: center;">Business</th>
+                //bc
               </tr>
             </thead>
           </table>
