@@ -360,6 +360,7 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
 .admin-table {
   padding: 0 75px;
   margin: 64px auto;
+  margin-top: 56px;
 }
 
 .admin-table h2 {
@@ -379,10 +380,11 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
   z-index: 800;
   max-width: 950px;
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: 110px;
   box-shadow: 10px 10px 20px rgba(95, 172, 186, 0.54),
     -10px -10px 20px rgba(207, 224, 224, 0.54);
   border-radius: 25px 25px 12px 25px;
+  position: relative;
 }
 
 .table .table-header {
@@ -413,7 +415,32 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
   line-height: 64px;
   border-bottom: 2px solid #dbbaba;
   border-right: 2px solid #dbbaba;
+  position: relative;
+  .logo {
+    position: absolute;
+    height: 200px;
+    aspect-ratio: 1;
+    box-shadow: 0 0 10px #32312f93;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 970;
+    background-color: #c3e3e6;
+    right: -190px;
+    bottom: -189px;
+    visibility: hidden;
+
+    img {
+      max-height: 120px;
+      max-width: 120px;
+    }
+  }
 }
+.table .table-data .table-row .table-cell:hover .logo {
+  visibility: visible;
+}
+
 .table .table-data .table-row .table-cell:last-child {
   border-right: none;
 }
@@ -421,14 +448,27 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
 .table .table-data .table-row:last-child .table-cell {
   border-bottom: none;
 }
-.admin-table .searchAddS {
-  margin-left: 220px;
+.table .searchAddS {
+  position: absolute;
   display: flex;
-  gap: 23px;
-  margin-top: 36px;
+  justify-content: space-between;
+  width: 100%;
+  top: -80px;
+
+  form,
   .search {
-    display: flex;
     justify-content: center;
+    display: flex;
+    .message {
+      color: red;
+      font-weight: 500;
+      margin-right: 19px;
+      margin-top: 10px;
+      i {
+        font-size: 13px;
+      }
+    }
+    input,
     #search {
       height: 3rem;
       width: 11rem;
@@ -441,10 +481,13 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
       box-shadow: 2px 2px 7px #c97676;
       transition: all 0.2s ease-in-out;
     }
+    input:focus,
+    input:active,
     #search:focus,
     #search:active {
       width: 16rem;
     }
+    button,
     #search-bt {
       background: var(--colorbt);
       font-size: 29px;
@@ -457,6 +500,10 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
       line-height: 3rem;
       box-shadow: 2px 2px 7px #c97676;
     }
+    button {
+      font-size: 18px;
+      padding: 0 16px;
+    }
   }
   button {
     background: var(--colorbt);
@@ -465,9 +512,110 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
     border-radius: 2rem;
     cursor: pointer;
     border: none;
-    padding: 0 28px;
+    padding: 0 22px;
     height: 3.1rem;
     line-height: 3rem;
     box-shadow: 2px 2px 7px #c97676;
+  }
+}
+
+/* pop up */
+.popup {
+  background: rgba(128, 128, 128, 0.85);
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  z-index: 999;
+  margin-top: -60px;
+
+  form {
+    background: #fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    min-width: 900px;
+
+    .xmark {
+      position: absolute;
+      top: 15px;
+      right: 22px;
+      font-size: 25px;
+    }
+    .image {
+      height: 300px;
+      aspect-ratio: 1;
+      box-shadow: inset 0 0 10px #32312f93;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        max-height: 220px;
+        max-width: 220px;
+      }
+    }
+    .fields {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+    span {
+      font-family: Poppins;
+      font-size: 31px;
+      margin-bottom: 7px;
+      color: var(--colorbt);
+      font-weight: 600;
+    }
+    h2 {
+      margin-top: -10px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .pop {
+      visibility: hidden;
+    }
+    label {
+      color: #000;
+      font-weight: 500;
+    }
+    input {
+      height: 52px !important;
+      background: #fff !important;
+      color: #000000 !important;
+      font-size: 16px;
+      border-radius: 0px;
+      -webkit-box-shadow: none !important;
+      box-shadow: none !important;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      width: 330px;
+      margin-bottom: 2rem;
+      padding: 12px 0 0 12px;
+    }
+    button {
+      color: #fff;
+      background: var(--colorbt);
+      width: 260px;
+      padding: 10px 0;
+      font-size: 18px;
+      outline: none;
+      border: none;
+    }
+    .message {
+      color: red;
+      z-index: 99;
+      min-width: 263px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      i {
+        font-size: 13px;
+      }
+    }
   }
 }

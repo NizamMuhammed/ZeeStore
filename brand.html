@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Store Zee - Brang</title>
+    <title>Store Zee - Brand</title>
     <link
       rel="icon"
       type="image/x-icon"
@@ -72,6 +72,34 @@
       </div>
     </nav>
     <!-- END nav -->
+
+    <div class="popup hide">
+      <form action="" method="post">
+        <div class="image"><img src="svg/image.svg" class="display" /></div>
+        <div class="fields">
+          <span>Inventory Managment System</span>
+          <h2>Add new brand</h2>
+          <div class="message pop">
+            <i class="fa-solid fa-circle"></i>
+            Invalde data detected
+          </div>
+          <label>Name</label>
+          <input type="text" name="" id="" placeholder="name..." />
+          <label>Logo</label>
+          <input
+            type="file"
+            name=""
+            id="image_input"
+            accept=".jpg, .jpeg, .png, .img"
+            title="edit properly before uploading"
+          />
+          <button type="submit">Submit</button>
+        </div>
+        <div class="xmark"><i class="fa-solid fa-xmark"></i></div>
+      </form>
+    </div>
+    <!-- popup -->
+
     <section
       class="hero-wrap hero-wrap-2"
       style="background-image: url('images/shopping.jpg')"
@@ -100,20 +128,21 @@
         </div>
       </div>
     </section>
+    <!-- header -->
 
     <section class="admin-table">
       <h2>Product brand table</h2>
       <span>view and manage product brand information</span>
-      <div class="searchAddS">
-        <section class="search">
-          <input type="text" id="search" placeholder="search brand..." />
-          <button id="search-bt">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </section>
-        <button>Add new brand</button>
-      </div>
       <div class="table">
+        <div class="searchAddS">
+          <section class="search">
+            <input type="text" id="search" placeholder="search brand..." />
+            <button id="search-bt">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </section>
+          <button id="btt1">Add Brand</button>
+        </div>
         <div class="table-header parent">
           <div class="table-header-data row">Brand ID</div>
           <div class="table-header-data row">Name</div>
@@ -122,7 +151,10 @@
         <div class="table-data">
           <div class="table-row parent">
             <div class="table-cell row">5</div>
-            <div class="table-cell row">Sarah Brown</div>
+            <div class="table-cell row">
+              Sarah Brown
+              <div class="logo"><img src="images/logo.jpg" alt="" /></div>
+            </div>
             <div class="table-cell row">10</div>
           </div>
           <div class="table-row parent">

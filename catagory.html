@@ -101,20 +101,34 @@
         </div>
       </div>
     </section>
+    <!-- header -->
 
     <section class="admin-table">
       <h2>Product catagory table</h2>
       <span>view and manage product catagory information</span>
-      <div class="searchAddS">
-        <section class="search">
-          <input type="text" id="search" placeholder="search catagory" />
-          <button id="search-bt">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </section>
-        <button>Add new catagory</button>
-      </div>
       <div class="table">
+        <div class="searchAddS">
+          <section class="search">
+            <input type="text" id="search" placeholder="search catagory" />
+            <button id="search-bt">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </section>
+          <form action="" method="post">
+            <div class="message hide">
+              <i class="fa-solid fa-circle"></i>
+              Invalde data detected
+            </div>
+            <input
+              type="text"
+              pattern="[A-Za-z]+"
+              title="Please enter only letters."
+              required
+              placeholder="new catagory"
+            />
+            <button>Add catagory</button>
+          </form>
+        </div>
         <div class="table-header parent">
           <div class="table-header-data row">Catagory ID</div>
           <div class="table-header-data row">Name</div>
