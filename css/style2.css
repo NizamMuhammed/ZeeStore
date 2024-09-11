@@ -416,6 +416,20 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
   border-bottom: 2px solid #dbbaba;
   border-right: 2px solid #dbbaba;
   position: relative;
+  a {
+    background: var(--colorbt);
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    border: none;
+    height: 45px;
+    line-height: 3rem;
+    box-shadow: 2px 2px 7px #c97676;
+    font-size: 18px;
+    padding: 0px 11px;
+    margin-top: 6px;
+    text-indent: 5px;
+  }
   .logo {
     position: absolute;
     height: 200px;
@@ -596,7 +610,21 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
       border: 1px solid rgba(0, 0, 0, 0.1);
       width: 330px;
       margin-bottom: 2rem;
-      padding: 12px 0 0 12px;
+      padding: 6px 0 0 6px;
+    }
+    textarea {
+      background: #fff !important;
+      color: #000000 !important;
+      font-size: 16px;
+      border-radius: 0px;
+      -webkit-box-shadow: none !important;
+      box-shadow: none !important;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      width: 330px;
+      margin-bottom: 2rem;
+      padding: 6px 0 0 6px;
+      resize: none;
+      outline: none;
     }
     button {
       color: #fff;
