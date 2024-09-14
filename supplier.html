@@ -73,24 +73,45 @@
     </nav>
     <!-- END nav -->
 
-    <div class="popup hide">
+    <div class="popup hid">
       <form action="" method="post" style="min-width: 600px">
-        <div class="fields">
-          <span>Inventory Managment System</span>
-          <h2>Add new supplier</h2>
+        <span>Inventory Managment System</span>
+        <h2>Add new supplier</h2>
+        <div class="xmark"><i class="fa-solid fa-xmark"></i></div>
+
+        <div
+          class="form-body"
+          style="flex-direction: column; align-items: flex-start"
+        >
+          <div class="message pop" style="margin: -12px 0">
+            <i class="fa-solid fa-circle"></i>
+            Invalde data detected
+          </div>
+          <div class="fields">
+            <div class="inputs">
+              <label>Name</label>
+              <input type="text" name="" id="" placeholder="name..." />
+            </div>
+            <div class="inputs">
+              <label>Email</label>
+              <input type="email" name="" id="" placeholder="email..." />
+            </div>
+            <div class="inputs">
+              <label>Mobile</label>
+              <input type="tel" name="" id="" placeholder="mobile..." />
+            </div>
+          </div>
+          <button type="submit">Submit</button>
+        </div>
+
+        <!-- <div class="fields">
           <div class="message pop">
             <i class="fa-solid fa-circle"></i>
             Invalde data detected
           </div>
-          <label>Name</label>
-          <input type="text" name="" id="" placeholder="name..." />
-          <label>Email</label>
-          <input type="email" name="" id="" placeholder="name..." />
-          <label>Mobile</label>
-          <input type="tel" name="" id="" placeholder="name..." />
-          <button type="submit">Submit</button>
-        </div>
-        <div class="xmark"><i class="fa-solid fa-xmark"></i></div>
+
+          
+        </div> -->
       </form>
     </div>
     <!-- popup -->

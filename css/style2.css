@@ -218,7 +218,8 @@ h1 {
 }
 
 .pad .row .cell {
-  flex: 1; /* Each box takes equal space */
+  flex: 1;
+  /* Each box takes equal space */
   border-right: 5px solid var(--colorbt);
   padding-left: 30px;
   padding-top: 20px;
@@ -353,8 +354,10 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
 }
 
 .parent .row {
-  flex: 1; /* Each box takes equal space */
-  justify-content: center; /* Center text horizontally */
+  flex: 1;
+  /* Each box takes equal space */
+  justify-content: center;
+  /* Center text horizontally */
 }
 
 .admin-table {
@@ -388,7 +391,6 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
 }
 
 .table .table-header {
-  /* text-align: center; */
   font-weight: 500;
   color: #000;
   padding: 1px 15px;
@@ -406,7 +408,7 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
 }
 
 .table .table-data .table-row {
-  padding: 0 15px;
+  padding: 0 14px;
 }
 
 .table .table-data .table-row .table-cell {
@@ -416,6 +418,7 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
   border-bottom: 2px solid #dbbaba;
   border-right: 2px solid #dbbaba;
   position: relative;
+
   a {
     background: var(--colorbt);
     color: #fff;
@@ -430,6 +433,7 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
     margin-top: 6px;
     text-indent: 5px;
   }
+
   .logo {
     position: absolute;
     height: 200px;
@@ -451,6 +455,7 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
     }
   }
 }
+
 .table .table-data .table-row .table-cell:hover .logo {
   visibility: visible;
 }
@@ -462,6 +467,7 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
 .table .table-data .table-row:last-child .table-cell {
   border-bottom: none;
 }
+
 .table .searchAddS {
   position: absolute;
   display: flex;
@@ -473,15 +479,18 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
   .search {
     justify-content: center;
     display: flex;
+
     .message {
       color: red;
       font-weight: 500;
       margin-right: 19px;
       margin-top: 10px;
+
       i {
         font-size: 13px;
       }
     }
+
     input,
     #search {
       height: 3rem;
@@ -495,12 +504,14 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
       box-shadow: 2px 2px 7px #c97676;
       transition: all 0.2s ease-in-out;
     }
+
     input:focus,
     input:active,
     #search:focus,
     #search:active {
       width: 16rem;
     }
+
     button,
     #search-bt {
       background: var(--colorbt);
@@ -514,11 +525,13 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
       line-height: 3rem;
       box-shadow: 2px 2px 7px #c97676;
     }
+
     button {
       font-size: 18px;
       padding: 0 16px;
     }
   }
+
   button {
     background: var(--colorbt);
     font-size: 18px;
@@ -530,11 +543,152 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
     height: 3.1rem;
     line-height: 3rem;
     box-shadow: 2px 2px 7px #c97676;
+    outline: none;
   }
 }
 
 /* pop up */
 .popup {
+  background: rgba(128, 128, 128, 0.85);
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  z-index: 999;
+  margin-top: -60px;
+
+  form {
+    background: #fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    padding: 28px 20px;
+    min-width: 550px;
+    width: 625px;
+
+    .xmark {
+      position: absolute;
+      top: 1px;
+      right: 14px;
+      font-size: 25px;
+    }
+
+    span {
+      font-family: Poppins;
+      font-size: 31px;
+      margin-bottom: 7px;
+      color: var(--colorbt);
+      font-weight: 600;
+    }
+
+    h2 {
+      margin-top: -10px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .form-body {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      button {
+        color: #fff;
+        background: var(--colorbt);
+        width: 200px;
+        padding: 5px 0;
+        font-size: 18px;
+        outline: none;
+        border: none;
+        margin-top: 8px;
+        display: block;
+        border-radius: 3px;
+      }
+
+      .message {
+        color: red;
+        z-index: 99;
+        min-width: 263px;
+        font-weight: 500;
+        margin-bottom: 8px;
+
+        i {
+          font-size: 13px;
+        }
+      }
+
+      .pop {
+        visibility: hidden;
+      }
+
+      .fields {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        .inputs {
+          width: 290px;
+          overflow: hidden;
+          margin-bottom: -18px;
+
+          label {
+            color: #000;
+            font-weight: 500;
+            display: block;
+          }
+          select,
+          input {
+            height: 50px !important;
+            background: #fff !important;
+            color: #000000 !important;
+            font-size: 16px;
+            border-radius: 2px;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            width: 247px;
+            margin-bottom: 2rem;
+            padding: 6px 0 0 6px;
+            outline: none;
+          }
+          textarea {
+            background: #fff !important;
+            color: #000000 !important;
+            font-size: 16px;
+            border-radius: 2px;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            width: 247px;
+            margin-bottom: 2rem;
+            padding: 6px 0 0 6px;
+            outline: none;
+          }
+        }
+      }
+
+      .image {
+        height: 300px;
+        aspect-ratio: 1;
+        box-shadow: inset 0 0 10px #32312f93;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          max-height: 220px;
+          max-width: 220px;
+        }
+      }
+    }
+  }
+}
+
+/*.popup {
   background: rgba(128, 128, 128, 0.85);
   width: 100%;
   height: 100vh;
@@ -555,12 +709,7 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
     gap: 40px;
     min-width: 900px;
 
-    .xmark {
-      position: absolute;
-      top: 15px;
-      right: 22px;
-      font-size: 25px;
-    }
+
     .image {
       height: 300px;
       aspect-ratio: 1;
@@ -580,25 +729,14 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
       flex-direction: column;
       margin-bottom: 20px;
     }
-    span {
-      font-family: Poppins;
-      font-size: 31px;
-      margin-bottom: 7px;
-      color: var(--colorbt);
-      font-weight: 600;
-    }
-    h2 {
-      margin-top: -10px;
-      font-size: 28px;
-      font-weight: 700;
-    }
-    .pop {
-      visibility: hidden;
-    }
+
+
     label {
       color: #000;
       font-weight: 500;
     }
+    option,
+    select,
     input {
       height: 52px !important;
       background: #fff !important;
@@ -626,24 +764,7 @@ img[src="svg/bag-shopping-svgrepo-com.svg"] {
       resize: none;
       outline: none;
     }
-    button {
-      color: #fff;
-      background: var(--colorbt);
-      width: 260px;
-      padding: 10px 0;
-      font-size: 18px;
-      outline: none;
-      border: none;
-    }
-    .message {
-      color: red;
-      z-index: 99;
-      min-width: 263px;
-      font-weight: 500;
-      margin-bottom: 8px;
-      i {
-        font-size: 13px;
-      }
-    }
+
+
   }
-}
+}*/

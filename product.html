@@ -73,36 +73,72 @@
     </nav>
     <!-- END nav -->
 
-    <div class="popup hide">
-      <form action="" method="post">
-        <div class="image"><img src="svg/image.svg" class="display" /></div>
-        <div class="fields">
-          <span>Inventory Managment System</span>
-          <h2>Add new product</h2>
-          <div class="message pop">
-            <i class="fa-solid fa-circle"></i>
-            Invalde data detected
-          </div>
-          <label>Name</label>
-          <input type="text" name="" id="" placeholder="name..." />
-          <label>Product image</label>
-          <input
-            type="file"
-            name=""
-            id="image_input"
-            accept=".jpg, .jpeg, .png, .img"
-            title="edit properly before uploading"
-          />
-          <label>Description</label>
-          <textarea
-            name=""
-            id=""
-            rows="3"
-            placeholder="description..."
-          ></textarea>
-          <button type="submit">Submit</button>
-        </div>
+    <div class="popup hid">
+      <form action="" method="post" style="width: 980px">
+        <span>Inventory Managment System</span>
+        <h2>Add new product</h2>
         <div class="xmark"><i class="fa-solid fa-xmark"></i></div>
+        <div class="form-body">
+          <div class="image" style="height: 380px">
+            <img
+              src="svg/image.svg"
+              class="display"
+              style="max-width: 320px; max-height: 320px"
+            />
+          </div>
+          <div class="fields">
+            <div class="message pop">
+              <i class="fa-solid fa-circle"></i>
+              Invalde data detected
+            </div>
+            <div class="fields" style="width: 580px">
+              <div class="inputs">
+                <label>Name</label>
+                <input type="text" name="" id="" placeholder="name..." />
+              </div>
+              <div class="inputs">
+                <label>Brand</label>
+                <select name="" id="" required>
+                  <option value="" selected>Breakfast</option>
+                  <option value="">MSI</option>
+                  <option value="">HP</option>
+                  <option value="">Lenovo</option>
+                  <option value="">Asus</option>
+                </select>
+              </div>
+              <div class="inputs">
+                <label>Product image</label>
+                <input
+                  type="file"
+                  name=""
+                  id="image_input"
+                  accept=".jpg, .jpeg, .png, .img"
+                  title="edit properly before uploading"
+                />
+              </div>
+              <div class="inputs">
+                <label>Description</label>
+                <textarea
+                  name=""
+                  id=""
+                  rows="3"
+                  placeholder="description..."
+                ></textarea>
+              </div>
+            </div>
+            <button type="submit">Submit</button>
+          </div>
+        </div>
+        <!-- 
+        <div class="fields">
+
+
+
+    
+
+          
+        </div>
+         -->
       </form>
     </div>
     <!-- popup -->
