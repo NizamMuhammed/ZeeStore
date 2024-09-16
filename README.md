@@ -1,2 +1,2 @@
-# Eats-Beats
+# ZeeStore
 Project Z
