@@ -47,8 +47,8 @@
         <ul id="navbar">
           <li><a href="index.html">Dashboard</a></li>
           <li><a href="brand.html">Brand</a></li>
-          <li><a href="catagory.html" class="active">Catagory</a></li>
-          <li><a href="supplier.html">Supplier</a></li>
+          <li><a href="catagory.php" class="active">Catagory</a></li>
+          <li><a href="supplier.php">Supplier</a></li>
           <li><a href="product.html">Product</a></li>
           <li class="user" id="user">
             <div class="circle"></div>
@@ -72,6 +72,78 @@
       </div>
     </nav>
     <!-- END nav -->
+
+    <?php
+    include("DBconnect.php");
+    session_start();
+	
+	if(isset($_POST["submit1"]))
+	{
+        $Name=$_POST["name"];
+        $Noproduct=$_POST["noproduct"];
+		
+		if(($Name!="")&&($Noproduct!=""))
+		{
+			$categoryResgistration="INSERT INTO category_details(name,noproduct)values('$Name','$Noproduct')";
+			
+			echo $categoryResgistration;
+			
+			$res1 = mysqli_query($con,$categoryResgistration);
+            		if ($res1 == TRUE)
+			{
+				
+				echo("<h1>New Category Added Successfully....!</h1>");
+                // $_SESSION['added'] = "<div class='success'><h3>New User Create Successfully....!</h3></div>";
+        header("location: index.html");
+                
+			}
+			else
+			{
+				echo("Error Occur...!".mysqli_error($con));
+				die();
+				
+			}
+		}
+		else
+		{
+            // $_SESSION['empty'] = "<div class='error'><h3>Fields can not empty...!</h3></div>";
+		    // header('refresh:2');
+            //     $userType="";
+            //     $userfName="";
+            //     $userlName="";
+            //     $userName="";
+            //     $userEmail="";
+            //     $userPsw="";
+            //     $userCNum="";
+		}
+		
+	}
+	elseif(isset($_POST['submit1']))
+	{
+		header('url=index.html');
+	}
+	
+?>
+
+    <div class="popup hide">
+      <form action="catagory.php" method="post" style="min-width: 600px">
+        <div class="fields">
+          <span>Inventory Managment System</span>
+          <h2>Add new category</h2>
+          <div class="message pop">
+            <i class="fa-solid fa-circle"></i>
+            Invalde data detected
+          </div>
+          <label>Name</label>
+          <input type="text" name="name" id="name" placeholder="name..." />
+          <label>No of products</label>
+          <input type="text" name="noproduct" id="noproduct" placeholder="no of products..." />
+          <button type="submit" name="submit1">Submit</button>
+        </div>
+        <div class="xmark"><i class="fa-solid fa-xmark"></i></div>
+      </form>
+    </div>
+    <!-- popup -->
 
     <section
       class="hero-wrap hero-wrap-2"
@@ -102,6 +174,7 @@
       </div>
     </section>
     <!-- header -->
+     
 
     <section class="admin-table">
       <h2>Product catagory table</h2>
@@ -114,7 +187,7 @@
               <i class="fa-solid fa-magnifying-glass"></i>
             </button>
           </section>
-          <form action="" method="post">
+          <!-- <form action="" method="post">
             <div class="message hide">
               <i class="fa-solid fa-circle"></i>
               Invalde data detected
@@ -125,16 +198,60 @@
               title="Please enter only letters."
               required
               placeholder="new catagory"
-            />
-            <button>Add catagory</button>
-          </form>
+            /> -->
+            <button id="btt1">Add catagory</button>
+          <!-- </form> -->
         </div>
         <div class="table-header parent">
           <div class="table-header-data row">Catagory ID</div>
           <div class="table-header-data row">Name</div>
           <div class="table-header-data row">NO_Products</div>
         </div>
-        <div class="table-data">
+
+        <?php
+
+                $sql ="SELECT * FROM category_details";
+                $res = mysqli_query($con, $sql);
+
+                if($res==TRUE)
+                {
+                    $count = mysqli_num_rows($res);
+
+
+                    if ($count > 0) {
+                        $sn = 1; // Initialize serial number
+                        
+                        while ($row = mysqli_fetch_assoc($res)) {
+                            $CategoryID = $row["categoryID"];
+                            $Name = $row["name"];
+                            $Product=$row["noproduct"];
+                            
+                        
+
+                        ?>
+
+                        <div class="table-data">
+                          <div class="table-row parent">
+                            <div class="table-cell row"><?php echo $CategoryID; ?></div>
+                            <div class="table-cell row"><?php echo $Name; ?></div>
+                            <div class="table-cell row"><?php echo $Product; ?></div>
+                          </div>
+                        </div>
+
+                        <?php
+                        }
+                    } else {
+                        // Handle case when there are no rows
+                        echo "<tr><td colspan='4'>No Category Found.</td></tr>";
+                    }
+                } else {
+                    // Handle query error
+                    echo "<tr><td colspan='4'>Failed to retrieve data from database.</td></tr>";
+                }
+        ?>
+
+
+        <!-- <div class="table-data">
           <div class="table-row parent">
             <div class="table-cell row">5</div>
             <div class="table-cell row">Sarah Brown</div>
@@ -180,7 +297,7 @@
             <div class="table-cell row">Sarah Brown</div>
             <div class="table-cell row">10</div>
           </div>
-        </div>
+        </div> -->
       </div>
     </section>
 

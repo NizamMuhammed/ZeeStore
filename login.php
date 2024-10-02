@@ -59,12 +59,42 @@
       }
     </style>
   </head>
+
+  <?php
+session_start();
+include("DBconnect.php"); // Make sure this file connects to your database
+
+// Check if the form is submitted
+if (isset($_POST["submit"])) {
+    $userName = $_POST["username"];
+    $userPsw = md5($_POST["password"]); // Hash the password for security
+
+    // Prepare the SQL statement to prevent SQL injection
+    $stmt = $con->prepare("SELECT * FROM process_staff WHERE username=? AND password=?");
+    $stmt->bind_param("ss", $userName, $userPsw);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Check if the user exists
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        $_SESSION['userName'] = $row['username'];
+        $_SESSION['userType'] = $row['userType'];
+        header("Location: createstaffmember.php"); // Redirect to the staff member creation page
+        exit();
+    } else {
+        $_SESSION['error'] = "Invalid username or password!";
+    }
+}
+?>
+  
   <body>
     <nav>
       <a href="index.html" class="brand"> Store Zee </a>
       <div>
         <ul id="navbar">
-          <li><a href="login.html" class="active">Login</a></li>
+          <li><a href="login.php" class="active">Login</a></li>
+          <li><a href="createstaffmember.php" class="active">singUp</a></li>
           <li class="user" id="user">
             <div class="circle"></div>
             <i class="fa fa-user"></i>
@@ -87,8 +117,15 @@
             <div class="heading-section ftco-animate mb-5">
               <span class="subheading">Inventory Mangment System</span>
               <h2 class="mb-4">Admin Login</h2>
+              <?php
+        // Display error message if exists
+        if (isset($_SESSION['error'])) {
+            echo "<div class='error'>{$_SESSION['error']}</div>";
+            unset($_SESSION['error']); // Clear the error message
+        }
+            ?>
             </div>
-            <form action="#" class="formi">
+            <form action="login.php" method="post" class="formi">
               <div class="row">
                 <div class="message hide">
                   <i class="fa-solid fa-circle"></i>
@@ -99,6 +136,7 @@
                   <input
                     type="text"
                     class="form-control"
+                    name="username"
                     placeholder="username"
                     required
                   />
@@ -109,6 +147,7 @@
                   <input
                     type="password"
                     class="form-control"
+                    name="password"
                     placeholder="password"
                     required
                   />
@@ -117,6 +156,7 @@
                   <div class="form-group">
                     <input
                       type="submit"
+                      name="submit"
                       value="Login"
                       class="btn btn-primary py-3 px-5"
                     />

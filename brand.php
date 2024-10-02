@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Store Zee - Supplier</title>
+    <title>Store Zee - Brand</title>
     <link
       rel="icon"
       type="image/x-icon"
@@ -39,6 +39,92 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+
+    <?php
+    include("DBconnect.php");
+    session_start();
+	
+	if(isset($_POST["submit1"]))
+	{
+        $Brandname=$_POST["brandname"];
+
+        if(isset($_FILES['image']['name']) && $_FILES['image']['name'] != "")
+        {
+            //uploade the Image
+            $Image = $_FILES['image']['name'];
+
+            if($Image != "")
+            {
+
+                //Auto Rename Upload Image
+                $image_parts = explode('.', $Image);
+                $ext = end($image_parts);
+
+                $Image = "Brand_Add_".rand(000,999).'.'.$ext;
+
+
+                $source_path = $_FILES['image']['tmp_name'];
+                $destination_path = "../images/".$Image;
+
+                $upload = move_uploaded_file($source_path,$destination_path);
+
+                if($upload==false)
+                {
+                    //$_SESSION['upload'] = "<div class='error'>Failed to Upload Image</div>";
+                    echo("<h1>Failed to Upload Image....!</h1>");
+		                header('location: mywork2.php');
+                    die();
+                }
+            }
+        }else
+        {
+            //Don't upload Image
+            $Image="";
+        }           
+		
+		if(($Brandname!="")&&($Image!=""))
+		{
+			//$categoryResgistration="INSERT INTO category_details(Title,imageName,Featured,Active)values('.$Title','.$image_name','.$Fea','.$Active')";
+			$brandResgistration = "INSERT INTO brand_details (brandname, image) VALUES ('$Brandname', '$Image')";
+
+			echo $brandResgistration;
+			
+            $res4 = mysqli_query($con,$brandResgistration);
+			      if ($res4 == TRUE)
+			{
+				
+				echo("<h1>New Brand Added Successfully....!</h1>");
+                //$_SESSION['added'] = "<div class='success'><h3>New Food Added Successfully....!</h3></div>";
+				header("location: mywork1.php");
+                
+                
+			}
+			else
+			{
+				echo("Error Occur...!".mysqli_error($con));
+				die();
+
+			}
+		}
+		else
+		{
+            $_SESSION['empty'] = "<div class='error'><h3>Fields can not empty...!</h3></div>";
+		    //header('refresh:2');
+                $Brandname="";
+                $Image="";
+                
+            
+		}
+		
+	}
+	elseif(isset($_POST['submit1']))
+	{
+		header('url=mywork2.php');
+	}
+	
+?>
+
+
   </head>
   <body style="margin-top: -30px">
     <nav>
@@ -46,9 +132,9 @@
       <div>
         <ul id="navbar">
           <li><a href="index.html">Dashboard</a></li>
-          <li><a href="brand.html">Brand</a></li>
-          <li><a href="catagory.html">Catagory</a></li>
-          <li><a href="supplier.html" class="active">Supplier</a></li>
+          <li><a href="brand.html" class="active">Brand</a></li>
+          <li><a href="catagory.php">Catagory</a></li>
+          <li><a href="supplier.php">Supplier</a></li>
           <li><a href="product.html">Product</a></li>
           <li class="user" id="user">
             <div class="circle"></div>
@@ -74,21 +160,26 @@
     <!-- END nav -->
 
     <div class="popup hide">
-      <form action="" method="post" style="min-width: 600px">
+      <form action="" method="post">
+        <div class="image"><img src="svg/image.svg" class="display" /></div>
         <div class="fields">
           <span>Inventory Managment System</span>
-          <h2>Add new supplier</h2>
+          <h2>Add new brand</h2>
           <div class="message pop">
             <i class="fa-solid fa-circle"></i>
             Invalde data detected
           </div>
           <label>Name</label>
-          <input type="text" name="" id="" placeholder="name..." />
-          <label>Email</label>
-          <input type="email" name="" id="" placeholder="name..." />
-          <label>Mobile</label>
-          <input type="tel" name="" id="" placeholder="name..." />
-          <button type="submit">Submit</button>
+          <input type="text" name="brandname" id="" placeholder="name..." />
+          <label>Logo</label>
+          <input
+            type="file"
+            name="image"
+            id="image_input"
+            accept=".jpg, .jpeg, .png, .img"
+            title="edit properly before uploading"
+          />
+          <button type="submit" name="submit1">Submit</button>
         </div>
         <div class="xmark"><i class="fa-solid fa-xmark"></i></div>
       </form>
@@ -106,7 +197,7 @@
           class="row no-gutters slider-text align-items-center justify-content-center"
         >
           <div class="col-md-9 ftco-animate text-center">
-            <h1 class="mb-2 bread">Manage Suppliers</h1>
+            <h1 class="mb-2 bread">Manage Brands</h1>
             <p class="breadcrumbs">
               <span class="mr-2">
                 <a href="index.html">
@@ -115,7 +206,7 @@
                 </a>
               </span>
               <span>
-                Supplier
+                Brands
                 <i class="ion-ios-arrow-forward"></i>
               </span>
             </p>
@@ -126,78 +217,71 @@
     <!-- header -->
 
     <section class="admin-table">
-      <h2>Supplier information table</h2>
-      <span>view and manage supplier information</span>
+      <h2>Product brand table</h2>
+      <span>view and manage product brand information</span>
       <div class="table">
         <div class="searchAddS">
           <section class="search">
-            <input type="text" id="search" placeholder="search supplier" />
+            <input type="text" id="search" placeholder="search brand..." />
             <button id="search-bt">
               <i class="fa-solid fa-magnifying-glass"></i>
             </button>
           </section>
-          <button id="btt1">Add supplier</button>
+          <button id="btt1">Add Brand</button>
         </div>
         <div class="table-header parent">
-          <div class="table-header-data row">Supplier ID</div>
+          <div class="table-header-data row">Brand ID</div>
           <div class="table-header-data row">Name</div>
-          <div class="table-header-data row">E-mail</div>
-          <div class="table-header-data row">Mobile</div>
+          <div class="table-header-data row">NO_Products</div>
         </div>
         <div class="table-data">
           <div class="table-row parent">
             <div class="table-cell row">5</div>
-            <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">Brownie1234@yahoo.com</div>
-            <div class="table-cell row">098 234 5222</div>
+            <div class="table-cell row">
+              Sarah Brown
+              <div class="logo"><img src="images/logo.jpg" alt="" /></div>
+            </div>
+            <div class="table-cell row">10</div>
           </div>
           <div class="table-row parent">
             <div class="table-cell row">5</div>
             <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">Brownie1234@yahoo.com</div>
-            <div class="table-cell row">098 234 5222</div>
+            <div class="table-cell row">10</div>
           </div>
           <div class="table-row parent">
             <div class="table-cell row">5</div>
             <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">Brownie1234@yahoo.com</div>
-            <div class="table-cell row">098 234 5222</div>
+            <div class="table-cell row">10</div>
           </div>
           <div class="table-row parent">
             <div class="table-cell row">5</div>
             <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">Brownie1234@yahoo.com</div>
-            <div class="table-cell row">098 234 5222</div>
+            <div class="table-cell row">10</div>
           </div>
           <div class="table-row parent">
             <div class="table-cell row">5</div>
             <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">Brownie1234@yahoo.com</div>
-            <div class="table-cell row">098 234 5222</div>
+            <div class="table-cell row">10</div>
           </div>
           <div class="table-row parent">
             <div class="table-cell row">5</div>
             <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">Brownie1234@yahoo.com</div>
-            <div class="table-cell row">098 234 5222</div>
+            <div class="table-cell row">10</div>
           </div>
           <div class="table-row parent">
             <div class="table-cell row">5</div>
             <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">Brownie1234@yahoo.com</div>
-            <div class="table-cell row">098 234 5222</div>
+            <div class="table-cell row">10</div>
           </div>
           <div class="table-row parent">
             <div class="table-cell row">5</div>
             <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">Brownie1234@yahoo.com</div>
-            <div class="table-cell row">098 234 5222</div>
+            <div class="table-cell row">10</div>
           </div>
           <div class="table-row parent">
             <div class="table-cell row">5</div>
             <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">Brownie1234@yahoo.com</div>
-            <div class="table-cell row">098 234 5222</div>
+            <div class="table-cell row">10</div>
           </div>
         </div>
       </div>
