@@ -69,77 +69,115 @@
     </nav>
     <!-- END nav -->
 
-    
+    <?php
+require_once '../php/DbConnect.php';
+$ghr = "";
+$quantity = 0; // Initialize quantity
 
-    <div class="popup hide">
-      <form action="" method="post" style="width: 980px">
-        <span>Inventory Managment System</span>
-        <h2>Add new product</h2>
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Accessing the image from the correct input name
+    $image = $_FILES['product_image']['tmp_name'];
+    $iimage_type = $_FILES['product_image']['type'];
+    $image_data = addslashes(file_get_contents($image));
+
+    $product_name = $_POST['product_name'];
+    $brand_id = $_POST['brand_id'];
+    $category_id = $_POST['category_id'];
+    $description = $_POST['description'];
+    $price = $_POST['price'];
+
+    // Insert data into the product table using prepared statements
+    $stmt = $conn->prepare("INSERT INTO product (product_name, brand_id, category_id, description, price, quantity, image, image_type) 
+                             VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("siississ", $product_name, $brand_id, $category_id, $description, $price, $quantity, $image_data, $iimage_type);
+
+    $result1 = $conn->query("SELECT * FROM product WHERE product_name = '$product_name';");
+
+    if ($result1->num_rows > 0) {
+        $ghr = "Product already exists";
+    } elseif ($stmt->execute()) {
+        $ghr = "Process successfully done";
+    } else {
+        $ghr = "Invalid data detected";
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+?>
+
+<div class="popup <?php if ($ghr == "") echo "hide"; ?>">
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
         <div class="xmark"><i class="fa-solid fa-xmark"></i></div>
         <div class="form-body">
-          <div class="image" style="height: 380px">
-            <img
-              src="svg/image.svg"
-              class="display"
-              style="max-width: 320px; max-height: 320px"
-            />
-          </div>
-          <div class="fields">
-            <div class="message pop">
-              <i class="fa-solid fa-circle"></i>
-              Invalde data detected
+            <div class="image"><img src="../svg/image.svg" class="display" /></div>
+            <div class="fields">
+                <!-- Display any messages -->
+                <div class="message <?php if ($ghr == "") echo "pop"; ?>">
+                    <i class="fa-solid fa-circle"></i>
+                    <?php echo htmlspecialchars($ghr); ?>
+                </div>
+
+                <!-- Product Name -->
+                <div class="inputs">
+                    <label for="product_name">Product Name</label>
+                    <input type="text" name="product_name" id="product_name" placeholder="Product name..." required />
+                </div>
+
+                <!-- Brand Dropdown -->
+                <div class="inputs">
+                    <label for="brand">Brand</label>
+                    <select name="brand_id" id="brand" required>
+                        <?php
+                        // Fetching brands from the database
+                        $result = $conn->query("SELECT brand_id, brand_name FROM brand");
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<option value='" . $row['brand_id'] . "'>" . $row['brand_name'] . "</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <!-- Category Dropdown -->
+                <div class="inputs">
+                    <label for="category">Category</label>
+                    <select name="category_id" id="category" required>
+                        <?php
+                        // Fetching categories from the database
+                        $result = $conn->query("SELECT category_id, category_name FROM category");
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<option value='" . $row['category_id'] . "'>" . $row['category_name'] . "</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <!-- Product Image -->
+                <div class="inputs">
+                    <label for="image_input">Product Image</label>
+                    <input type="file" name="product_image" id="image_input" accept=".jpg, .jpeg, .png, .img" required />
+                </div>
+
+                <!-- Description -->
+                <div class="inputs">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" rows="4" placeholder="Enter product description"></textarea>
+                </div>
+
+                <!-- Price -->
+                <div class="inputs">
+                    <label for="price">Price</label>
+                    <input type="number" step="0.01" name="price" id="price" placeholder="Enter product price" required />
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit">Add</button>
             </div>
-            <div class="fields" style="width: 580px">
-              <div class="inputs">
-                <label>Name</label>
-                <input type="text" name="" id="" placeholder="name..." />
-              </div>
-              <div class="inputs">
-                <label>Brand</label>
-                <select name="" id="" required>
-                  <option value="" selected>Breakfast</option>
-                  <option value="">MSI</option>
-                  <option value="">HP</option>
-                  <option value="">Lenovo</option>
-                  <option value="">Asus</option>
-                </select>
-              </div>
-              <div class="inputs">
-                <label>Product image</label>
-                <input
-                  type="file"
-                  name=""
-                  id="image_input"
-                  accept=".jpg, .jpeg, .png, .img"
-                  title="edit properly before uploading"
-                />
-              </div>
-              <div class="inputs">
-                <label>Description</label>
-                <textarea
-                  name=""
-                  id=""
-                  rows="3"
-                  placeholder="description..."
-                ></textarea>
-              </div>
-            </div>
-            <button type="submit">Submit</button>
-          </div>
         </div>
-        <!-- 
-        <div class="fields">
+    </form>
+    <?php if (isset($error)) echo "<p>$error</p>" ?>
+</div>
 
-
-
-    
-
-          
-        </div>
-         -->
-      </form>
-    </div>
-    <!-- popup -->
 
     <section
       class="hero-wrap hero-wrap-2"
@@ -250,7 +288,7 @@
     </section>
 
     <div id="ftco-loader" class="show fullscreen">
-      <svg class="circular" width="48px" height="48px">
+    <.. /svg class="circular" width="48px" height="48px">
         <circle
           class="path-bg"
           cx="24"
@@ -274,23 +312,24 @@
     </div>
     <!-- loader -->
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/jquery-migrate-3.0.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.easing.1.3.js"></script>
-    <script src="js/jquery.waypoints.min.js"></script>
-    <script src="js/jquery.stellar.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/aos.js"></script>
-    <script src="js/jquery.animateNumber.min.js"></script>
-    <script src="js/bootstrap-datepicker.js"></script>
-    <script src="js/jquery.timepicker.min.js"></script>
-    <script src="js/scrollax.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-    <script src="js/google-map.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/home.js"></script>
-  </body>
+    <script src="../js/jquery.min.js"></script>
+  <script src="../js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="../js/popper.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/jquery.easing.1.3.js"></script>
+  <script src="../js/jquery.waypoints.min.js"></script>
+  <script src="../js/jquery.stellar.min.js"></script>
+  <script src="../js/owl.carousel.min.js"></script>
+  <script src="../js/jquery.magnific-popup.min.js"></script>
+  <script src="../js/aos.js"></script>
+  <script src="../js/jquery.animateNumber.min.js"></script>
+  <script src="../js/bootstrap-datepicker.js"></script>
+  <script src="../js/jquery.timepicker.min.js"></script>
+  <script src="../js/scrollax.min.js"></script>
+  <script src="../https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="../js/google-map.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/home.js"></script>
+</body>
+
 </html>
