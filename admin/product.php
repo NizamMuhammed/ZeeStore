@@ -70,44 +70,64 @@
     <!-- END nav -->
 
     <?php
-require_once '../php/DbConnect.php';
-$ghr = "";
-$quantity = 0; // Initialize quantity
+require_once '../php/DbConnect.php'; // Make sure this file contains a valid connection object
+
+$ghr = ""; // Message variable for feedback
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Accessing the image from the correct input name
+    // Access the image from the correct input name
     $image = $_FILES['product_image']['tmp_name'];
     $iimage_type = $_FILES['product_image']['type'];
     $image_data = addslashes(file_get_contents($image));
 
+    // Collect form inputs
     $product_name = $_POST['product_name'];
     $brand_id = $_POST['brand_id'];
     $category_id = $_POST['category_id'];
     $description = $_POST['description'];
     $price = $_POST['price'];
+    $quantity = $_POST['quantity'];
 
-    // Insert data into the product table using prepared statements
-    $stmt = $conn->prepare("INSERT INTO product (product_name, brand_id, category_id, description, price, quantity, image, image_type) 
-                             VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("siississ", $product_name, $brand_id, $category_id, $description, $price, $quantity, $image_data, $iimage_type);
-
-    $result1 = $conn->query("SELECT * FROM product WHERE product_name = '$product_name';");
-
-    if ($result1->num_rows > 0) {
-        $ghr = "Product already exists";
-    } elseif ($stmt->execute()) {
-        $ghr = "Process successfully done";
-    } else {
-        $ghr = "Invalid data detected";
+    // Check if the database connection is valid
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
 
-    // Close the statement
-    $stmt->close();
+    // Prepare the SQL statement for inserting the product
+    $sql = "INSERT INTO products (product_name, brand_id, category_id, description, price, quantity, image, image_type) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+    // Check if the SQL statement is prepared correctly
+    if ($stmt = $conn->prepare($sql)) {
+        // Bind parameters to the prepared statement
+        $stmt->bind_param("siississ", $product_name, $brand_id, $category_id, $description, $price, $quantity, $image_data, $iimage_type);
+
+        // Check if the product already exists
+        $result1 = $conn->query("SELECT * FROM products WHERE product_name = '$product_name';");
+
+        if ($result1 && $result1->num_rows > 0) {
+            $ghr = "Product already exists";
+        } elseif ($stmt->execute()) {
+            $ghr = "Process successfully done";
+        } else {
+            $ghr = "Error executing statement: " . $stmt->error;
+        }
+
+        // Close the statement
+        $stmt->close();
+    } else {
+        // If the statement preparation fails, show error
+        $ghr = "Error preparing statement: " . $conn->error;
+    }
 }
 ?>
 
+
+
 <div class="popup <?php if ($ghr == "") echo "hide"; ?>">
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
+        <span>Inventory Management System</span>
+        <h2>Add New Product</h2>
         <div class="xmark"><i class="fa-solid fa-xmark"></i></div>
         <div class="form-body">
             <div class="image"><img src="../svg/image.svg" class="display" /></div>
@@ -170,13 +190,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="number" step="0.01" name="price" id="price" placeholder="Enter product price" required />
                 </div>
 
+                <!-- Quantity -->
+                <div class="inputs">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" name="quantity" id="quantity" placeholder="Enter product quantity" required />
+                </div>
+
                 <!-- Submit Button -->
-                <button type="submit">Add</button>
+                <button type="submit">Submit</button>
             </div>
         </div>
     </form>
     <?php if (isset($error)) echo "<p>$error</p>" ?>
 </div>
+
 
 
     <section

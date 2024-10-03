@@ -109,7 +109,7 @@
       }
 
       setcookie('user_data', $user_data_json, time() + (86400 * 30), "/"); // set cockie
-      if ($user_data['is_admin']) header("Location: ../PRJCT/admin/dashboard.php");
+      if ($user_data['is_admin']) header("Location: admin/dashboard.php");
       exit();
     }
     $ghr = true;
