@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Zee Store - Catagory</title>
+  <title>ZeeStore - Home</title>
   <link
     rel="icon"
     type="image/x-icon"

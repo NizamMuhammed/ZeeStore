@@ -237,82 +237,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- header -->
 
     <section class="admin-table">
-      <h2>Product table</h2>
-      <span>view and manage product deatils</span>
-      <div class="table">
+    <h2>Product table</h2>
+    <span>View and manage product details</span>
+    <div class="table">
         <div class="searchAddS">
-          <section class="search">
-            <input type="text" id="search" placeholder="search product" />
-            <button id="search-bt">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-          </section>
-          <button id="btt1">Add product</button>
+            <section class="search">
+                <input type="text" id="search" placeholder="Search product" />
+                <button id="search-bt">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </section>
+            <button id="btt1">Add product</button>
         </div>
         <div class="table-header parent">
-          <div class="table-header-data row">Product ID</div>
-          <div class="table-header-data row">Name</div>
-          <div class="table-header-data row">Quantity</div>
-          <div class="table-header-data row">Status</div>
+            <div class="table-header-data row">Product ID</div>
+            <div class="table-header-data row">Name</div>
+            <div class="table-header-data row">Quantity</div>
+            <div class="table-header-data row">Status</div>
         </div>
+
         <div class="table-data">
-          <div class="table-row parent">
-            <div class="table-cell row">5</div>
-            <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">12</div>
-            <div class="table-cell row"><a>Active</a></div>
-          </div>
-          <div class="table-row parent">
-            <div class="table-cell row">5</div>
-            <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">12</div>
-            <div class="table-cell row"><a>Active</a></div>
-          </div>
-          <div class="table-row parent">
-            <div class="table-cell row">5</div>
-            <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">12</div>
-            <div class="table-cell row"><a>Active</a></div>
-          </div>
-          <div class="table-row parent">
-            <div class="table-cell row">5</div>
-            <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">12</div>
-            <div class="table-cell row"><a>Active</a></div>
-          </div>
-          <div class="table-row parent">
-            <div class="table-cell row">5</div>
-            <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">12</div>
-            <div class="table-cell row"><a>Active</a></div>
-          </div>
-          <div class="table-row parent">
-            <div class="table-cell row">5</div>
-            <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">12</div>
-            <div class="table-cell row"><a>Active</a></div>
-          </div>
-          <div class="table-row parent">
-            <div class="table-cell row">5</div>
-            <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">12</div>
-            <div class="table-cell row"><a>Active</a></div>
-          </div>
-          <div class="table-row parent">
-            <div class="table-cell row">5</div>
-            <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">12</div>
-            <div class="table-cell row"><a>Active</a></div>
-          </div>
-          <div class="table-row parent">
-            <div class="table-cell row">5</div>
-            <div class="table-cell row">Sarah Brown</div>
-            <div class="table-cell row">12</div>
-            <div class="table-cell row"><a>Active</a></div>
-          </div>
+            <?php
+            // Fetch products from the database
+            $result = $conn->query("SELECT product_id, product_name, quantity FROM products");
+
+            // Check if any products are found
+            if ($result && $result->num_rows > 0) {
+                // Loop through each product and display its details in the table
+                while ($row = $result->fetch_assoc()) {
+                    $status = $row['quantity'] > 0 ? 'Active' : 'Inactive'; // Set product status based on quantity
+                    echo '<div class="table-row parent">';
+                    echo '<div class="table-cell row">' . $row['product_id'] . '</div>';
+                    echo '<div class="table-cell row">' . htmlspecialchars($row['product_name']) . '</div>';
+                    echo '<div class="table-cell row">' . $row['quantity'] . '</div>';
+                    echo '<div class="table-cell row"><a>' . $status . '</a></div>';
+                    echo '</div>';
+                }
+            } else {
+                // If no products are found, display a message
+                echo '<div class="table-row parent">';
+                echo '<div class="table-cell row" colspan="4">No products found.</div>';
+                echo '</div>';
+            }
+            ?>
         </div>
-      </div>
-    </section>
+    </div>
+</section>
+
 
     <div id="ftco-loader" class="show fullscreen">
     <.. /svg class="circular" width="48px" height="48px">

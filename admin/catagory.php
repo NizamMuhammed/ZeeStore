@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Zee Store - Catagory</title>
+  <title>ZeeStore - Catagory</title>
   <link
     rel="icon"
     type="image/x-icon"
@@ -40,14 +40,14 @@
 
 <body style="margin-top: -30px">
   <nav>
-    <a href="index.html" class="brand">Zee Store</a>
+    <a href="index.html" class="brand">ZeeStore</a>
     <div>
       <ul id="navbar">
         <li><a href="dashboard.php">Dashboard</a></li>
-        <li><a href="brand.php">Brand</a></li>
+        <li><a href="brand.php">Brands</a></li>
         <li><a href="catagory.php" class="active">Catagory</a></li>
-        <li><a href="supplier.php">Supplier</a></li>
-        <li><a href="product.php">Product</a></li>
+        <li><a href="supplier.php">Suppliers</a></li>
+        <li><a href="product.php">Products</a></li>
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
@@ -55,7 +55,7 @@
         <a href="#" id="close"><i class="far fa-times"></i></a>
       </ul>
       <div id="userbar">
-        <li><a href="singup1.html">Settings</a></li>
+        <li><a href="singup1.html">Setting</a></li>
         <li><a href="login.html">Logout</a></li>
         <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
       </div>

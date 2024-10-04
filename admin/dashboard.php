@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Zee Store - Dashboard</title>
+  <title>ZeeStore - Dashboard</title>
   <link
     rel="icon"
     type="image/x-icon"
@@ -40,14 +40,14 @@
 
 <body>
   <nav>
-    <a href="index.html" class="brand">Zee Store</a>
+    <a href="index.html" class="brand">ZeeStore</a>
     <div>
       <ul id="navbar">
         <li><a href="dashboard.php" class="active">Dashboard</a></li>
-        <li><a href="brand.php">Brand</a></li>
+        <li><a href="brand.php">Brands</a></li>
         <li><a href="catagory.php">Catagory</a></li>
-        <li><a href="supplier.php">Supplier</a></li>
-        <li><a href="product.php">Product</a></li>
+        <li><a href="supplier.php">Suppliers</a></li>
+        <li><a href="product.php">Products</a></li>
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
