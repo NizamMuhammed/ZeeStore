@@ -37,36 +37,23 @@
           <li><a href="login.php">Login</a></li>
           <li><a href="signup.php" class="active">SignUp</a></li>
           <li class="user" id="user">
-            <div class="circle"></div>
-            <i class="fa fa-user"></i>
-            <i class="fa fa-exclamation-circle"></i>
-          </li>
-          <a href="#" id="close"><i class="far fa-times"></i></a>
-        </ul>
-        <div id="userbar">
-          <li><a href="signUp.html">Sign Up</a></li>
-          <li><a href="login.html">Login</a></li>
-          <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
-        </div>
-      </div>
-      <div class="show">
-        <div class="user2" id="user2">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
           <i class="fa fa-exclamation-circle"></i>
-        </div>
-        <i id="bar" class="fas fa-outdent"></i>
-      </div>
-    </nav>
+        </li>
+        <a href="#" id="close"><i class="far fa-times"></i></a>
+      </ul>
+    </div>
+  </nav>
     <!-- END nav -->
     <section class="ftco-section ftco-no-pt ftco-no-pb" style="margin: 93px 0">
       <div class="container">
         <div class="row d-flex">
-          <div class="col-md-5 ftco-animate img img-2" style="background-image: url(images/bg_1.jpg)"></div>
+          <div class="col-md-5 ftco-animate img img-2" style="background-image: url(svg/logo.png)"></div>
           <div class="col-md-7 ftco-animate makereservation p-4 p-md-5">
             <div class="heading-section ftco-animate mb-5">
               <span class="subheading">Sign up for Exclusive Discounts!</span>
-              <h2 class="mb-4">Add New user</h2>
+              <h2 class="mb-4">Create a new account</h2>
             </div>
             <form action="#" class="formi">
               <div class="row">

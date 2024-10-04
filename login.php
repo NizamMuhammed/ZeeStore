@@ -126,8 +126,8 @@
           style="background-image: url(svg/logo.png)"></div>
         <div class="col-md-7 ftco-animate makereservation p-4 p-md-5">
           <div class="heading-section ftco-animate mb-5">
-            <span class="subheading">Unlock Savings: Login for Exclusive Deals!</span>
-            <h2 class="mb-4"></h2>
+            <span class="subheading">Unlock Savings: </span>
+            <h2 class="mb-4">Login for Exclusive Deals!</h2>
           </div>
           <form action="<?php echo $_SERVER['PHP_SELF']; ?>" class="formi" method="post">
             <div class="row">
