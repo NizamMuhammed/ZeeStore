@@ -148,7 +148,7 @@
           <a href="#" id="close"><i class="far fa-times"></i></a>
         </ul>
         <div id="userbar">
-          <li><a href="singup1.html">Settings</a></li>
+          <li><a href="settings.php">Settings</a></li>
           <li><a href="login.html">Logout</a></li>
           <li><a href="aboutus.html">About Us</a></li>
           <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>

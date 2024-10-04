@@ -1,3 +1,44 @@
+<?php
+session_start(); // Start the session to access session variables
+require 'DBconnect.php'; // Include your database connection file
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php"); // Redirect to login if not logged in
+    exit();
+}
+
+// Handle account deletion
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Get the user ID from the session
+    $user_id = $_SESSION['user_id'];
+
+    // Prepare the SQL DELETE statement
+    $sql = "DELETE FROM users WHERE id = ?"; // Assuming 'users' is your table name
+
+    if ($stmt = $con->prepare($sql)) {
+        // Bind the user ID to the statement
+        $stmt->bind_param("i", $user_id);
+        
+        // Execute the statement
+        if ($stmt->execute()) {
+            // Account deleted successfully
+            session_destroy(); // Destroy the session
+            header("Location: goodbye.php"); // Redirect to a goodbye or confirmation page
+            exit();
+        } else {
+            // Error occurred during deletion
+            $error_message = "Error: " . $stmt->error;
+        }
+        $stmt->close();
+    } else {
+        $error_message = "Error preparing statement: " . $con->error;
+    }
+}
+
+$conn->close(); // Close the database connection
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -127,10 +168,17 @@
     
     <p class="warning">Are you sure you want to delete your account? This action is irreversible!</p>
     
-    <div class="button-group">
-        <button class="delete-button" onclick="confirmDelete()">Yes, Delete My Account</button>
-        <button class="cancel-button" onclick="cancelDelete()">No, Keep My Account</button>
-    </div>
+    <form method="POST" action="">
+        <div class="button-group">
+            <button type="submit" class="delete-button" onclick="confirmDelete()">Yes, Delete My Account</button>
+            <button type="button" class="cancel-button" onclick="cancelDelete()" onclick="window.location.href='settings.php'">No, Keep My Account</button>
+        </div>
+    </form>
+
+    <?php if (isset($error_message)): ?>
+        <p class="warning"><?php echo $error_message; ?></p>
+    <?php endif; ?>
+
 </div>
 
 <script>
