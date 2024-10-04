@@ -3,10 +3,20 @@
 
 <head>
   <title>ZeeStore - Home</title>
-  <link rel="icon" type="image/x-icon" href="svg/logo.png" media="(prefers-color-scheme: light)" />
-  <link rel="icon" type="image/x-icon" href="svg/logo.png" media="(prefers-color-scheme: dark)" />
+  <link
+    rel="icon"
+    type="image/x-icon"
+    href="svg/logo1.png"
+    media="(prefers-color-scheme: light)" />
+  <link
+    rel="icon"
+    type="image/x-icon"
+    href="svg/logo1.png"
+    media="(prefers-color-scheme: dark)" />
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css" />
   <link rel="stylesheet" href="css/owl.carousel.min.css" />
   <link rel="stylesheet" href="css/owl.theme.default.min.css" />
@@ -20,9 +30,12 @@
   <link rel="stylesheet" href="css/icomoon.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/style2.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer" />
   <style>
     .product-category {
       padding: 2rem;
@@ -107,53 +120,67 @@
   <div class="container">
     <h1>Category</h1>
     <div class="box">
-        <?php
-        // Include your database connection
-        require_once 'php/DbConnect.php';
-        
-        // Query to fetch products from the database
-        $result = $conn->query("SELECT * FROM `products` WHERE 1;");
-        
-        // Check if products are available
-        if ($result->num_rows > 0) {
-            // Loop through each product and display its details
-            while ($row = $result->fetch_assoc()) {
-                echo '<div class="product">';
-                
-                // Display the product image
-                echo '<div class="pimage" style="background-image: url(\'data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '\');"></div>';
-                
-                // Display product description
-                echo '<div class="des">';
-                echo '<span>' . htmlspecialchars($row['brand_id']) . '</span>';
-                echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
-                
-                // Display product rating as stars (assuming a 'rating' column exists in your products table)
-                
-                // Display product price
-                echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
-                echo '</div>';
-                
-                // Add to cart button
-                echo '<a href="addToCart.php?product_id=' . $row['product_id'] . '" class="cart">';
-                echo '<img src="svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
-echo '</a>';
+      <?php
+      // Include your database connection
+      require_once 'php/DbConnect.php';
 
-                
-                echo '</div>'; // Close product div
-            }
-        } else {
-            echo '<p>No products found.</p>';
+      // Query to fetch products from the database
+      $result = $conn->query("SELECT * FROM `products` WHERE 1;");
+
+      // Check if products are available
+      if ($result->num_rows > 0) {
+        // Loop through each product and display its details
+        while ($row = $result->fetch_assoc()) {
+          echo '<div class="product">';
+
+          // Display the product image
+          echo '<div class="pimage" style="background-image: url(\'data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '\');"></div>';
+
+          // Display product description
+          echo '<div class="des">';
+          echo '<span>' . htmlspecialchars($row['brand_id']) . '</span>';
+          echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
+
+          // Display product rating as stars (assuming a 'rating' column exists in your products table)
+
+          // Display product price
+          echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
+          echo '</div>';
+
+          // Add to cart button
+          echo '<a href="addToCart.php?product_id=' . $row['product_id'] . '" class="cart">';
+          echo '<img src="svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
+          echo '</a>';
+
+
+          echo '</div>'; // Close product div
         }
-        ?>
+      } else {
+        echo '<p>No products found.</p>';
+      }
+      ?>
     </div>
-</div>
+  </div>
 
 
   <div id="ftco-loader" class="show fullscreen">
     <svg class="circular" width="48px" height="48px">
-      <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
-      <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+      <circle
+        class="path-bg"
+        cx="24"
+        cy="24"
+        r="22"
+        fill="none"
+        stroke-width="4"
+        stroke="#eeeeee" />
+      <circle
+        class="path"
+        cx="24"
+        cy="24"
+        r="22"
+        fill="none"
+        stroke-width="4"
+        stroke-miterlimit="10"
         stroke="#F96D00" />
     </svg>
   </div>
@@ -173,8 +200,7 @@ echo '</a>';
   <script src="js/bootstrap-datepicker.js"></script>
   <script src="js/jquery.timepicker.min.js"></script>
   <script src="js/scrollax.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false">
-  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="js/google-map.js"></script>
   <script src="js/main.js"></script>
   <script src="js/home.js"></script>

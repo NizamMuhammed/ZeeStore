@@ -63,9 +63,9 @@
     <a href="index.html" class="brand">ZeeStore</a>
     <div>
       <ul id="navbar">
-      <li><a href="index.php" >Home</a></li>
-      <li><a href="login.php" class="active">Login</a></li>
-      <li><a href="signUp.php">SignUp</a></li>
+        <li><a href="index.php">Home</a></li>
+        <li><a href="login.php" class="active">Login</a></li>
+        <li><a href="signUp.php">SignUp</a></li>
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
@@ -112,6 +112,7 @@
 
       setcookie('user_data', $user_data_json, time() + (86400 * 30), "/"); // set cockie
       if ($user_data['is_admin']) header("Location: admin/dashboard.php");
+      else if ($user_data['is_customer']) header("Location: customer/index.php");
       exit();
     }
     $ghr = true;

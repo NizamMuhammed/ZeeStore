@@ -1,24 +1,25 @@
 document.getElementById("search").addEventListener("input", function () {
-  let filter = this.value.toUpperCase();
+  let filter = this.value.toLowerCase().replace(/\s+/g, "");
 
-  document.querySelectorAll(".menus").forEach((div) => {
-    if (
-      div.querySelector("h3").textContent.toUpperCase().indexOf(filter) === -1
-    ) {
-      div.classList.add("ghost");
+  const tableRows = document.querySelectorAll(".table-row").forEach((row) => {
+    // Find the cell with the brand name
+    const brandNameCell = row.querySelector(".row:nth-child(2)");
+    const brandName = brandNameCell
+      ? brandNameCell.innerText.toLowerCase()
+      : "";
+
+    // Check if the brand name includes the search term
+    if (!brandName.includes(filter)) {
+      row.classList.add("close");
     } else {
-      div.classList.remove("ghost");
+      row.classList.remove("close");
     }
   });
 
-  document.querySelectorAll(".menu-wrap").forEach((itm) => {
-    if (
-      itm.querySelectorAll(".menus").length ===
-      itm.querySelectorAll(".ghost").length
-    ) {
-      itm.classList.add("freak");
-    } else {
-      itm.classList.remove("freak");
-    }
-  });
+  if (
+    document.querySelectorAll(".table-row").length ==
+    document.querySelectorAll(".close").length
+  )
+    document.querySelector(".flip").classList.remove("close2");
+  else document.querySelector(".flip").classList.add("close2");
 });
