@@ -2,28 +2,28 @@
 <html lang="en">
 
 <head>
-  <title>Zee Store - Login</title>
-  <meta charset="utf-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>ZeeStore - Home</title>
   <link
     rel="icon"
     type="image/x-icon"
-    href="svg/logo2.png"
+    href="svg/logo.png"
     media="(prefers-color-scheme: light)" />
   <link
     rel="icon"
     type="image/x-icon"
-    href="svg/logo1.png"
+    href="svg/logo.png"
     media="(prefers-color-scheme: dark)" />
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css" />
-  <link rel="stylesheet" href="css/animate.css" />
   <link rel="stylesheet" href="css/owl.carousel.min.css" />
   <link rel="stylesheet" href="css/owl.theme.default.min.css" />
   <link rel="stylesheet" href="css/magnific-popup.css" />
   <link rel="stylesheet" href="css/aos.css" />
   <link rel="stylesheet" href="css/ionicons.min.css" />
+  <link rel="stylesheet" href="css/animate.css" />
   <link rel="stylesheet" href="css/bootstrap-datepicker.css" />
   <link rel="stylesheet" href="css/jquery.timepicker.css" />
   <link rel="stylesheet" href="css/flaticon.css" />
@@ -32,38 +32,21 @@
   <link rel="stylesheet" href="css/style2.css" />
   <link
     rel="stylesheet"
-    href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
-  <link
-    rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
     crossorigin="anonymous"
     referrerpolicy="no-referrer" />
-  <style>
-    body {
-      display: flex;
-      height: 100vh;
-      justify-content: center;
-      align-items: center;
-    }
-
-    input {
-      min-width: 250px;
-    }
-
-    .col-md-12,
-    .col-md-12 .mt-3 {
-      min-width: 0;
-    }
-  </style>
 </head>
 
-<body>
+<body style="margin-top: -30px">
   <nav>
-    <a href="index.html" class="brand"> Store Zee </a>
+    <a href="index.php" class="brand">ZeeStore</a>
     <div>
       <ul id="navbar">
-        <li><a href="login.html" class="active">Login</a></li>
+        <li><a href="index.php" class="active">Home</a></li>
+        <li><a href="login.php">Login/SignUp</a></li>
+        <li><a href="order.php" >Orders</a></li>
+        <li><a href="cart.php">Cart</a></li>
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
@@ -71,100 +54,115 @@
         </li>
         <a href="#" id="close"><i class="far fa-times"></i></a>
       </ul>
+      <div id="userbar">
+        <li><a href="settings.php">Settings</a></li>
+        <li><a href="signUp.php">SignUp</a></li>
+        <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
+      </div>
+    </div>
+    <div class="show">
+      <div class="user2" id="user2">
+        <div class="circle"></div>
+        <i class="fa fa-user"></i>
+        <i class="fa fa-exclamation-circle"></i>
+      </div>
+      <i id="bar" class="fas fa-outdent"></i>
     </div>
   </nav>
   <!-- END nav -->
 
-
-  <?php
-  require_once './php/DbConnect.php';
-  $ghr = false;
-
-  // Check if form is submitted
-  if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // Retrieve form data and confirm with data base
-    $result = $conn->query("SELECT * FROM user WHERE username = '" . $_POST['username'] . "' AND password = '" . $_POST['password'] . "' AND is_active = true;");
-    if ($result->num_rows > 0) {
-
-      // set session varieble username
-      $_SESSION['username'] = $_POST['username'];
-
-      // create uswer data array json
-      while ($row = $result->fetch_assoc()) {
-        $user_data = [
-          'name' => $row['name'],
-          'user_id' => $row['user_id'],
-          'is_admin' => $row['is_admin'],
-          'is_staff' => $row['is_staff'],
-          'is_customer' => $row['is_customer']
-        ];
-      }
-      $user_data_json = json_encode($user_data);
-
-      // Set session variable
-      if (!isset($_SESSION['username'])) {
-        header("Location: login.php"); //Redirect to login page if not logged in 
-        exit();
-      }
-
-      setcookie('user_data', $user_data_json, time() + (86400 * 30), "/"); // set cockie
-      if ($user_data['is_admin']) header("Location: admin/dashboard.php");
-      exit();
-    }
-    $ghr = true;
-  }
-  ?>
-
-  <section class="ftco-section ftco-no-pt ftco-no-pb">
+  <section
+    class="hero-wrap hero-wrap-2"
+    style="background-image: url('images/home.jpg')"
+    data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
     <div class="container">
-      <div class="row d-flex">
-        <div
-          class="col-md-5 ftco-animate img img-2"
-          style="background-image: url(svg/logo.png)"></div>
-        <div class="col-md-7 ftco-animate makereservation p-4 p-md-5">
-          <div class="heading-section ftco-animate mb-5">
-            <span class="subheading">Inventory Mangment System</span>
-            <h2 class="mb-4">Admin Login</h2>
-          </div>
-          <form action="<?php echo $_SERVER['PHP_SELF']; ?>" class="formi" method="post">
-            <div class="row">
-              <?php if ($ghr) echo "<div class='message'> <i class='fa-solid fa-circle'></i> Wrong username or password </div>"; ?>
-              <div class="col-md-6 form-group">
-                <label>Username</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="username"
-                  name="username"
-                  required />
-              </div>
-              <div class="col-md-6 form-group"></div>
-              <div class="col-md-6 form-group">
-                <label>Password</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  placeholder="password"
-                  name="password"
-                  required />
-              </div>
-              <div class="col-md-12 mt-3">
-                <div class="form-group">
-                  <input
-                    type="submit"
-                    value="Login"
-                    class="btn btn-primary py-3 px-5" />
-                </div>
-              </div>
-            </div>
-          </form>
-          <?php if (isset($error)) echo "<p>$error</p>" ?>
+      <div
+        class="row no-gutters slider-text align-items-center justify-content-center">
+        <div class="col-md-9 ftco-animate text-center">
+          <h1 class="mb-2 bread">Your One-Stop Shop for Electronics</h1>
+          <p class="breadcrumbs">
+            <span class="mr-2">
+              <a href="deals.php">
+                Today's Deals
+                <i class="ion-ios-arrow-forward"></i>
+              </a>
+            </span>
+          </p>
         </div>
       </div>
     </div>
   </section>
-  <!-- Form -->
+  <!-- header -->
+
+  <?php
+  require_once 'php/DbConnect.php';
+  $ghr = "";
+
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $sql = "INSERT INTO `category`(`category_name`) VALUES ('" . $_POST['name'] . "')";
+    $result1 = $conn->query("SELECT * FROM category WHERE category_name = '" . $_POST['name'] . "' ;");
+    if ($result1->num_rows > 0)  $ghr = "Catagory already exists";
+    elseif ($conn->query($sql)) {
+      $ghr = "Process successfully done";
+    } else $ghr = "Invalid data detected";
+  }
+  ?>
+
+<main>
+  <section class="customer-table">
+    <h2>Product Category Table</h2>
+    <span>Products</span>
+    <div class="table">
+      <div class="searchAddS">
+        <section class="search">
+          <input type="text" id="search" placeholder="Search category" />
+          <button id="search-bt">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </section>
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+          <div class="message <?php if ($ghr == "") echo "hide"; ?>">
+            <i class="fa-solid fa-circle"></i>
+            <?php echo $ghr ?>
+          </div>
+          <input
+            type="text"
+            pattern="[A-Za-z]+"
+            title="Please enter only letters."
+            name="name"
+            required
+            placeholder="New category" />
+          <button type="submit">Add category</button>
+        </form>
+        <?php if (isset($error)) echo "<p>$error</p>" ?>
+      </div>
+      <div class="table-header parent">
+        <div class="table-header-data row">Category ID</div>
+        <div class="table-header-data row">Name</div>
+        <div class="table-header-data row">NO_Products</div>
+      </div>
+      <div class="table-data">
+        <?php
+        require_once 'php/DbConnect.php';
+        $result = $conn->query("SELECT * FROM `category` WHERE 1;");
+        if ($result->num_rows > 0) {
+          while ($row = $result->fetch_assoc()) {
+            echo "<div class='table-row parent'>";
+            echo "<div class='table-cell row'>" . $row['category_id'] . "</div>";
+            echo "<div class='table-cell row'>" . $row['category_name'] . "</div>";
+            echo "<div class='table-cell row'>" . 20 . "</div>";
+            echo "</div>";
+          }
+        } else {
+          echo "<div class='table-row parent'> No records found </div>";
+        }
+        ?>
+      </div>
+    </div>
+  </section>
+</main>
+
 
   <div id="ftco-loader" class="show fullscreen">
     <svg class="circular" width="48px" height="48px">
@@ -187,6 +185,7 @@
         stroke="#F96D00" />
     </svg>
   </div>
+  <!-- loader -->
 
   <script src="js/jquery.min.js"></script>
   <script src="js/jquery-migrate-3.0.1.min.js"></script>
