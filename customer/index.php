@@ -217,11 +217,87 @@ if ($result->num_rows > 0) {
 
 $stmt->close();
 ?>
+<!-- Quantity Modal -->
+<div id="quantityModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Select Quantity</h2>
+    <form id="quantityForm" method="GET" action="addToCart.php">
+      <input type="hidden" id="product_id" name="product_id" />
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" name="quantity" min="1" value="1" required />
+      <button type="submit" id="submitQuantity">Add to Cart</button>
+    </form>
+  </div>
+</div>
+
+<!-- CSS for Modal -->
+<style>
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .close {
+    color: red;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .close:hover {
+    color: darkred;
+  }
+</style>
+<script>
+  // Get the modal and elements
+  var modal = document.getElementById("quantityModal");
+  var span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks on Add to Cart button, show the modal
+  document.querySelectorAll('.cart').forEach(function(button) {
+    button.onclick = function(event) {
+      event.preventDefault();
+      var productId = this.getAttribute('data-id');
+      document.getElementById('product_id').value = productId;
+      modal.style.display = "block";
+    }
+  });
+
+  // When the user clicks on (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  };
+
+  // Close the modal when user clicks anywhere outside of it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+</script>
+
 
     </div>
 </div>
-
-
   <div id="ftco-loader" class="show fullscreen">
     <svg class="circular" width="48px" height="48px">
       <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
