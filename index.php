@@ -138,7 +138,8 @@
 
           // Display product description
           echo '<div class="des">';
-          echo '<span>' . htmlspecialchars($row['brand_id']) . '</span>';
+          $result2 = $conn->query("SELECT `brand_name` from brand WHERE brand_id = " . $row['brand_id'] . ";");
+          while ($row2 = $result2->fetch_assoc()) echo '<span>' . htmlspecialchars($row2['brand_name']) . '</span>';
           echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
 
           // Display product rating as stars (assuming a 'rating' column exists in your products table)
