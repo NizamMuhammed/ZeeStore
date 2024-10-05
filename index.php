@@ -73,10 +73,12 @@
       margin-top: 0.5rem;
       font-size: 1rem;
     }
-    /* Search bar container */
+
+    /* Style for the search section */
 .search {
   display: flex;
-  align-items: center;
+  justify-content: center; /* Center the search bar if desired */
+  margin: 20px; /* Add some margin */
 }
 
 /* Style for the input field */
@@ -87,6 +89,7 @@
   outline: none;
   transition: border-color 0.3s;
   flex-grow: 1; /* Allow input to grow */
+  width: 500px; /* Set a longer width, e.g., 400px */
 }
 
 /* Change border color on focus */
@@ -127,6 +130,8 @@
       <i class="fa-solid fa-magnifying-glass"></i>
     </button>
   </form>
+</section>
+
 </section>
     <div>
       <ul id="navbar">
@@ -178,11 +183,20 @@ $searchQuery = isset($_GET['query']) ? $_GET['query'] : '';
 
 // Prepare a SQL query based on the search input
 if ($searchQuery) {
-    $stmt = $conn->prepare("SELECT * FROM `products` WHERE `product_name` LIKE ?");
+    // Search in both product_name and brand (assuming brand_id relates to a brand name or there's a brand table)
+    $stmt = $conn->prepare("
+        SELECT products.*, brand.brand_name 
+        FROM `products` 
+        JOIN `brand` ON products.brand_id = brand.brand_id
+        WHERE `product_name` LIKE ? OR `brand_name` LIKE ?");
     $likeQuery = '%' . $searchQuery . '%';
-    $stmt->bind_param('s', $likeQuery);
+    $stmt->bind_param('ss', $likeQuery, $likeQuery);
 } else {
-    $stmt = $conn->prepare("SELECT * FROM `products` WHERE 1");
+    // Fetch all products if no search query is provided
+    $stmt = $conn->prepare("
+        SELECT products.*, brand.brand_name 
+        FROM `products` 
+        JOIN `brand` ON products.brand_id = brand.brand_id");
 }
 
 $stmt->execute();
@@ -197,18 +211,17 @@ if ($result->num_rows > 0) {
         // Display the product image
         echo '<div class="pimage" style="background-image: url(\'data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '\');"></div>';
         
-        // Display product description
+        // Display product description with brand and product name
         echo '<div class="des">';
-        $result2 = $conn->query("SELECT `brand_name` from brand WHERE brand_id = " . $row['brand_id'] . ";");
-          while ($row2 = $result2->fetch_assoc()) echo '<span>' . htmlspecialchars($row2['brand_name']) . '</span>';
+        echo '<span>' . htmlspecialchars($row['brand_name']) . '</span>';
         echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
         echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
         echo '</div>';
         
         // Add to cart button
-        echo '<a href="addToCart.php?product_id=' . $row['product_id'] . '" class="cart">';
-        echo '<img src="svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
-        echo '</a>';
+        echo '<a href="login.php" onclick="handleCartClick(event)">';
+echo '<img src="svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
+echo '</a>';
         
         echo '</div>'; // Close product div
     }
@@ -218,6 +231,7 @@ if ($result->num_rows > 0) {
 
 $stmt->close();
 ?>
+
       <script>
 function handleCartClick(event) {
     event.preventDefault(); // Prevent the default link behavior
