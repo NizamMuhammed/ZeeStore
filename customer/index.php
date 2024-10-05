@@ -121,7 +121,7 @@
         <li><a href="index.php" class="active">Home</a></li>
         <li><a href="../index.php">Logout</a></li>
         <li><a href="order.php">Orders</a></li>
-        <li><a href="cart.php">Cart</a></li>
+        <li><a href="../customer/cart.php">Cart</a></li>
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
@@ -222,7 +222,7 @@ $stmt->close();
   <div class="modal-content">
     <span class="close">&times;</span>
     <h2>Select Quantity</h2>
-    <form id="quantityForm" method="GET" action="addToCart.php">
+    <form id="quantityForm" method="GET" action="cart.php">
       <input type="hidden" id="product_id" name="product_id" />
       <label for="quantity">Quantity:</label>
       <input type="number" id="quantity" name="quantity" min="1" value="1" required />
