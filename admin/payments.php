@@ -2,14 +2,11 @@
 <html lang="en">
 
 <head>
-  <title>ZeeStore - Payments</title>
-  <?php
-  require_once '../php/styles.php';
-  require_once '../php/DbConnect.php'; // Database connection
-  ?>
+  <title>ZeeStore - Payemnts</title>
+  <?php require_once '../php/styles.php' ?>
 </head>
 
-<body>
+<body style="margin-top: -30px">
   <nav>
     <a href="index.html" class="brand">ZeeStore</a>
     <div>
@@ -38,39 +35,85 @@
   </nav>
   <!-- END nav -->
 
-  <div class="container">
-    <h1>Payments Management</h1>
+  <section
+    class="hero-wrap hero-wrap-2"
+    style="background-image: url('../images/shopping.jpg')"
+    data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+      <div
+        class="row no-gutters slider-text align-items-center justify-content-center">
+        <div class="col-md-9 ftco-animate text-center">
+          <h1 class="mb-2 bread">Manage Order Payments</h1>
+          <p class="breadcrumbs">
+            <span class="mr-2">
+              <a href="index.html">
+                Dashboard
+                <i class="ion-ios-arrow-forward"></i>
+              </a>
+            </span>
+            <span>
+              Payments
+              <i class="ion-ios-arrow-forward"></i>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- header -->
 
-    <table>
-      <thead>
-        <tr>
-          <th>Payment ID</th>
-          <th>Order ID</th>
-          <th>Collected Amount (Rs.)</th>
-          <th>Due Amount (Rs.)</th>
-          <th>Payment Date</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
+  <section class="admin-table">
+    <h2>Payment table</h2>
+    <span>View and manage payment details</span>
+    <div class="table" style="max-width:1400px; width:1300px">
+      <div class="searchAddS">
+        <section class="search">
+          <input type="text" id="search" placeholder="Search payments" />
+          <button id="search-bt">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </section>
+        <button id="btt1">Updata</button>
+      </div>
+      <div class="table-header parent">
+        <div class="table-header-data row">Payment ID</div>
+        <div class="table-header-data row">Order ID</div>
+        <div class="table-header-data row">Colected Ammount</div>
+        <div class="table-header-data row">Due Ammount</div>
+        <div class="table-header-data row">Date</div>
+        <div class="table-header-data row">Status</div>
+      </div>
+
+      <div class="table-data">
         <?php
-        $payments_query = "SELECT * FROM payments";
-        $payments_result = mysqli_query($conn, $payments_query);
+        require_once '../php/DbConnect.php'; // Make sure this file contains a valid connection object
 
-        while ($row = mysqli_fetch_assoc($payments_result)) {
-          echo "<tr>
-                    <td>{$row['id']}</td>
-                    <td>{$row['order_id']}</td>
-                    <td>{$row['collected_amount']}</td>
-                    <td>{$row['due_amount']}</td>
-                    <td>{$row['payment_date']}</td>
-                    <td>{$row['status']}</td>
-                  </tr>";
-        }
+        // Fetch products from the database
+        $result = $conn->query("SELECT * FROM `payments`");
+
+        // Check if any products are found
+        if ($result && $result->num_rows > 0) {
+
+          // Loop through each product and display its details in the table
+          while ($row = $result->fetch_assoc()) {
+            echo "<div class='table-row parent'>";
+            echo "<div class='table-cell row'>" . $row['payment_id'] . "</div>";
+            echo "<div class='table-cell row'>" . $row['order_id'] . "</div>";
+            echo "<div class='table-cell row'>" . $row['collected_amount'] . "</div>";
+            echo "<div class='table-cell row'>" . $row['due_amount'] . "</div>";
+            echo "<div class='table-cell row'>" . $row['payment_date'] . "</div>";
+            echo "<div class='table-cell row'><a>" . $row['status'] . "</a></div>";
+            echo "</div>";
+          }
+          echo '<div class="flip parent close2" style="height: 60px; line-height: 60px;"><div class="row">No items found</div></div>';
+        } else echo "<div class='table-row parent'> No records found </div>";
         ?>
-      </tbody>
-    </table>
-  </div>
+      </div>
+    </div>
+  </section>
+  <!-- table -->
+
   <?php require_once '../php/loader.php' ?>
   <?php require_once '../php/javaScripts.php' ?>
 </body>
