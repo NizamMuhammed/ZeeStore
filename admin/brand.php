@@ -16,6 +16,8 @@
         <li><a href="catagory.php">Catagory</a></li>
         <li><a href="supplier.php">Suppliers</a></li>
         <li><a href="product.php">Products</a></li>
+        <li><a href="orders.php">Orders</a></li>  <!-- Added Orders tab -->
+        <li><a href="payments.php">Payments</a></li>  <!-- Added Payments tab -->
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>

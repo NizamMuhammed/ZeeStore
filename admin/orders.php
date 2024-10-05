@@ -3,7 +3,10 @@
 
 <head>
   <title>ZeeStore - Orders</title>
-  <?php require_once '../php/styles.php' ?>
+  <?php 
+  require_once '../php/styles.php'; 
+  require_once '../php/DbConnect.php'; // Database connection
+  ?>
 </head>
 
 <body>
@@ -11,9 +14,9 @@
     <a href="index.html" class="brand">ZeeStore</a>
     <div>
       <ul id="navbar">
-        <li><a href="Dashboard.php">Dashboard</a></li>
+        <li><a href="dashboard.php">Dashboard</a></li>
         <li><a href="brand.php">Brands</a></li>
-        <li><a href="catagory.php">Categories</a></li>
+        <li><a href="catagory.php">Category</a></li>
         <li><a href="supplier.php">Suppliers</a></li>
         <li><a href="product.php">Products</a></li>
         <li><a href="orders.php" class="active">Orders</a></li>
@@ -27,50 +30,54 @@
       <div id="userbar">
         <li><a href="settings.php">Setting</a></li>
         <li><a href="../login.php">Logout</a></li>
+        <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
       </div>
+    </div>
+    <div class="show">
+      <div class="user2" id="user2">
+        <div class="circle"></div>
+        <i class="fa fa-user"></i>
+        <i class="fa fa-exclamation-circle"></i>
+      </div>
+      <i id="bar" class="fas fa-outdent"></i>
     </div>
   </nav>
+  <!-- END nav -->
 
-  <?php
-  require_once '../php/DbConnect.php'; // Database connection
+  <div class="container">
+    <h1>Orders Management</h1>
 
-  // Fetch orders from the database
-  $result = $conn->query("SELECT o.order_id, p.product_name, o.quantity, o.order_date, o.status FROM orders o JOIN products p ON o.product_id = p.product_id");
-
-  // Check if any orders are found
-  ?>
-
-  <section class="admin-table">
-    <h2>Order Table</h2>
-    <div class="table">
-      <div class="table-header parent">
-        <div class="table-header-data row">Order ID</div>
-        <div class="table-header-data row">Product Name</div>
-        <div class="table-header-data row">Quantity</div>
-        <div class="table-header-data row">Order Date</div>
-        <div class="table-header-data row">Status</div>
-      </div>
-
-      <div class="table-data">
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer Name</th>
+          <th>Product ID</th>
+          <th>Quantity</th>
+          <th>Total Amount (Rs.)</th>
+          <th>Order Date</th>
+        </tr>
+      </thead>
+      <tbody>
         <?php
-        if ($result && $result->num_rows > 0) {
-          while ($row = $result->fetch_assoc()) {
-            echo "<div class='table-row parent'>";
-            echo "<div class='table-cell row'>" . $row['order_id'] . "</div>";
-            echo "<div class='table-cell row'>" . $row['product_name'] . "</div>";
-            echo "<div class='table-cell row'>" . $row['quantity'] . "</div>";
-            echo "<div class='table-cell row'>" . $row['order_date'] . "</div>";
-            echo "<div class='table-cell row'>" . $row['status'] . "</div>";
-            echo "</div>";
-          }
-        } else {
-          echo "<div class='table-row parent'> No records found </div>";
+        $orders_query = "SELECT * FROM orders";
+        $orders_result = mysqli_query($conn, $orders_query);
+
+        while ($row = mysqli_fetch_assoc($orders_result)) {
+            echo "<tr>
+                    <td>{$row['id']}</td>
+                    <td>{$row['customer_name']}</td>
+                    <td>{$row['product_id']}</td>
+                    <td>{$row['quantity']}</td>
+                    <td>{$row['total_amount']}</td>
+                    <td>{$row['order_date']}</td>
+                  </tr>";
         }
         ?>
-      </div>
-    </div>
-  </section>
-
+      </tbody>
+    </table>
+  </div>
+  <?php require_once '../php/loader.php' ?>
   <?php require_once '../php/javaScripts.php' ?>
 </body>
 

@@ -3,7 +3,10 @@
 
 <head>
   <title>ZeeStore - Payments</title>
-  <?php require_once '../php/styles.php' ?>
+  <?php 
+  require_once '../php/styles.php'; 
+  require_once '../php/DbConnect.php'; // Database connection
+  ?>
 </head>
 
 <body>
@@ -11,9 +14,9 @@
     <a href="index.html" class="brand">ZeeStore</a>
     <div>
       <ul id="navbar">
-        <li><a href="Dashboard.php">Dashboard</a></li>
+        <li><a href="dashboard.php">Dashboard</a></li>
         <li><a href="brand.php">Brands</a></li>
-        <li><a href="catagory.php">Categories</a></li>
+        <li><a href="catagory.php">Category</a></li>
         <li><a href="supplier.php">Suppliers</a></li>
         <li><a href="product.php">Products</a></li>
         <li><a href="orders.php">Orders</a></li>
@@ -27,52 +30,54 @@
       <div id="userbar">
         <li><a href="settings.php">Setting</a></li>
         <li><a href="../login.php">Logout</a></li>
+        <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
       </div>
+    </div>
+    <div class="show">
+      <div class="user2" id="user2">
+        <div class="circle"></div>
+        <i class="fa fa-user"></i>
+        <i class="fa fa-exclamation-circle"></i>
+      </div>
+      <i id="bar" class="fas fa-outdent"></i>
     </div>
   </nav>
+  <!-- END nav -->
 
-  <?php
-  require_once '../php/DbConnect.php'; // Database connection
+  <div class="container">
+    <h1>Payments Management</h1>
 
-  // Fetch payments from the database
-  $result = $conn->query("SELECT p.payment_id, o.order_id, p.amount, p.payment_method, p.payment_date, p.status FROM payments p JOIN orders o ON p.order_id = o.order_id");
-
-  // Check if any payments are found
-  ?>
-
-  <section class="admin-table">
-    <h2>Payment Table</h2>
-    <div class="table">
-      <div class="table-header parent">
-        <div class="table-header-data row">Payment ID</div>
-        <div class="table-header-data row">Order ID</div>
-        <div class="table-header-data row">Amount</div>
-        <div class="table-header-data row">Payment Method</div>
-        <div class="table-header-data row">Payment Date</div>
-        <div class="table-header-data row">Status</div>
-      </div>
-
-      <div class="table-data">
+    <table>
+      <thead>
+        <tr>
+          <th>Payment ID</th>
+          <th>Order ID</th>
+          <th>Collected Amount (Rs.)</th>
+          <th>Due Amount (Rs.)</th>
+          <th>Payment Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
         <?php
-        if ($result && $result->num_rows > 0) {
-          while ($row = $result->fetch_assoc()) {
-            echo "<div class='table-row parent'>";
-            echo "<div class='table-cell row'>" . $row['payment_id'] . "</div>";
-            echo "<div class='table-cell row'>" . $row['order_id'] . "</div>";
-            echo "<div class='table-cell row'>" . $row['amount'] . "</div>";
-            echo "<div class='table-cell row'>" . $row['payment_method'] . "</div>";
-            echo "<div class='table-cell row'>" . $row['payment_date'] . "</div>";
-            echo "<div class='table-cell row'>" . $row['status'] . "</div>";
-            echo "</div>";
-          }
-        } else {
-          echo "<div class='table-row parent'> No records found </div>";
+        $payments_query = "SELECT * FROM payments";
+        $payments_result = mysqli_query($conn, $payments_query);
+
+        while ($row = mysqli_fetch_assoc($payments_result)) {
+            echo "<tr>
+                    <td>{$row['id']}</td>
+                    <td>{$row['order_id']}</td>
+                    <td>{$row['collected_amount']}</td>
+                    <td>{$row['due_amount']}</td>
+                    <td>{$row['payment_date']}</td>
+                    <td>{$row['status']}</td>
+                  </tr>";
         }
         ?>
-      </div>
-    </div>
-  </section>
-
+      </tbody>
+    </table>
+  </div>
+  <?php require_once '../php/loader.php' ?>
   <?php require_once '../php/javaScripts.php' ?>
 </body>
 
