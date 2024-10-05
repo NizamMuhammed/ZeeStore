@@ -199,7 +199,8 @@ if ($result->num_rows > 0) {
         
         // Display product description
         echo '<div class="des">';
-        echo '<span>' . htmlspecialchars($row['brand_id']) . '</span>';
+        $result2 = $conn->query("SELECT `brand_name` from brand WHERE brand_id = " . $row['brand_id'] . ";");
+          while ($row2 = $result2->fetch_assoc()) echo '<span>' . htmlspecialchars($row2['brand_name']) . '</span>';
         echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
         echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
         echo '</div>';
