@@ -40,5 +40,6 @@ function navigation(int $n)
   echo ($n == 3) ? "<li><a class='active' href='catagory.php'>Catagory</a></li>" : "<li><a href='catagory.php'>Catagory</a></li>";
   echo ($n == 4) ? "<li><a class='active' href='supplier.php'>Suppliers</a></li>" : "<li><a href='supplier.php'>Suppliers</a></li>";
   echo ($n == 5) ? "<li><a class='active' href='product.php'>Product</a></li>" : "<li><a href='product.php'>Product</a></li>";
+  echo ($n == 5) ? "<li><a class='active' href='orders.php'>Orders</a></li>" : "<li><a href='orders.php'>Orders</a></li>";
 }
 ?>
