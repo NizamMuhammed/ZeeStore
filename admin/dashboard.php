@@ -4,6 +4,52 @@
 <head>
   <title>ZeeStore - Dashboard</title>
   <?php require_once '../php/styles.php' ?>
+  <?php 
+    require_once '../php/DbConnect.php'; // Assuming this file includes your database connection
+    // Fetching data from the database
+
+    // Query for brands
+    $brands_query = "SELECT COUNT(*) as brand_count FROM brand";
+    $brands_result = mysqli_query($conn, $brands_query);
+    $brands_count = mysqli_fetch_assoc($brands_result)['brand_count'];
+
+    // Query for categories
+    $categories_query = "SELECT COUNT(*) as category_count FROM category";
+    $categories_result = mysqli_query($conn, $categories_query);
+    $categories_count = mysqli_fetch_assoc($categories_result)['category_count'];
+
+    // Query for products
+    $products_query = "SELECT COUNT(*) as product_count FROM products";
+    $products_result = mysqli_query($conn, $products_query);
+    $products_count = mysqli_fetch_assoc($products_result)['product_count'];
+
+    // Query for total sales
+    $sales_query = "SELECT SUM(total_amount) as total_sales FROM orders";
+    $sales_result = mysqli_query($conn, $sales_query);
+    $total_sales = mysqli_fetch_assoc($sales_result)['total_sales'];
+
+    // Query for total amount collected
+    $collected_query = "SELECT SUM(collected_amount) as total_collected FROM payments";
+    $collected_result = mysqli_query($conn, $collected_query);
+    $total_collected = mysqli_fetch_assoc($collected_result)['total_collected'];
+
+    // Query for total customers
+    $customers_query = "SELECT COUNT(*) as customer_count FROM user";
+    $customers_result = mysqli_query($conn, $customers_query);
+    $total_customers = mysqli_fetch_assoc($customers_result)['customer_count'];
+
+    // Query for total orders
+    $orders_query = "SELECT COUNT(*) as order_count FROM orders";
+    $orders_result = mysqli_query($conn, $orders_query);
+    $total_orders = mysqli_fetch_assoc($orders_result)['order_count'];
+
+    // Query for due amount
+    $due_query = "SELECT SUM(due_amount) as total_due FROM payments WHERE status = 'Pending'";
+    $due_result = mysqli_query($conn, $due_query);
+    $total_due = mysqli_fetch_assoc($due_result)['total_due'];
+
+
+  ?>
 </head>
 
 <body>
@@ -13,9 +59,11 @@
       <ul id="navbar">
         <li><a href="dashboard.php" class="active">Dashboard</a></li>
         <li><a href="brand.php">Brands</a></li>
-        <li><a href="catagory.php">Catagory</a></li>
+        <li><a href="catagory.php">Category</a></li>
         <li><a href="supplier.php">Suppliers</a></li>
         <li><a href="product.php">Products</a></li>
+        <li><a href="orders.php">Orders</a></li>  <!-- Added Orders tab -->
+        <li><a href="payments.php">Payments</a></li>  <!-- Added Payments tab -->
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
@@ -40,50 +88,52 @@
   <!-- END nav -->
 
   <div class="container">
-    <h1>Quick view of the inventory!</h1>
+    <h1>Quick view of the Marketplace</h1>
 
     <div class="pad">
       <div class="row">
         <div class="cell">
           <p>Number of brands (on going)</p>
-          <h2>14</h2>
+          <h2><?php echo $brands_count; ?></h2>
         </div>
         <div class="cell">
           <p>Number of categories (on going)</p>
-          <h2>9</h2>
+          <h2><?php echo $categories_count; ?></h2>
         </div>
         <div class="cell">
           <p>No. of unique products (available)</p>
-          <h2>10</h2>
+          <h2><?php echo $products_count; ?></h2>
         </div>
       </div>
       <div class="row">
         <div class="cell half">
           <p>Total sales till date (Rs.)</p>
-          <h2>917101.22</h2>
+          <h2><?php echo number_format($total_sales, 2); ?></h2>
         </div>
         <div class="cell half">
           <p>Total amount collected (Rs.)</p>
-          <h2>917036.22</h2>
+          <h2><?php echo number_format($total_collected, 2); ?></h2>
         </div>
       </div>
       <div class="row">
         <div class="cell">
           <p>Our total customers</p>
-          <h2>9</h2>
+          <h2><?php echo $total_customers; ?></h2>
         </div>
         <div class="cell">
           <p>Number of orders till date</p>
-          <h2>10</h2>
+          <h2><?php echo $total_orders; ?></h2>
         </div>
         <div class="cell">
           <p>Due (amount yet to be collected)</p>
-          <h2>65</h2>
+          <h2><?php echo number_format($total_due, 2); ?></h2>
         </div>
       </div>
     </div>
   </div>
-  <!--quick view    -->
+
+
+  <!--quick view   
 
   <div class="container">
     <h1>Rising Trends</h1>
@@ -415,7 +465,7 @@
         </a>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <?php require_once '../php/loader.php' ?>
   <?php require_once '../php/javaScripts.php' ?>
