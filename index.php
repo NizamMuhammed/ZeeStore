@@ -83,8 +83,7 @@
       <ul id="navbar">
         <li><a href="index.php" class="active">Home</a></li>
         <li><a href="login.php">Login/SignUp</a></li>
-        <li><a href="order.php">Orders</a></li>
-        <li><a href="cart.php">Cart</a></li>
+        <li><a href="login.php" onclick="handleCartClick(event)">Cart</a></li>
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
@@ -118,7 +117,7 @@
   <!-- header -->
 
   <div class="container">
-    <h1>Category</h1>
+    <h1>Items</h1>
     <div class="box">
       <?php
       // Include your database connection
@@ -148,9 +147,9 @@
           echo '</div>';
 
           // Add to cart button
-          echo '<a href="addToCart.php?product_id=' . $row['product_id'] . '" class="cart">';
-          echo '<img src="svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
-          echo '</a>';
+          echo '<a href="#" onclick="handleCartClick(event)">'; // Use a dummy link
+echo '<img src="svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
+echo '</a>';
 
 
           echo '</div>'; // Close product div
@@ -159,6 +158,13 @@
         echo '<p>No products found.</p>';
       }
       ?>
+      <script>
+function handleCartClick(event) {
+    event.preventDefault(); // Prevent the default link behavior
+    alert("You need to log in or sign up to do this."); // Show alert
+    window.location.href = "login.php"; // Redirect to login page
+}
+</script>
     </div>
   </div>
 

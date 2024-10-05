@@ -60,6 +60,48 @@
       margin-top: 0.5rem;
       font-size: 1rem;
     }
+    /* Search bar container */
+.search {
+  display: flex;
+  align-items: center;
+}
+
+/* Style for the input field */
+#search {
+  padding: 10px;
+  border: 2px solid #f96d00; /* Orange border */
+  border-radius: 5px 0 0 5px; /* Rounded corners */
+  outline: none;
+  transition: border-color 0.3s;
+  flex-grow: 1; /* Allow input to grow */
+}
+
+/* Change border color on focus */
+#search:focus {
+  border-color: #ff8800; /* Darker orange when focused */
+}
+
+/* Style for the search button */
+#search-bt {
+  background-color: #f96d00; /* Orange background */
+  border: none;
+  color: white; /* White text */
+  padding: 10px 15px;
+  border-radius: 0 5px 5px 0; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Change background color on hover */
+#search-bt:hover {
+  background-color: #ff8800; /* Darker orange on hover */
+}
+
+/* Icon styles */
+#search-bt i {
+  font-size: 16px; /* Adjust icon size */
+}
+
   </style>
 </head>
 
@@ -67,11 +109,13 @@
   <nav>
     <a href="index.php" class="brand">ZeeStore</a>
     <section class="search">
-          <input type="text" id="search" placeholder="search" />
-          <button id="search-bt">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </section>
+  <form method="GET" action="">
+    <input type="text" id="search" name="query" placeholder="search" />
+    <button type="submit" id="search-bt">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </form>
+</section>
     <div>
       <ul id="navbar">
         <li><a href="index.php" class="active">Home</a></li>
@@ -125,45 +169,55 @@
   <div class="container">
     <h1>Category</h1>
     <div class="box">
-        <?php
-        // Include your database connection
-        require_once '../php/DbConnect.php';
-        
-        // Query to fetch products from the database
-        $result = $conn->query("SELECT * FROM `products` WHERE 1;");
-        
-        // Check if products are available
-        if ($result->num_rows > 0) {
-            // Loop through each product and display its details
-            while ($row = $result->fetch_assoc()) {
-                echo '<div class="product">';
-                
-                // Display the product image
-                echo '<div class="pimage" style="background-image: url(\'data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '\');"></div>';
-                
-                // Display product description
-                echo '<div class="des">';
-                echo '<span>' . htmlspecialchars($row['brand_id']) . '</span>';
-                echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
-                
-                // Display product rating as stars (assuming a 'rating' column exists in your products table)
-                
-                // Display product price
-                echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
-                echo '</div>';
-                
-                // Add to cart button
-                echo '<a href="addToCart.php?product_id=' . $row['product_id'] . '" class="cart">';
-                echo '<img src="../svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
-echo '</a>';
+    <?php
+// Include your database connection
+require_once '../php/DbConnect.php';
 
-                
-                echo '</div>'; // Close product div
-            }
-        } else {
-            echo '<p>No products found.</p>';
-        }
-        ?>
+// Get the search query if it exists
+$searchQuery = isset($_GET['query']) ? $_GET['query'] : '';
+
+// Prepare a SQL query based on the search input
+if ($searchQuery) {
+    $stmt = $conn->prepare("SELECT * FROM `products` WHERE `product_name` LIKE ?");
+    $likeQuery = '%' . $searchQuery . '%';
+    $stmt->bind_param('s', $likeQuery);
+} else {
+    $stmt = $conn->prepare("SELECT * FROM `products` WHERE 1");
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Check if products are available
+if ($result->num_rows > 0) {
+    // Loop through each product and display its details
+    while ($row = $result->fetch_assoc()) {
+        echo '<div class="product">';
+        
+        // Display the product image
+        echo '<div class="pimage" style="background-image: url(\'data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '\');"></div>';
+        
+        // Display product description
+        echo '<div class="des">';
+        echo '<span>' . htmlspecialchars($row['brand_id']) . '</span>';
+        echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
+        echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
+        echo '</div>';
+        
+        // Add to cart button
+        echo '<a href="addToCart.php?product_id=' . $row['product_id'] . '" class="cart">';
+        echo '<img src="../svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
+        echo '</a>';
+        
+        echo '</div>'; // Close product div
+    }
+} else {
+    echo '<p>No products found.</p>';
+}
+
+$stmt->close();
+?>
+
     </div>
 </div>
 
