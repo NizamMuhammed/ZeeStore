@@ -1,333 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>ZeeStore - Product</title>
-    <link
-    rel="icon"
-    type="image/x-icon"
-    href="../svg/logo2.png"
-    media="(prefers-color-scheme: light)" />
-  <link
-    rel="icon"
-    type="image/x-icon"
-    href="../svg/logo1.png"
-    media="(prefers-color-scheme: dark)" />
-  <meta charset="utf-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <link rel="stylesheet" href="../css/open-iconic-bootstrap.min.css" />
-  <link rel="stylesheet" href="../css/owl.carousel.min.css" />
-  <link rel="stylesheet" href="../css/owl.theme.default.min.css" />
-  <link rel="stylesheet" href="../css/magnific-popup.css" />
-  <link rel="stylesheet" href="../css/aos.css" />
-  <link rel="stylesheet" href="../css/ionicons.min.css" />
-  <link rel="stylesheet" href="../css/animate.css" />
-  <link rel="stylesheet" href="../css/bootstrap-datepicker.css" />
-  <link rel="stylesheet" href="../css/jquery.timepicker.css" />
-  <link rel="stylesheet" href="../css/flaticon.css" />
-  <link rel="stylesheet" href="../css/icomoon.css" />
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="../css/style2.css" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer" />
+
+<head>
+  <title>ZeeStore - Product</title>
+  <?php require_once '../php/styles.php' ?>
 </head>
-  <body style="margin-top: -30px">
-    <nav>
-      <a href="index.html" class="brand">ZeeStore</a>
-      <div>
-        <ul id="navbar">
-          <li><a href="Dashboard.php">Dashboard</a></li>
-          <li><a href="brand.php">Brands</a></li>
-          <li><a href="catagory.php">Catagory</a></li>
+
+<body style="margin-top: -30px">
+  <nav>
+    <a href="index.html" class="brand">ZeeStore</a>
+    <div>
+      <ul id="navbar">
+        <li><a href="Dashboard.php">Dashboard</a></li>
+        <li><a href="brand.php">Brands</a></li>
+        <li><a href="catagory.php">Catagory</a></li>
         <li><a href="supplier.php">Suppliers</a></li>
-          <li><a href="product.php" class="active">Products</a></li>
-          <li class="user" id="user">
-            <div class="circle"></div>
-            <i class="fa fa-user"></i>
-          </li>
-          <a href="#" id="close"><i class="far fa-times"></i></a>
-        </ul>
-        <div id="userbar">
-        <li><a href="settings.php">Setting</a></li>
-        <li><a href="../login.php">Logout</a></li>
-          <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
-        </div>
-      </div>
-      <div class="show">
-        <div class="user2" id="user2">
+        <li><a href="product.php" class="active">Products</a></li>
+        <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
-          <i class="fa fa-exclamation-circle"></i>
-        </div>
-        <i id="bar" class="fas fa-outdent"></i>
+        </li>
+        <a href="#" id="close"><i class="far fa-times"></i></a>
+      </ul>
+      <div id="userbar">
+        <li><a href="settings.php">Setting</a></li>
+        <li><a href="../login.php">Logout</a></li>
+        <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
       </div>
-    </nav>
-    <!-- END nav -->
+    </div>
+    <div class="show">
+      <div class="user2" id="user2">
+        <div class="circle"></div>
+        <i class="fa fa-user"></i>
+        <i class="fa fa-exclamation-circle"></i>
+      </div>
+      <i id="bar" class="fas fa-outdent"></i>
+    </div>
+  </nav>
+  <!-- END nav -->
 
-    <?php
-require_once '../php/DbConnect.php'; // Make sure this file contains a valid connection object
+  <?php
+  require_once '../php/DbConnect.php'; // Make sure this file contains a valid connection object
 
-$ghr = ""; // Message variable for feedback
+  $ghr = ""; // Message variable for feedback
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Access the image from the correct input name
-    $image = $_FILES['product_image']['tmp_name'];
-    $iimage_type = $_FILES['product_image']['type'];
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // Get image file info
+    $image = $_FILES['image']['tmp_name'];
+    $iimage_type = $_FILES['image']['type'];
+    $image_name = $_FILES['image']['name'];
+
+    // Read the image as a binary string
     $image_data = addslashes(file_get_contents($image));
 
-    // Collect form inputs
-    $product_name = $_POST['product_name'];
-    $brand_id = $_POST['brand_id'];
-    $category_id = $_POST['category_id'];
-    $description = $_POST['description'];
-    $price = $_POST['price'];
-    $quantity = $_POST['quantity'];
+    // input data to db
+    $sql = "INSERT INTO `products`(`product_name`, `brand_id`, `category_id`, `description`, `price`, `quantity`, `image`, `image_type`) 
+            VALUES ('" . $_POST['product_name'] . "','" . $_POST['brand_id'] . "','" . $_POST['category_id'] . "','" . $_POST['description'] . "','" . $_POST['price'] . "','" . $_POST['quantity'] . "','$image_data','$iimage_type')";
 
-    // Check if the database connection is valid
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    $result1 = $conn->query("SELECT * FROM products WHERE product_name = '" . $_POST['product_name'] . "' ;");
+    if ($result1->num_rows > 0)  $ghr = "Product already exists";
+    elseif ($conn->query($sql)) {
+      $ghr = "Process successfully done";
+    } else $ghr = "Invalid data detected";
+  }
+  ?>
 
-    // Prepare the SQL statement for inserting the product
-    $sql = "INSERT INTO products (product_name, brand_id, category_id, description, price, quantity, image, image_type) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-    // Check if the SQL statement is prepared correctly
-    if ($stmt = $conn->prepare($sql)) {
-        // Bind parameters to the prepared statement
-        $stmt->bind_param("siississ", $product_name, $brand_id, $category_id, $description, $price, $quantity, $image_data, $iimage_type);
-
-        // Check if the product already exists
-        $result1 = $conn->query("SELECT * FROM products WHERE product_name = '$product_name';");
-
-        if ($result1 && $result1->num_rows > 0) {
-            $ghr = "Product already exists";
-        } elseif ($stmt->execute()) {
-            $ghr = "Process successfully done";
-        } else {
-            $ghr = "Error executing statement: " . $stmt->error;
-        }
-
-        // Close the statement
-        $stmt->close();
-    } else {
-        // If the statement preparation fails, show error
-        $ghr = "Error preparing statement: " . $conn->error;
-    }
-}
-?>
-
-
-
-<div class="popup <?php if ($ghr == "") echo "hide"; ?>">
-    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
-        <span>Inventory Management System</span>
-        <h2>Add New Product</h2>
-        <div class="xmark"><i class="fa-solid fa-xmark"></i></div>
-        <div class="form-body">
-            <div class="image"><img src="../svg/image.svg" class="display" /></div>
-            <div class="fields">
-                <!-- Display any messages -->
-                <div class="message <?php if ($ghr == "") echo "pop"; ?>">
-                    <i class="fa-solid fa-circle"></i>
-                    <?php echo htmlspecialchars($ghr); ?>
-                </div>
-
-                <!-- Product Name -->
-                <div class="inputs">
-                    <label for="product_name">Product Name</label>
-                    <input type="text" name="product_name" id="product_name" placeholder="Product name..." required />
-                </div>
-
-                <!-- Brand Dropdown -->
-                <div class="inputs">
-                    <label for="brand">Brand</label>
-                    <select name="brand_id" id="brand" required>
-                        <?php
-                        // Fetching brands from the database
-                        $result = $conn->query("SELECT brand_id, brand_name FROM brand");
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<option value='" . $row['brand_id'] . "'>" . $row['brand_name'] . "</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-
-                <!-- Category Dropdown -->
-                <div class="inputs">
-                    <label for="category">Category</label>
-                    <select name="category_id" id="category" required>
-                        <?php
-                        // Fetching categories from the database
-                        $result = $conn->query("SELECT category_id, category_name FROM category");
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<option value='" . $row['category_id'] . "'>" . $row['category_name'] . "</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-
-                <!-- Product Image -->
-                <div class="inputs">
-                    <label for="image_input">Product Image</label>
-                    <input type="file" name="product_image" id="image_input" accept=".jpg, .jpeg, .png, .img" required />
-                </div>
-
-                <!-- Description -->
-                <div class="inputs">
-                    <label for="description">Description</label>
-                    <textarea name="description" id="description" rows="4" placeholder="Enter product description"></textarea>
-                </div>
-
-                <!-- Price -->
-                <div class="inputs">
-                    <label for="price">Price</label>
-                    <input type="number" step="0.01" name="price" id="price" placeholder="Enter product price" required />
-                </div>
-
-                <!-- Quantity -->
-                <div class="inputs">
-                    <label for="quantity">Quantity</label>
-                    <input type="number" name="quantity" id="quantity" placeholder="Enter product quantity" required />
-                </div>
-
-                <!-- Submit Button -->
-                <button type="submit">Submit</button>
-            </div>
+  <div class="popup <?php if ($ghr == "") echo "hide"; ?>">
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" style="width: 1140px">
+      <span>Inventory Managment System</span>
+      <h2>Add new product</h2>
+      <div class="xmark"><i class="fa-solid fa-xmark"></i></div>
+      <div class="form-body">
+        <div class="image" style="height: 510px">
+          <img
+            src="../svg/image.svg"
+            class="display"
+            style="max-width: 420px; max-height: 420px" />
         </div>
-    </form>
-    <?php if (isset($error)) echo "<p>$error</p>" ?>
-</div>
-
-
-
-    <section
-      class="hero-wrap hero-wrap-2"
-      style="background-image: url('images/shopping.jpg')"
-      data-stellar-background-ratio="0.5"
-    >
-      <div class="overlay"></div>
-      <div class="container">
-        <div
-          class="row no-gutters slider-text align-items-center justify-content-center"
-        >
-          <div class="col-md-9 ftco-animate text-center">
-            <h1 class="mb-2 bread">Manage Products</h1>
-            <p class="breadcrumbs">
-              <span class="mr-2">
-                <a href="index.html">
-                  Dashboard
-                  <i class="ion-ios-arrow-forward"></i>
-                </a>
-              </span>
-              <span>
-                Products
-                <i class="ion-ios-arrow-forward"></i>
-              </span>
-            </p>
+        <div class="fields">
+          <!-- Display any messages -->
+          <div class="message <?php if ($ghr == "") echo "pop"; ?>">
+            <i class="fa-solid fa-circle"></i>
+            <?php echo htmlspecialchars($ghr); ?>
           </div>
+
+          <div class="fields" style="width: 580px">
+            <div class="inputs">
+              <label for="product_name">Product Name</label>
+              <input type="text" name="product_name" id="product_name" placeholder="Product name..." required />
+            </div>
+
+            <div class="inputs">
+              <label for="price">Price</label>
+              <input type="number" step="0.01" name="price" id="price" placeholder="Enter product price" required />
+            </div>
+
+            <div class="inputs">
+              <label for="brand">Brand</label>
+              <select name="brand_id" id="brand" required>
+                <?php
+                // Fetching brands from the database
+                $result = $conn->query("SELECT brand_id, brand_name FROM brand");
+                while ($row = $result->fetch_assoc()) {
+                  echo "<option value='" . $row['brand_id'] . "'>" . $row['brand_name'] . "</option>";
+                }
+                ?>
+              </select>
+            </div>
+            <div class="inputs">
+              <label for="category">Category</label>
+              <select name="category_id" id="category" required>
+                <?php
+                // Fetching categories from the database
+                $result = $conn->query("SELECT category_id, category_name FROM category");
+                while ($row = $result->fetch_assoc()) {
+                  echo "<option value='" . $row['category_id'] . "'>" . $row['category_name'] . "</option>";
+                }
+                ?>
+              </select>
+            </div>
+            <div class="inputs">
+              <label>Quantity</label>
+              <input type="text" name="quantity" pattern="\d+" title="Only Numbers ( 0-9 )" id="" placeholder="name..." required />
+            </div>
+            <div class="inputs">
+              <label>Product image</label>
+              <input
+                type="file"
+                name="image"
+                id="image_input"
+                accept=".jpg, .jpeg, .png, .img"
+                title="edit properly before uploading"
+                required />
+            </div>
+            <div class="inputs">
+              <label>Description</label>
+            </div>
+          </div>
+          <textarea
+            name="description"
+            id=""
+            rows="3"
+            cols="64"
+            placeholder="Enter product description"
+            required
+            style="
+                margin-top: 20px;
+                background: #fff !important;
+                color: #000000 !important;
+                font-size: 16px;
+                max-width:530px ;
+                border-radius: 2px;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                margin-bottom: 2rem;
+                padding: 6px 0 0 6px;
+                outline: none;
+                resize: none;
+              "></textarea>
+          <button type="submit">Submit</button>
         </div>
       </div>
-    </section>
-    <!-- header -->
+    </form>
+  </div>
+  <!-- popup -->
 
-    <section class="admin-table">
+  <section
+    class="hero-wrap hero-wrap-2"
+    style="background-image: url('../images/shopping.jpg')"
+    data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+      <div
+        class="row no-gutters slider-text align-items-center justify-content-center">
+        <div class="col-md-9 ftco-animate text-center">
+          <h1 class="mb-2 bread">Manage Products</h1>
+          <p class="breadcrumbs">
+            <span class="mr-2">
+              <a href="index.html">
+                Dashboard
+                <i class="ion-ios-arrow-forward"></i>
+              </a>
+            </span>
+            <span>
+              Products
+              <i class="ion-ios-arrow-forward"></i>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- header -->
+
+  <section class="admin-table">
     <h2>Product table</h2>
     <span>View and manage product details</span>
     <div class="table">
-        <div class="searchAddS">
-            <section class="search">
-                <input type="text" id="search" placeholder="Search product" />
-                <button id="search-bt">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </section>
-            <button id="btt1">Add product</button>
-        </div>
-        <div class="table-header parent">
-            <div class="table-header-data row">Product ID</div>
-            <div class="table-header-data row">Name</div>
-            <div class="table-header-data row">Quantity</div>
-            <div class="table-header-data row">Status</div>
-        </div>
+      <div class="searchAddS">
+        <section class="search">
+          <input type="text" id="search" placeholder="Search product" />
+          <button id="search-bt">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </section>
+        <button id="btt1">Add product</button>
+      </div>
+      <div class="table-header parent">
+        <div class="table-header-data row">Product ID</div>
+        <div class="table-header-data row">Name</div>
+        <div class="table-header-data row">Quantity</div>
+        <div class="table-header-data row">Status</div>
+      </div>
 
-        <div class="table-data">
-            <?php
-            // Fetch products from the database
-            $result = $conn->query("SELECT product_id, product_name, quantity FROM products");
+      <div class="table-data">
+        <?php
+        // Fetch products from the database
+        $result = $conn->query("SELECT * FROM products");
 
-            // Check if any products are found
-            if ($result && $result->num_rows > 0) {
-                // Loop through each product and display its details in the table
-                while ($row = $result->fetch_assoc()) {
-                    $status = $row['quantity'] > 0 ? 'Active' : 'Inactive'; // Set product status based on quantity
-                    echo '<div class="table-row parent">';
-                    echo '<div class="table-cell row">' . $row['product_id'] . '</div>';
-                    echo '<div class="table-cell row">' . htmlspecialchars($row['product_name']) . '</div>';
-                    echo '<div class="table-cell row">' . $row['quantity'] . '</div>';
-                    echo '<div class="table-cell row"><a>' . $status . '</a></div>';
-                    echo '</div>';
-                }
-            } else {
-                // If no products are found, display a message
-                echo '<div class="table-row parent">';
-                echo '<div class="table-cell row" colspan="4">No products found.</div>';
-                echo '</div>';
-            }
-            ?>
-        </div>
+        // Check if any products are found
+        if ($result && $result->num_rows > 0) {
+
+          // Loop through each product and display its details in the table
+          while ($row = $result->fetch_assoc()) {
+            echo "<div class='table-row parent'>";
+            echo "<div class='table-cell row'>" . $row['product_id'] . "</div>";
+            echo "<div class='table-cell row'>";
+            echo $row['product_name'];
+            echo "<div class='logo'>";
+            echo '<img src="data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '" alt="Image" />';
+            echo "</div>";
+            echo "</div>";
+            echo "<div class='table-cell row'>" . $row['quantity'] . "</div>";
+            $status = $row['quantity'] > 0 ? 'Active<i class="fa-solid fa-circle-check" style="margin-left:5px"></i>' : 'Out ofstock'; // Set product status
+            echo '<div class="table-cell row"><a>' . $status . '</a></div>';
+            echo "</div>";
+          }
+          echo '<div class="flip parent close2" style="height: 60px; line-height: 60px;"><div class="row">No items found</div></div>';
+        } else echo "<div class='table-row parent'> No records found </div>";
+        ?>
+      </div>
     </div>
-</section>
+  </section>
 
-
-    <div id="ftco-loader" class="show fullscreen">
-    <.. /svg class="circular" width="48px" height="48px">
-        <circle
-          class="path-bg"
-          cx="24"
-          cy="24"
-          r="22"
-          fill="none"
-          stroke-width="4"
-          stroke="#eeeeee"
-        />
-        <circle
-          class="path"
-          cx="24"
-          cy="24"
-          r="22"
-          fill="none"
-          stroke-width="4"
-          stroke-miterlimit="10"
-          stroke="#F96D00"
-        />
-      </svg>
-    </div>
-    <!-- loader -->
-
-    <script src="../js/jquery.min.js"></script>
-  <script src="../js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="../js/popper.min.js"></script>
-  <script src="../js/bootstrap.min.js"></script>
-  <script src="../js/jquery.easing.1.3.js"></script>
-  <script src="../js/jquery.waypoints.min.js"></script>
-  <script src="../js/jquery.stellar.min.js"></script>
-  <script src="../js/owl.carousel.min.js"></script>
-  <script src="../js/jquery.magnific-popup.min.js"></script>
-  <script src="../js/aos.js"></script>
-  <script src="../js/jquery.animateNumber.min.js"></script>
-  <script src="../js/bootstrap-datepicker.js"></script>
-  <script src="../js/jquery.timepicker.min.js"></script>
-  <script src="../js/scrollax.min.js"></script>
-  <script src="../https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="../js/google-map.js"></script>
-  <script src="../js/main.js"></script>
-  <script src="../js/home.js"></script>
+  <?php require_once '../php/loader.php' ?>
+  <?php require_once '../php/javaScripts.php' ?>
 </body>
 
 </html>

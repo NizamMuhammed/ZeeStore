@@ -353,11 +353,28 @@ img[src="../svg/bag-shopping-svgrepo-com.svg"] {
   justify-content: space-between;
 }
 
+.parent.close {
+  display: none;
+}
+
+.parent.close2 {
+  display: none;
+}
+
 .parent .row {
   flex: 1;
   /* Each box takes equal space */
   justify-content: center;
   /* Center text horizontally */
+}
+
+.parent .flip {
+  flex: 1;
+  /* Each box takes equal space */
+  justify-content: center;
+  /* Center text horizontally */
+  width: 100%;
+  height: 64px;
 }
 
 .admin-table {
