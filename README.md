@@ -1,2 +1,0 @@
-# ZeeStore
-Project Z
