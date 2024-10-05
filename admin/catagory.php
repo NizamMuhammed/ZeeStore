@@ -11,11 +11,7 @@
     <a href="index.html" class="brand">ZeeStore</a>
     <div>
       <ul id="navbar">
-        <li><a href="dashboard.php">Dashboard</a></li>
-        <li><a href="brand.php">Brands</a></li>
-        <li><a href="catagory.php" class="active">Catagory</a></li>
-        <li><a href="supplier.php">Suppliers</a></li>
-        <li><a href="product.php">Products</a></li>
+        <?php navigation(3) ?>
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
