@@ -79,30 +79,31 @@
 
 
   <?php
-  require_once './php/DbConnect.php';
-  $ghr = false;
+require_once './php/DbConnect.php';
+session_start(); // Start the session if it's not already started
+$ghr = false;
 
-  // Check if form is submitted
-  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Retrieve form data and confirm with data base
-    $result = $conn->query("SELECT * FROM user WHERE username = '" . $_POST['username'] . "' AND password = '" . $_POST['password'] . "' AND is_active = true;");
+    // Retrieve form data and confirm with database
+    $result = $conn->query("SELECT * FROM user WHERE username = '" . $conn->real_escape_string($_POST['username']) . "' AND password = '" . $conn->real_escape_string($_POST['password']) . "' AND is_active = true;");
+    
     if ($result->num_rows > 0) {
+        // Set session variable username
+        $_SESSION['username'] = $_POST['username'];
 
-      // set session varieble username
-      $_SESSION['username'] = $_POST['username'];
-
-      // create uswer data array json
-      while ($row = $result->fetch_assoc()) {
-        $user_data = [
-          'name' => $row['name'],
-          'user_id' => $row['user_id'],
-          'is_admin' => $row['is_admin'],
-          'is_staff' => $row['is_staff'],
-          'is_customer' => $row['is_customer']
-        ];
-      }
-      $user_data_json = json_encode($user_data);
+        // Create user data array in JSON format
+        while ($row = $result->fetch_assoc()) {
+            $user_data = [
+                'name' => $row['name'],
+                'user_id' => $row['user_id'],
+                'is_admin' => $row['is_admin'],
+                'is_staff' => $row['is_staff'],
+                'is_customer' => $row['is_customer']
+            ];
+        }
+        $user_data_json = json_encode($user_data);
 
         // Set cookie
         setcookie('user_data', $user_data_json, time() + (86400 * 30), "/"); // set cookie
@@ -122,6 +123,7 @@
     $ghr = true; // Set error flag
 }
 ?>
+
 
   <section class="ftco-section ftco-no-pt ftco-no-pb">
     <div class="container">
@@ -162,11 +164,6 @@
                     type="submit"
                     value="Login"
                     class="btn btn-primary py-3 px-5" />
-                </div>
-              </div>
-              <div class="col-md-12 mt-3" style="margin: -50px 0;">
-                <div class="form-group">
-                  <p><a href="signUp.php">Sing up now</a></p>
                 </div>
               </div>
             </div>

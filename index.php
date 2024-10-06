@@ -176,7 +176,7 @@
   <!-- header -->
 
   <div class="container">
-    <h1>Rising Trends
+    <h1>Products
     </h1>
     <div class="box">
     <?php

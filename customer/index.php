@@ -1,29 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
-  <title>ZeeStore - Home</title>
-  <link rel="icon" type="image/x-icon" href="../svg/logo.png" media="(prefers-color-scheme: light)" />
-  <link rel="icon" type="image/x-icon" href="../svg/logo.png" media="(prefers-color-scheme: dark)" />
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <link rel="stylesheet" href="../css/open-iconic-bootstrap.min.css" />
-  <link rel="stylesheet" href="../css/owl.carousel.min.css" />
-  <link rel="stylesheet" href="../css/owl.theme.default.min.css" />
-  <link rel="stylesheet" href="../css/magnific-popup.css" />
-  <link rel="stylesheet" href="../css/aos.css" />
-  <link rel="stylesheet" href="../css/ionicons.min.css" />
-  <link rel="stylesheet" href="../css/animate.css" />
-  <link rel="stylesheet" href="../css/bootstrap-datepicker.css" />
-  <link rel="stylesheet" href="../css/jquery.timepicker.css" />
-  <link rel="stylesheet" href="../css/flaticon.css" />
-  <link rel="stylesheet" href="../css/icomoon.css" />
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="../css/style2.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
+    <title>ZeeStore - Home</title>
+    <link rel="icon" type="image/x-icon" href="../svg/logo.png" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/x-icon" href="../svg/logo.png" media="(prefers-color-scheme: dark)" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="../css/open-iconic-bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="../css/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="../css/magnific-popup.css" />
+    <link rel="stylesheet" href="../css/aos.css" />
+    <link rel="stylesheet" href="../css/ionicons.min.css" />
+    <link rel="stylesheet" href="../css/animate.css" />
+    <link rel="stylesheet" href="../css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="../css/jquery.timepicker.css" />
+    <link rel="stylesheet" href="../css/flaticon.css" />
+    <link rel="stylesheet" href="../css/icomoon.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/style2.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <style>
+    .product-category {
+      padding: 2rem;
+    }
+
     .category-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -106,75 +108,109 @@
     .des h4 {
       color: #f96d00;
     }
-  </style>
+        /* Modal CSS */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .close {
+            color: red;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: darkred;
+        }
+    </style>
 </head>
 
 <body>
-  <!-- Navigation -->
-  <nav>
-    <a href="index.php" class="brand">ZeeStore</a>
-    <section class="search">
-      <form method="GET" action="">
-        <input type="text" id="search" name="query" placeholder="Search Products or Brand" />
-        <button type="submit" id="search-bt">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-      </form>
-    </section>
-    <div>
-      <ul id="navbar">
-        <li><a href="index.php" class="active">Home</a></li>
-        <li><a href="../index.php">Logout</a></li>
-        <li><a href="order.php">Orders</a></li>
-        <li><a href="cart.php">Cart</a></li>
-        <li class="user" id="user">
-          <div class="circle"></div>
-          <i class="fa fa-user"></i>
-        </li>
-        <a href="#" id="close"><i class="far fa-times"></i></a>
-      </ul>
-      <div id="userbar">
-      <li><a href="settings.php">Setting</a></li>
-      <li><a href="../login.php">Logout</a></li>
-        <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
-      </div>
-    </div>
-    <div class="show">
-      <div class="user2" id="user2">
-        <div class="circle"></div>
-        <i class="fa fa-user"></i>
-        <i class="fa fa-exclamation-circle"></i>
-      </div>
-      <i id="bar" class="fas fa-outdent"></i>
-    </div>
-  </nav>
-  <!-- END nav -->
-
-  <section class="hero-wrap hero-wrap-2" style="background-image: url('../images/shopping.jpg')"
-    data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row no-gutters slider-text align-items-center justify-content-center">
-        <div class="col-md-9 ftco-animate text-center">
-          <h1 class="mb-2 bread">Your One-Stop Shop for Electronics</h1>
-          <p class="breadcrumbs">
-            <span class="mr-2">
-              <a href="deals.php">
-                Today's Deals
-                <i class="ion-ios-arrow-forward"></i>
-              </a>
-            </span>
-          </p>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.php" class="brand">ZeeStore</a>
+        <section class="search">
+            <form method="GET" action="">
+                <input type="text" id="search" name="query" placeholder="Search Products or Brand" />
+                <button type="submit" id="search-bt">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+        </section>
+        <div>
+            <ul id="navbar">
+                <li><a href="index.php" class="active">Home</a></li>
+                <li><a href="../index.php">Logout</a></li>
+                <li><a href="order.php">Orders</a></li>
+                <li><a href="cart.php">Cart</a></li>
+                <li class="user" id="user">
+                    <div class="circle"></div>
+                    <i class="fa fa-user"></i>
+                </li>
+                <a href="#" id="close"><i class="far fa-times"></i></a>
+            </ul>
+            <div id="userbar">
+                <li><a href="settings.php">Setting</a></li>
+                <li><a href="../login.php">Logout</a></li>
+                <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
-  <!-- header -->
+        <div class="show">
+            <div class="user2" id="user2">
+                <div class="circle"></div>
+                <i class="fa fa-user"></i>
+                <i class="fa fa-exclamation-circle"></i>
+            </div>
+            <i id="bar" class="fas fa-outdent"></i>
+        </div>
+    </nav>
+    <!-- END nav -->
 
-  <div class="container">
-    <h1>Category</h1>
-    <div class="box">
-    <?php
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('../images/shopping.jpg')"
+        data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text align-items-center justify-content-center">
+                <div class="col-md-9 ftco-animate text-center">
+                    <h1 class="mb-2 bread">Your One-Stop Shop for Electronics</h1>
+                    <p class="breadcrumbs">
+                        <span class="mr-2">
+                            <a href="deals.php">
+                                Today's Deals
+                                <i class="ion-ios-arrow-forward"></i>
+                            </a>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- header -->
+
+    <div class="container">
+        <h1>Products</h1>
+        <div class="box">
+        <?php
 // Include your database connection
 require_once '../php/DbConnect.php';
 
@@ -183,20 +219,20 @@ $searchQuery = isset($_GET['query']) ? $_GET['query'] : '';
 
 // Prepare a SQL query based on the search input
 if ($searchQuery) {
-    // Search in both product_name and brand (assuming brand_id relates to a brand name or there's a brand table)
+    // Search in both product_name and brand
     $stmt = $conn->prepare("
         SELECT products.*, brand.brand_name 
-        FROM `products` 
-        JOIN `brand` ON products.brand_id = brand.brand_id
-        WHERE `product_name` LIKE ? OR `brand_name` LIKE ?");
+        FROM products 
+        JOIN brand ON products.brand_id = brand.brand_id
+        WHERE product_name LIKE ? OR brand_name LIKE ?");
     $likeQuery = '%' . $searchQuery . '%';
     $stmt->bind_param('ss', $likeQuery, $likeQuery);
 } else {
     // Fetch all products if no search query is provided
     $stmt = $conn->prepare("
         SELECT products.*, brand.brand_name 
-        FROM `products` 
-        JOIN `brand` ON products.brand_id = brand.brand_id");
+        FROM products 
+        JOIN brand ON products.brand_id = brand.brand_id");
 }
 
 $stmt->execute();
@@ -217,32 +253,98 @@ if ($result->num_rows > 0) {
         echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
         echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
         echo '</div>';
+        echo '<a href="addToCart.php?product_id=' . $row['product_id'] . '" class="add-to-cart">';
         
-        // Add to cart button
-        echo '<a href="addToCart.php?product_id=' . $row['product_id'] . '" class="cart">';
-        echo '<img src="../svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
-        echo '</a>';
-        
-        echo '</div>'; // Close product div
+echo '<img src="../svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" /></a>';
+        echo '</div>'; // End of product
     }
 } else {
     echo '<p>No products found.</p>';
 }
 
+// Close the statement and connection
 $stmt->close();
-?><!-- Quantity Modal -->
-<div id="quantityModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Select Quantity</h2>
-    <form id="quantityForm" method="GET" action="cart.php">
-      <input type="hidden" id="product_id" name="product_id" />
-      <label for="quantity">Quantity:</label>
-      <input type="number" id="quantity" name="quantity" min="1" value="1" required />
-      <button type="submit" id="submitQuantity">Add to Cart</button>
-    </form>
-  </div>
+$conn->close();
+?>
+
+        </div>
+        </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.add-to-cart').click(function(event){
+                event.preventDefault();
+                var productId = $(this).attr('href').split('=')[1];
+                $.ajax({
+                    url: 'addToCart.php',
+                    method: 'GET',
+                    data: {product_id: productId},
+                    success: function(response){
+                        alert('Product added to cart!');
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- Modal for selecting quantity -->
+    <!-- Quantity Selection Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Select Quantity</h2>
+        <form id="quantityForm" method="GET" action="cart.php">
+            <input type="hidden" id="product_id" name="product_id" />
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" min="1" value="1" max="10" required />
+            <button type="submit" id="submitQuantity">Add to Cart</button>
+        </form>
+    </div>
 </div>
+
+<footer class="ftco-footer ftco-bg-light ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <p>
+                    &copy; 2024 ZeeStore. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Modal handling
+    var modal = document.getElementById("myModal");
+    var btns = document.querySelectorAll(".buy-button");
+    var span = document.getElementsByClassName("close")[0];
+
+    btns.forEach(function(btn) {
+        btn.onclick = function() {
+            // Assuming you have a data attribute for the product ID
+            var productId = btn.getAttribute("data-product-id");
+            document.getElementById("product_id").value = productId; // Set the product ID
+            modal.style.display = "block";
+        }
+    });
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    document.getElementById("submitQuantity").onclick = function() {
+        var quantity = document.getElementById("quantity").value;
+        alert("You have selected " + quantity + " items."); // You can customize this as needed
+        modal.style.display = "none"; // Close modal after selection
+    }
+</script>
 
 <!-- CSS for Modal -->
 <style>
@@ -339,5 +441,4 @@ $stmt->close();
   <script src="../js/main.js"></script>
   <script src="../js/home.js"></script>
 </body>
-
 </html>

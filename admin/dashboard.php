@@ -24,9 +24,23 @@
     $products_count = mysqli_fetch_assoc($products_result)['product_count'];
 
     // Query for total sales
-    $sales_query = "SELECT SUM(total_amount) as total_sales FROM orders";
-    $sales_result = mysqli_query($conn, $sales_query);
-    $total_sales = mysqli_fetch_assoc($sales_result)['total_sales'];
+    // Assuming you have already established the database connection with $conn
+
+// Query to calculate total sales
+$sales_query = "SELECT SUM(total) as total_sales FROM orders"; // Changed 'total_amount' to 'total'
+$sales_result = mysqli_query($conn, $sales_query);
+
+// Fetch total sales
+$total_sales = mysqli_fetch_assoc($sales_result)['total_sales'];
+
+// Handle case when there are no sales records
+if (is_null($total_sales)) {
+    $total_sales = 0; // Set total sales to 0 if no records found
+}
+
+// Output total sales
+echo "Total Sales: " . number_format($total_sales, 2); // Format the total sales to two decimal places
+
 
     // Query for total amount collected
     $collected_query = "SELECT SUM(collected_amount) as total_collected FROM payments";
