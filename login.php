@@ -1,3 +1,15 @@
+<?php
+
+include './php/DbConnect.php';
+
+session_start();
+
+if(isset($_SESSION['user_id'])){
+   $user_id = $_SESSION['user_id'];
+}else{
+   $user_id = '';
+};
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -80,7 +92,7 @@
 
   <?php
 require_once './php/DbConnect.php';
-session_start(); // Start the session if it's not already started
+// session_start(); // Start the session if it's not already started
 $ghr = false;
 
 // Check if form is submitted

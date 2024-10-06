@@ -60,48 +60,48 @@
       margin-top: 0.5rem;
       font-size: 1rem;
     }
+
     /* Search bar container */
-.search {
-  display: flex;
-  align-items: center;
-}
+    .search {
+      display: flex;
+      align-items: center;
+    }
 
-/* Style for the input field */
-#search {
-  padding: 10px;
-  border: 2px solid #f96d00; /* Orange border */
-  border-radius: 5px 0 0 5px; /* Rounded corners */
-  outline: none;
-  transition: border-color 0.3s;
-  flex-grow: 1; /* Allow input to grow */
-}
+    /* Style for the input field */
+    #search {
+      padding: 10px;
+      border: 2px solid #f96d00; /* Orange border */
+      border-radius: 5px 0 0 5px; /* Rounded corners */
+      outline: none;
+      transition: border-color 0.3s;
+      flex-grow: 1; /* Allow input to grow */
+    }
 
-/* Change border color on focus */
-#search:focus {
-  border-color: #ff8800; /* Darker orange when focused */
-}
+    /* Change border color on focus */
+    #search:focus {
+      border-color: #ff8800; /* Darker orange when focused */
+    }
 
-/* Style for the search button */
-#search-bt {
-  background-color: #f96d00; /* Orange background */
-  border: none;
-  color: white; /* White text */
-  padding: 10px 15px;
-  border-radius: 0 5px 5px 0; /* Rounded corners */
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+    /* Style for the search button */
+    #search-bt {
+      background-color: #f96d00; /* Orange background */
+      border: none;
+      color: white; /* White text */
+      padding: 10px 15px;
+      border-radius: 0 5px 5px 0; /* Rounded corners */
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-/* Change background color on hover */
-#search-bt:hover {
-  background-color: #ff8800; /* Darker orange on hover */
-}
+    /* Change background color on hover */
+    #search-bt:hover {
+      background-color: #ff8800; /* Darker orange on hover */
+    }
 
-/* Icon styles */
-#search-bt i {
-  font-size: 16px; /* Adjust icon size */
-}
-
+    /* Icon styles */
+    #search-bt i {
+      font-size: 16px; /* Adjust icon size */
+    }
   </style>
 </head>
 
@@ -109,19 +109,19 @@
   <nav>
     <a href="index.php" class="brand">ZeeStore</a>
     <section class="search">
-  <form method="GET" action="">
-    <input type="text" id="search" name="query" placeholder="search" />
-    <button type="submit" id="search-bt">
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
-  </form>
-</section>
+      <form method="GET" action="">
+        <input type="text" id="search" name="query" placeholder="search" />
+        <button type="submit" id="search-bt">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </section>
     <div>
       <ul id="navbar">
         <li><a href="index.php" class="active">Home</a></li>
         <li><a href="../index.php">Logout</a></li>
         <li><a href="order.php">Orders</a></li>
-        <li><a href="../customer/cart.php">Cart</a></li>
+        <li><a href="cart.php">Cart</a></li>
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
@@ -129,8 +129,8 @@
         <a href="#" id="close"><i class="far fa-times"></i></a>
       </ul>
       <div id="userbar">
-      <li><a href="settings.php">Setting</a></li>
-      <li><a href="../login.php">Logout</a></li>
+        <li><a href="settings.php">Setting</a></li>
+        <li><a href="../login.php">Logout</a></li>
         <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
       </div>
     </div>
@@ -169,143 +169,71 @@
   <div class="container">
     <h1>Category</h1>
     <div class="box">
-    <?php
-// Include your database connection
-require_once '../php/DbConnect.php';
+      <?php
+      // Include your database connection
+      require_once '../php/DbConnect.php';
 
-// Get the search query if it exists
-$searchQuery = isset($_GET['query']) ? $_GET['query'] : '';
+      // Get the search query if it exists
+      $searchQuery = isset($_GET['query']) ? $_GET['query'] : '';
 
-// Prepare a SQL query based on the search input
-if ($searchQuery) {
-    $stmt = $conn->prepare("SELECT * FROM `products` WHERE `product_name` LIKE ?");
-    $likeQuery = '%' . $searchQuery . '%';
-    $stmt->bind_param('s', $likeQuery);
-} else {
-    $stmt = $conn->prepare("SELECT * FROM `products` WHERE 1");
-}
+      // Prepare a SQL query based on the search input
+      if ($searchQuery) {
+          $stmt = $conn->prepare("SELECT * FROM `products` WHERE `product_name` LIKE ?");
+          $likeQuery = '%' . $searchQuery . '%';
+          $stmt->bind_param('s', $likeQuery);
+      } else {
+          $stmt = $conn->prepare("SELECT * FROM `products` WHERE 1");
+      }
 
-$stmt->execute();
-$result = $stmt->get_result();
+      $stmt->execute();
+      $result = $stmt->get_result();
 
-// Check if products are available
-if ($result->num_rows > 0) {
-    // Loop through each product and display its details
-    while ($row = $result->fetch_assoc()) {
-        echo '<div class="product">';
-        
-        // Display the product image
-        echo '<div class="pimage" style="background-image: url(\'data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '\');"></div>';
-        
-        // Display product description
-        echo '<div class="des">';
-        echo '<span>' . htmlspecialchars($row['brand_id']) . '</span>';
-        echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
-        echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
-        echo '</div>';
-        
-        // Add to cart button
-        echo '<a href="addToCart.php?product_id=' . $row['product_id'] . '" class="cart">';
-        echo '<img src="../svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
-        echo '</a>';
-        
-        echo '</div>'; // Close product div
-    }
-} else {
-    echo '<p>No products found.</p>';
-}
+      // Check if products are available
+      if ($result->num_rows > 0) {
+          // Loop through each product and display its details
+          while ($row = $result->fetch_assoc()) {
+              echo '<div class="product">';
+              
+              // Display the product image
+              echo '<div class="pimage" style="background-image: url(\'data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '\');"></div>';
+              
+              // Display product description
+              echo '<div class="des">';
+              echo '<span>' . htmlspecialchars($row['brand_id']) . '</span>';
+              echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
+              echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
+              echo '</div>';
+              
+              // Add to cart button with data attributes for product id
+              echo '<a href="#" class="cart" data-id="' . $row['product_id'] . '">';
+              echo '<img src="../svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
+              echo '</a>';
+              
+              echo '</div>'; // Close product div
+          }
+      } else {
+          echo '<p>No products found.</p>';
+      }
 
-$stmt->close();
-?>
-<!-- Quantity Modal -->
-<div id="quantityModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Select Quantity</h2>
-    <form id="quantityForm" method="GET" action="cart.php">
-      <input type="hidden" id="product_id" name="product_id" />
-      <label for="quantity">Quantity:</label>
-      <input type="number" id="quantity" name="quantity" min="1" value="1" required />
-      <button type="submit" id="submitQuantity">Add to Cart</button>
-    </form>
-  </div>
-</div>
-
-<!-- CSS for Modal -->
-<style>
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-
-  .modal-content {
-    background-color: white;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 300px;
-    border-radius: 8px;
-    text-align: center;
-  }
-
-  .close {
-    color: red;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  .close:hover {
-    color: darkred;
-  }
-</style>
-<script>
-  // Get the modal and elements
-  var modal = document.getElementById("quantityModal");
-  var span = document.getElementsByClassName("close")[0];
-
-  // When the user clicks on Add to Cart button, show the modal
-  document.querySelectorAll('.cart').forEach(function(button) {
-    button.onclick = function(event) {
-      event.preventDefault();
-      var productId = this.getAttribute('data-id');
-      document.getElementById('product_id').value = productId;
-      modal.style.display = "block";
-    }
-  });
-
-  // When the user clicks on (x), close the modal
-  span.onclick = function() {
-    modal.style.display = "none";
-  };
-
-  // Close the modal when user clicks anywhere outside of it
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  };
-</script>
-
-
+      $stmt->close();
+      $conn->close();
+      ?>
     </div>
-</div>
-  <div id="ftco-loader" class="show fullscreen">
-    <svg class="circular" width="48px" height="48px">
-      <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
-      <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-        stroke="#F96D00" />
-    </svg>
   </div>
-  <!-- loader -->
+
+  <!-- Footer -->
+  <footer class="ftco-footer ftco-bg-dark ftco-section" style="background-color: #333">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <p>
+            &copy;2024 ZeeStore. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- footer -->
 
   <script src="../js/jquery.min.js"></script>
   <script src="../js/jquery-migrate-3.0.1.min.js"></script>
@@ -317,14 +245,51 @@ $stmt->close();
   <script src="../js/owl.carousel.min.js"></script>
   <script src="../js/jquery.magnific-popup.min.js"></script>
   <script src="../js/aos.js"></script>
-  <script src="../js/jquery.animateNumber.min.js"></script>
   <script src="../js/bootstrap-datepicker.js"></script>
-  <script src="../js/jquery.timepicker.min.js"></script>
   <script src="../js/scrollax.min.js"></script>
-  <script src="../https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="../js/google-map.js"></script>
   <script src="../js/main.js"></script>
-  <script src="../js/home.js"></script>
+
+
+<script>
+  // Function to add product to cart
+function addToCart(productId) {
+  // Fetch product details via AJAX
+  fetch(`addToCart.php?product_id=${productId}`)
+    .then(response => response.json())
+    .then(product => {
+      if (product.error) {
+        alert('Error: ' + product.error);
+      } else {
+        // Add product to localStorage cart
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+        // Check if the product already exists in the cart
+        const existingProduct = cartItems.find(item => item.product_id === product.product_id);
+        if (existingProduct) {
+          existingProduct.quantity += 1;
+        } else {
+          cartItems.push(product);
+        }
+
+        // Update localStorage
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+        alert('Product added to cart!');
+      }
+    });
+}
+
+// Adding event listeners for Add to Cart buttons
+document.querySelectorAll('.cart').forEach(button => {
+  button.addEventListener('click', function(event) {
+    event.preventDefault();
+    const productId = this.getAttribute('data-id');
+    addToCart(productId);
+  });
+});
+
+</script>
+
 </body>
 
 </html>
