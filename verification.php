@@ -8,12 +8,12 @@
   <link
     rel="icon"
     type="image/x-icon"
-    href="svg/logo1.png"
+    href="svg/logo.png"
     media="(prefers-color-scheme: light)" />
   <link
     rel="icon"
     type="image/x-icon"
-    href="svg/logo1.png"
+    href="svg/logo.png"
     media="(prefers-color-scheme: dark)" />
   <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css" />
   <link rel="stylesheet" href="css/animate.css" />
@@ -100,7 +100,7 @@
   <section class="ftco-section ftco-no-pt ftco-no-pb">
     <div class="container">
       <div class="row d-flex">
-        <div class="col-md-5 ftco-animate img img-2 rtt" style="background-image: url(images/shopping.jpg);" />
+        <div class="col-md-5 ftco-animate img img-2 rtt" style="background-image: url(images/verify.jpg);" />
       </div>
       <div class="col-md-7 ftco-animate makereservation p-4 p-md-5">
         <div class="heading-section ftco-animate mb-5">

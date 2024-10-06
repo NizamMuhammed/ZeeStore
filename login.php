@@ -104,20 +104,24 @@
       }
       $user_data_json = json_encode($user_data);
 
-      // Set session variable
-      if (!isset($_SESSION['username'])) {
-        header("Location: login.php"); //Redirect to login page if not logged in 
-        exit();
-      }
+        // Set cookie
+        setcookie('user_data', $user_data_json, time() + (86400 * 30), "/"); // set cookie
 
-      setcookie('user_data', $user_data_json, time() + (86400 * 30), "/"); // set cockie
-      if ($user_data['is_admin']) header("Location: admin/dashboard.php");
-      else if ($user_data['is_customer']) header("Location: index.php");
-      exit();
+        // Redirect based on user role
+        if ($user_data['is_admin']) {
+            header("Location: admin/dashboard.php");
+        } elseif ($user_data['is_staff']) {
+            header("Location: staff/dashboard.php"); // Assuming you have a staff dashboard
+        } elseif ($user_data['is_customer']) {
+            header("Location: customer/index.php");
+        }
+        exit();
     }
-    $ghr = true;
-  }
-  ?>
+
+    // If credentials are invalid
+    $ghr = true; // Set error flag
+}
+?>
 
   <section class="ftco-section ftco-no-pt ftco-no-pb">
     <div class="container">

@@ -24,10 +24,6 @@
     integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    .product-category {
-      padding: 2rem;
-    }
-
     .category-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -60,18 +56,71 @@
       margin-top: 0.5rem;
       font-size: 1rem;
     }
+
+    .search {
+      display: flex;
+      justify-content: center;
+      margin: 20px;
+    }
+
+    #search {
+      padding: 10px;
+      border: 2px solid #f96d00;
+      border-radius: 5px 0 0 5px;
+      outline: none;
+      flex-grow: 1;
+      width: 500px;
+    }
+
+    #search-bt {
+      background-color: #f96d00;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+    }
+
+    #search-bt i {
+      font-size: 16px;
+    }
+
+    .product {
+      margin: 20px 0;
+      display: inline-block;
+      width: 300px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .product .pimage {
+      background-size: cover;
+      background-position: center;
+      width: 100%;
+      height: 200px;
+      margin-bottom: 10px;
+    }
+
+    .des h4 {
+      color: #f96d00;
+    }
   </style>
 </head>
 
-<body style="margin-top: -30px">
+<body>
+  <!-- Navigation -->
   <nav>
     <a href="index.php" class="brand">ZeeStore</a>
     <section class="search">
-          <input type="text" id="search" placeholder="search" />
-          <button id="search-bt">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </section>
+      <form method="GET" action="">
+        <input type="text" id="search" name="query" placeholder="Search Products or Brand" />
+        <button type="submit" id="search-bt">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </section>
     <div>
       <ul id="navbar">
         <li><a href="index.php" class="active">Home</a></li>
@@ -101,7 +150,7 @@
   </nav>
   <!-- END nav -->
 
-  <section class="hero-wrap hero-wrap-2" style="background-image: url('images/home.jpg')"
+  <section class="hero-wrap hero-wrap-2" style="background-image: url('../images/shopping.jpg')"
     data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
@@ -125,45 +174,139 @@
   <div class="container">
     <h1>Category</h1>
     <div class="box">
-        <?php
-        // Include your database connection
-        require_once '../php/DbConnect.php';
-        
-        // Query to fetch products from the database
-        $result = $conn->query("SELECT * FROM `products` WHERE 1;");
-        
-        // Check if products are available
-        if ($result->num_rows > 0) {
-            // Loop through each product and display its details
-            while ($row = $result->fetch_assoc()) {
-                echo '<div class="product">';
-                
-                // Display the product image
-                echo '<div class="pimage" style="background-image: url(\'data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '\');"></div>';
-                
-                // Display product description
-                echo '<div class="des">';
-                echo '<span>' . htmlspecialchars($row['brand_id']) . '</span>';
-                echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
-                
-                // Display product rating as stars (assuming a 'rating' column exists in your products table)
-                
-                // Display product price
-                echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
-                echo '</div>';
-                
-                // Add to cart button
-                echo '<a href="addToCart.php?product_id=' . $row['product_id'] . '" class="cart">';
-                echo '<img src="../svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
-echo '</a>';
+    <?php
+// Include your database connection
+require_once '../php/DbConnect.php';
 
-                
-                echo '</div>'; // Close product div
-            }
-        } else {
-            echo '<p>No products found.</p>';
-        }
-        ?>
+// Get the search query if it exists
+$searchQuery = isset($_GET['query']) ? $_GET['query'] : '';
+
+// Prepare a SQL query based on the search input
+if ($searchQuery) {
+    // Search in both product_name and brand (assuming brand_id relates to a brand name or there's a brand table)
+    $stmt = $conn->prepare("
+        SELECT products.*, brand.brand_name 
+        FROM `products` 
+        JOIN `brand` ON products.brand_id = brand.brand_id
+        WHERE `product_name` LIKE ? OR `brand_name` LIKE ?");
+    $likeQuery = '%' . $searchQuery . '%';
+    $stmt->bind_param('ss', $likeQuery, $likeQuery);
+} else {
+    // Fetch all products if no search query is provided
+    $stmt = $conn->prepare("
+        SELECT products.*, brand.brand_name 
+        FROM `products` 
+        JOIN `brand` ON products.brand_id = brand.brand_id");
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Check if products are available
+if ($result->num_rows > 0) {
+    // Loop through each product and display its details
+    while ($row = $result->fetch_assoc()) {
+        echo '<div class="product">';
+        
+        // Display the product image
+        echo '<div class="pimage" style="background-image: url(\'data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '\');"></div>';
+        
+        // Display product description with brand and product name
+        echo '<div class="des">';
+        echo '<span>' . htmlspecialchars($row['brand_name']) . '</span>';
+        echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
+        echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
+        echo '</div>';
+        
+        // Add to cart button
+        echo '<a href="addToCart.php?product_id=' . $row['product_id'] . '" class="cart">';
+        echo '<img src="../svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
+        echo '</a>';
+        
+        echo '</div>'; // Close product div
+    }
+} else {
+    echo '<p>No products found.</p>';
+}
+
+$stmt->close();
+?><!-- Quantity Modal -->
+<div id="quantityModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Select Quantity</h2>
+    <form id="quantityForm" method="GET" action="cart.php">
+      <input type="hidden" id="product_id" name="product_id" />
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" name="quantity" min="1" value="1" required />
+      <button type="submit" id="submitQuantity">Add to Cart</button>
+    </form>
+  </div>
+</div>
+
+<!-- CSS for Modal -->
+<style>
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .close {
+    color: red;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .close:hover {
+    color: darkred;
+  }
+</style>
+<script>
+  // Get the modal and elements
+  var modal = document.getElementById("quantityModal");
+  var span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks on Add to Cart button, show the modal
+  document.querySelectorAll('.cart').forEach(function(button) {
+    button.onclick = function(event) {
+      event.preventDefault();
+      var productId = this.getAttribute('data-id');
+      document.getElementById('product_id').value = productId;
+      modal.style.display = "block";
+    }
+  });
+
+  // When the user clicks on (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  };
+
+  // Close the modal when user clicks anywhere outside of it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+</script>
     </div>
 </div>
 
