@@ -8,6 +8,32 @@
 	session_start();
 ?>
 </head>
+<style>
+    /* CSS for Edit and Delete links */
+.table-cell a {
+    padding: 10px 15px;
+    margin: 5px;
+    text-decoration: none;
+    color: white; /* Default text color to white */
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.table-cell a:hover {
+    opacity: 0.8; /* Slight opacity change on hover */
+}
+
+/* Specific style for Edit (Green) */
+.table-cell a[href*='updateuser.php'] {
+    background-color: #28a745; /* Green color */
+}
+
+/* Specific style for Delete (Red) */
+.table-cell a[href*='deleteuser.php'] {
+    background-color: #dc3545; /* Red color */
+}
+
+</style>
 
 <body style="margin-top: -30px">
   <nav>
@@ -82,10 +108,10 @@
         </section>
         <div>
             <?php
-                    if(isset($_SESSION['added']))
+                    if(isset($_SESSION['create']))
                     {
-                    echo $_SESSION['added'];
-                    unset($_SESSION['added']);
+                    echo $_SESSION['create'];
+                    unset($_SESSION['create']);
                     }
 
                 if(isset($_SESSION['delete']))
@@ -104,7 +130,7 @@
         <button id="btt1">Add New User</button>
       </div>
       <div class="table-header parent">
-        <div class="table-header-data row">User ID</div>
+        <!-- <div class="table-header-data row">User ID</div> -->
         <div class="table-header-data row">User Name</div>
         <div class="table-header-data row">Email</div>
         <div class="table-header-data row">Address</div>
@@ -125,7 +151,7 @@
           // Loop through each product and display its details in the table
           while ($row = $result->fetch_assoc()) {
             echo "<div class='table-row parent'>";
-            echo "<div class='table-cell row'>" . $row['user_id'] . "</div>";
+            // echo "<div class='table-cell row'>" . $row['user_id'] . "</div>";
             echo "<div class='table-cell row'>" . $row['name'] . "</div>";
             echo "<div class='table-cell row'>" . $row['email'] . "</div>";
             echo "<div class='table-cell row'>" . $row['address'] . "</div>";

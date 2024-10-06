@@ -44,10 +44,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("sssssssiii", $name, $address, $dob, $username, $hashed_password, $email, $mobile, $is_admin, $is_staff, $is_customer);
 
         // Execute the query
+        // if ($stmt->execute()) {
+        // echo "<p>User created successfully!</p>";
+        // } else {
+        // $error = "Error: " . $stmt->error;
+        // }
+
         if ($stmt->execute()) {
-        echo "<p>User created successfully!</p>";
+            // User created successfully
+            $_SESSION['create'] = "<div class='success'><h3>User Created Successfully!</h3></div>";
+            header("Location: manageaccount.php"); // Redirect to a management page
         } else {
-        $error = "Error: " . $stmt->error;
+            // User creation failed
+            $_SESSION['create'] = "<div class='error'><h3>Failed to Create User!</h3></div>";
+            header("Location: manageaccount.php"); // Redirect back to the create user page
         }
 
         // Close the statement
