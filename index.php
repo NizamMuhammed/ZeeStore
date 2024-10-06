@@ -259,9 +259,9 @@
   require_once 'php/DbConnect.php';
   require_once 'php/panel.php';
 
-  $result = $conn->query("SELECT * FROM brand;");
+  $result = $conn->query("SELECT * FROM `category`;");
   while ($row = $result->fetch_assoc()) {
-    panel($row['brand_name'], $row['brand_id']);
+    panel($row['category_name'], $row['category_id']);
   }
   ?>
 

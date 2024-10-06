@@ -29,7 +29,7 @@ function panel($name, $id)
     $stmt->bind_param('ss', $likeQuery, $likeQuery);
   } else {
     // Fetch all products if no search query is provided
-    $stmt = $conn->prepare("SELECT brand.brand_name, products.* FROM products, brand WHERE brand.brand_id = products.brand_id AND brand.brand_id = $id;");
+    $stmt = $conn->prepare("SELECT brand.brand_name, products.* FROM products, brand WHERE products.category_id = $id and brand.brand_id = products.brand_id;");
   }
 
   $stmt->execute();
