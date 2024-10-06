@@ -58,7 +58,7 @@
   ?>
 
   <section class="admin-table">
-    <h2>Product catagory table</h2>
+  <br><br><h2>Product catagory table</h2>
     <span>view and manage product catagory information</span>
     <div class="table">
       <div class="searchAddS">
