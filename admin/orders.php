@@ -3,52 +3,15 @@
 
 <head>
   <title>ZeeStore - Orders</title>
-  <?php
-  require_once '../php/styles.php';
-  require_once '../php/DbConnect.php'; // Database connection
-  ?>
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    table,
-    th,
-    td {
-      border: 1px solid #dddddd;
-    }
-
-    th,
-    td {
-      padding: 12px;
-      text-align: left;
-    }
-
-    th {
-      background-color: #f2f2f2;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-  </style>
+  <?php require_once '../php/styles.php' ?>
 </head>
 
-<body>
-  <!-- Old Header Bar -->
+<body style="margin-top: -30px">
   <nav>
     <a href="index.html" class="brand">ZeeStore</a>
     <div>
       <ul id="navbar">
-        <li><a href="dashboard.php">Dashboard</a></li>
-        <li><a href="brand.php">Brands</a></li>
-        <li><a href="catagory.php">Category</a></li>
-        <li><a href="supplier.php">Suppliers</a></li>
-        <li><a href="product.php">Products</a></li>
-        <li><a href="orders.php" class="active">Orders</a></li>
-        <li><a href="payments.php">Payments</a></li>
+        <?php navigation(6) ?>
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
@@ -70,17 +33,29 @@
       <i id="bar" class="fas fa-outdent"></i>
     </div>
   </nav>
-  <!-- End of Header -->
+  <!-- END nav -->
 
-  <section class="hero-wrap hero-wrap-2" style="background-image: url('../images/shopping.jpg')" data-stellar-background-ratio="0.5">
+  <section
+    class="hero-wrap hero-wrap-2"
+    style="background-image: url('../images/shopping.jpg')"
+    data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
-      <div class="row no-gutters slider-text align-items-center justify-content-center">
+      <div
+        class="row no-gutters slider-text align-items-center justify-content-center">
         <div class="col-md-9 ftco-animate text-center">
-          <h1 class="mb-2 bread">Manage Orders</h1>
+          <h1 class="mb-2 bread">Manage Product Orders</h1>
           <p class="breadcrumbs">
-            <span class="mr-2"><a href="index.html">Dashboard <i class="ion-ios-arrow-forward"></i></a></span>
-            <span>Orders <i class="ion-ios-arrow-forward"></i></span>
+            <span class="mr-2">
+              <a href="index.html">
+                Dashboard
+                <i class="ion-ios-arrow-forward"></i>
+              </a>
+            </span>
+            <span>
+              Orders
+              <i class="ion-ios-arrow-forward"></i>
+            </span>
           </p>
         </div>
       </div>
@@ -89,57 +64,54 @@
   <!-- header -->
 
   <section class="admin-table">
-    <h2>Product table</h2>
-    <span>View and manage product details</span>
-    <div class="table">
+    <h2>Product Orders table</h2>
+    <span>View and manage product orders details</span>
+    <div class="table" style="max-width:1400px; width:1100px">
       <div class="searchAddS">
         <section class="search">
-          <input type="text" id="search" placeholder="Search Orders" />
+          <input type="text" id="search" placeholder="Search orders" />
           <button id="search-bt">
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </section>
-        <button id="btt1">update</button>
+        <button id="btt1">Updata</button>
       </div>
       <div class="table-header parent">
         <div class="table-header-data row">Order ID</div>
-        <div class="table-header-data row">Customer Name</div>
-        <div class="table-header-data row">Products</div>
-        <div class="table-header-data row">Quantity</div>
-        <div class="table-header-data row">Amount</div>
+        <div class="table-header-data row">Customer</div>
+        <div class="table-header-data row">Total</div>
         <div class="table-header-data row">Date</div>
         <div class="table-header-data row">Status</div>
       </div>
 
-
       <div class="table-data">
         <?php
-        // Fetch orders from the database
+        require_once '../php/DbConnect.php'; // Make sure this file contains a valid connection object
+
+        // Fetch products from the database
         $result = $conn->query("SELECT * FROM orders");
 
-        // Check if any orders are found
+        // Check if any products are found
         if ($result && $result->num_rows > 0) {
 
-          // Loop through each order and display its details in the table
+          // Loop through each product and display its details in the table
           while ($row = $result->fetch_assoc()) {
             echo "<div class='table-row parent'>";
-            echo "<div class='table-cell row'>" . $row['id'] . "</div>";
-            echo "<div class='table-cell row'>" . $row['customer_name'] . "</div>";
-            echo "<div class='table-cell row'>" . $row['product_id'] . "</div>";
-            echo "<div class='table-cell row'>" . $row['quantity'] . "</div>";
+            echo "<div class='table-cell row'>" . $row['order_id'] . "</div>";
+            $result2 = $conn->query("SELECT name FROM user WHERE `user_id` = " . $row['customer_id'] . ";");
+            while ($row2 = $result2->fetch_assoc()) echo "<div class='table-cell row'>" . $row2['name'] . "</div>";
             echo "<div class='table-cell row'>" . $row['total_amount'] . "</div>";
             echo "<div class='table-cell row'>" . $row['order_date'] . "</div>";
-            $status = $row['quantity'] > 0 ? 'Active <i class="fa-solid fa-circle-check" style="margin-left:5px"></i>' : 'Out of stock';
-            echo "<div class='table-cell row'>" . $status . "</div>";
+            echo '<div class="table-cell row"><a>' . $row['status'] . '</a></div>';
             echo "</div>";
           }
-        } else {
-          echo "<div class='table-row parent'>No orders found</div>";
-        }
+          echo '<div class="flip parent close2" style="height: 60px; line-height: 60px;"><div class="row">No items found</div></div>';
+        } else echo "<div class='table-row parent'> No records found </div>";
         ?>
       </div>
     </div>
   </section>
+  <!-- table -->
 
   <?php require_once '../php/loader.php' ?>
   <?php require_once '../php/javaScripts.php' ?>
