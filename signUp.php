@@ -89,7 +89,7 @@
               
               This code is valid for the next 10 minutes. If you did not request this code, please ignore this email.<br/><br/>
               
-              If you encounter any issues or need further assistance, feel free to reach out to our support team at galleryCafe@gmail.com .<br/><br/>
+              If you encounter any issues or need further assistance, feel free to reach out to our support team at ZeeStore@gmail.com .<br/><br/>
               
               Welcome aboard!<br/><br/>
               
