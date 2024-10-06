@@ -126,26 +126,26 @@
   </style>
 </head>
 
-<body>
+<body style="margin-top: -30px">
   <!-- Navigation -->
   <nav>
     <a href="index.php" class="brand">
-    <img src="svg/logo.png" alt="ZeeStore Logo" class="logo" />
-    ZeeStore
-</a>
+      <img src="svg/logo.png" alt="ZeeStore Logo" class="logo" />
+      ZeeStore
+    </a>
 
-<style>
-.brand {
-    display: flex;
-    align-items: center;
-}
+    <style>
+      .brand {
+        display: flex;
+        align-items: center;
+      }
 
-.logo {
-    width: 60px;
-    height: auto;
-    margin-right: 8px;
-}
-</style>
+      .logo {
+        width: 60px;
+        height: auto;
+        margin-right: 8px;
+      }
+    </style>
     <section class="search">
       <form method="GET" action="">
         <input type="text" id="search" name="query" placeholder="Search Products or Brand" />
@@ -192,76 +192,78 @@
   <!-- header -->
 
   <div class="container">
-    <h1>Products
-    </h1>
+    <h1>Products</h1>
     <div class="box">
-    <?php
-// Include your database connection
-require_once 'php/DbConnect.php';
+      <?php
+      // Include your database connection
+      require_once 'php/DbConnect.php';
 
-// Get the search query if it exists
-$searchQuery = isset($_GET['query']) ? $_GET['query'] : '';
+      // Get the search query if it exists
+      $searchQuery = isset($_GET['query']) ? $_GET['query'] : '';
 
-// Prepare a SQL query based on the search input
-if ($searchQuery) {
-    // Search in both product_name and brand (assuming brand_id relates to a brand name or there's a brand table)
-    $stmt = $conn->prepare("
+      // Prepare a SQL query based on the search input
+      if ($searchQuery) {
+        // Search in both product_name and brand (assuming brand_id relates to a brand name or there's a brand table)
+        $stmt = $conn->prepare("
         SELECT products.*, brand.brand_name 
         FROM `products` 
         JOIN `brand` ON products.brand_id = brand.brand_id
         WHERE `product_name` LIKE ? OR `brand_name` LIKE ?");
-    $likeQuery = '%' . $searchQuery . '%';
-    $stmt->bind_param('ss', $likeQuery, $likeQuery);
-} else {
-    // Fetch all products if no search query is provided
-    $stmt = $conn->prepare("
+        $likeQuery = '%' . $searchQuery . '%';
+        $stmt->bind_param('ss', $likeQuery, $likeQuery);
+      } else {
+        // Fetch all products if no search query is provided
+        $stmt = $conn->prepare("
         SELECT products.*, brand.brand_name 
         FROM `products` 
         JOIN `brand` ON products.brand_id = brand.brand_id");
-}
+      }
 
-$stmt->execute();
-$result = $stmt->get_result();
+      $stmt->execute();
+      $result = $stmt->get_result();
 
-// Check if products are available
-if ($result->num_rows > 0) {
-    // Loop through each product and display its details
-    while ($row = $result->fetch_assoc()) {
-        echo '<div class="product">';
-        
-        // Display the product image
-        echo '<div class="pimage" style="background-image: url(\'data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '\');"></div>';
-        
-        // Display product description with brand and product name
-        echo '<div class="des">';
-        echo '<span>' . htmlspecialchars($row['brand_name']) . '</span>';
-        echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
-        echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
-        echo '</div>';
-        
-        // Add to cart button
-        echo '<a href="login.php" onclick="handleCartClick(event)">';
-echo '<img src="svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
-echo '</a>';
-        
-        echo '</div>'; // Close product div
-    }
-} else {
-    echo '<p>No products found.</p>';
-}
+      // Check if products are available
+      if ($result->num_rows > 0) {
+        // Loop through each product and display its details
+        while ($row = $result->fetch_assoc()) {
+          echo '<div class="product">';
 
-$stmt->close();
-?>
+          // Display the product image
+          echo '<div class="pimage" style="background-image: url(\'data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '\');"></div>';
 
-      <script>
-function handleCartClick(event) {
-    event.preventDefault(); // Prevent the default link behavior
-    alert("You need to log in or sign up to do this."); // Show alert
-    window.location.href = "login.php"; // Redirect to login page
-}
-</script>
+          // Display product description with brand and product name
+          echo '<div class="des">';
+          echo '<span>' . htmlspecialchars($row['brand_name']) . '</span>';
+          echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
+          echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
+          echo '</div>';
+
+          // Add to cart button
+          echo '<a href="login.php" onclick="handleCartClick(event)">';
+          echo '<img src="svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
+          echo '</a>';
+
+          echo '</div>'; // Close product div
+        }
+      } else {
+        echo '<p>No products found.</p>';
+      }
+
+      $stmt->close();
+      ?>
     </div>
   </div>
+
+  <?php
+  // Include your database connection
+  require_once 'php/DbConnect.php';
+  require_once 'php/panel.php';
+
+  $result = $conn->query("SELECT * FROM brand;");
+  while ($row = $result->fetch_assoc()) {
+    panel($row['brand_name'], $row['brand_id']);
+  }
+  ?>
 
 
   <div id="ftco-loader" class="show fullscreen">
@@ -287,6 +289,13 @@ function handleCartClick(event) {
   </div>
   <!-- loader -->
 
+  <script>
+    function handleCartClick(event) {
+      event.preventDefault(); // Prevent the default link behavior
+      alert("You need to log in or sign up to do this."); // Show alert
+      window.location.href = "login.php"; // Redirect to login page
+    }
+  </script>
   <script src="js/jquery.min.js"></script>
   <script src="js/jquery-migrate-3.0.1.min.js"></script>
   <script src="js/popper.min.js"></script>
@@ -307,4 +316,5 @@ function handleCartClick(event) {
   <script src="js/home.js"></script>
 </body>
 <?php include 'footer.php'; ?>
+
 </html>
