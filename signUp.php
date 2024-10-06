@@ -8,12 +8,12 @@
   <link
     rel="icon"
     type="image/x-icon"
-    href="svg/logo1.png"
+    href="svg/logo.png"
     media="(prefers-color-scheme: light)" />
   <link
     rel="icon"
     type="image/x-icon"
-    href="svg/logo1.png"
+    href="svg/logo.png"
     media="(prefers-color-scheme: dark)" />
   <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css" />
   <link rel="stylesheet" href="css/animate.css" />
@@ -148,7 +148,7 @@
               </div>
               <div class="col-md-12 mt-3">
                 <div class="form-group">
-                  <input type="submit" value="Submit" class="btn btn-primary py-3 px-5" />
+                  <input type="submit" value="Send mail to Verify" class="btn btn-primary py-3 px-5" />
                 </div>
               </div>
             </div>
