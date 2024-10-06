@@ -160,6 +160,11 @@
                     class="btn btn-primary py-3 px-5" />
                 </div>
               </div>
+              <div class="col-md-12 mt-3" style="margin: -50px 0;">
+                <div class="form-group">
+                  <p><a href="signUp.php">Sing up now</a></p>
+                </div>
+              </div>
             </div>
           </form>
           <?php if (isset($error)) echo "<p>$error</p>" ?>
