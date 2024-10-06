@@ -73,7 +73,7 @@ echo "Total Sales: " . number_format($total_sales, 2); // Format the total sales
       <ul id="navbar">
         <li><a href="dashboard.php" class="active">Dashboard</a></li>
         <li><a href="brand.php">Brands</a></li>
-        <li><a href="catagory.php">Category</a></li>
+        <li><a href="catagory.php">Catagory</a></li>
         <li><a href="supplier.php">Suppliers</a></li>
         <li><a href="product.php">Products</a></li>
         <li><a href="orders.php">Orders</a></li>  <!-- Added Orders tab -->

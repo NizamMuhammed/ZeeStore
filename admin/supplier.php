@@ -90,38 +90,9 @@
     </form>
   </div>
   <!-- popup -->
-
-  <section
-    class="hero-wrap hero-wrap-2"
-    style="background-image: url('../images/shopping.jpg')"
-    data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
-    <div class="container">
-      <div
-        class="row no-gutters slider-text align-items-center justify-content-center">
-        <div class="col-md-9 ftco-animate text-center">
-          <h1 class="mb-2 bread">Manage Suppliers</h1>
-          <p class="breadcrumbs">
-            <span class="mr-2">
-              <a href="index.html">
-                Dashboard
-                <i class="ion-ios-arrow-forward"></i>
-              </a>
-            </span>
-            <span>
-              Supplier
-              <i class="ion-ios-arrow-forward"></i>
-            </span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- header -->
-
   <section class="admin-table">
-    <h2>Supplier information table</h2>
-    <span>view and manage supplier information</span>
+  <br><br><h2>Manage Suppliers</h2>
+      <span>view and manage supplier information</span>
     <div class="table">
       <div class="searchAddS">
         <section class="search">

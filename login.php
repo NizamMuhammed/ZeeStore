@@ -125,10 +125,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   ?>
 
 
-  <section class="ftco-section ftco-no-pt ftco-no-pb">
+<section class="ftco-section ftco-no-pt ftco-no-pb" style="margin: 93px 0">
     <div class="container">
       <div class="row d-flex">
-        <div
+      <div
           class="col-md-5 ftco-animate img img-2"
           style="background-image: url(svg/logo.png)"></div>
         <div class="col-md-7 ftco-animate makereservation p-4 p-md-5">

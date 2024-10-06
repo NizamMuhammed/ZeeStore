@@ -129,7 +129,23 @@
 <body>
   <!-- Navigation -->
   <nav>
-    <a href="index.php" class="brand">ZeeStore</a>
+    <a href="index.php" class="brand">
+    <img src="svg/logo.png" alt="ZeeStore Logo" class="logo" />
+    ZeeStore
+</a>
+
+<style>
+.brand {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 60px;
+    height: auto;
+    margin-right: 8px;
+}
+</style>
     <section class="search">
       <form method="GET" action="">
         <input type="text" id="search" name="query" placeholder="Search Products or Brand" />
