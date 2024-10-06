@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 05, 2024 at 07:10 PM
+-- Generation Time: Oct 06, 2024 at 07:43 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -90,26 +90,52 @@ INSERT INTO `category` (`category_id`, `category_name`, `category_status`) VALUE
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orderproducts`
+--
+
+CREATE TABLE `orderproducts` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orderproducts`
+--
+
+INSERT INTO `orderproducts` (`id`, `order_id`, `product_id`, `quantity`) VALUES
+(1, 1, 8, 2),
+(2, 1, 6, 3),
+(3, 2, 8, 5),
+(4, 2, 7, 3),
+(5, 3, 7, 8),
+(6, 3, 8, 5);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `orders`
 --
 
 CREATE TABLE `orders` (
-  `id` int(11) NOT NULL,
-  `customer_name` varchar(255) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
   `total_amount` decimal(10,2) NOT NULL,
-  `order_date` datetime DEFAULT current_timestamp()
+  `order_date` datetime DEFAULT current_timestamp(),
+  `status` enum('pending','complete') NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `customer_name`, `product_id`, `quantity`, `total_amount`, `order_date`) VALUES
-(1, 'Alice Johnson', 1, 2, 500.00, '2024-10-05 14:17:10'),
-(2, 'Bob Smith', 2, 1, 250.00, '2024-10-05 14:17:10'),
-(3, 'Charlie Brown', 1, 3, 750.00, '2024-10-05 14:17:10');
+INSERT INTO `orders` (`order_id`, `customer_id`, `total_amount`, `order_date`, `status`) VALUES
+(1, 13, 34000.00, '2024-10-05 20:42:55', 'complete'),
+(2, 32, 84000.00, '2024-10-05 20:43:45', 'complete'),
+(3, 29, 6700.00, '2024-10-05 20:43:45', 'complete'),
+(4, 12, 89000.00, '2024-10-05 20:44:26', 'pending'),
+(5, 40, 60000.00, '2024-10-05 20:44:26', 'pending');
 
 -- --------------------------------------------------------
 
@@ -281,12 +307,6 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`category_id`);
 
 --
--- Indexes for table `orders`
---
-ALTER TABLE `orders`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `payments`
 --
 ALTER TABLE `payments`
@@ -322,12 +342,6 @@ ALTER TABLE `user`
 --
 ALTER TABLE `brand`
   MODIFY `brand_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- AUTO_INCREMENT for table `orders`
---
-ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `payments`
