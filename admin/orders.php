@@ -102,7 +102,7 @@
             while ($row2 = $result2->fetch_assoc()) echo "<div class='table-cell row'>" . $row2['name'] . "</div>";
             echo "<div class='table-cell row'>" . $row['total_amount'] . "</div>";
             echo "<div class='table-cell row'>" . $row['order_date'] . "</div>";
-            echo '<div class="table-cell row"><a>' . $row['status'] . '</a></div>';
+            echo '<div class="table-cell row"><a href="orderC.php?id=' . $row['order_id'] . '">' . $row['status'] . '</a></div>';
             echo "</div>";
           }
           echo '<div class="flip parent close2" style="height: 60px; line-height: 60px;"><div class="row">No items found</div></div>';
