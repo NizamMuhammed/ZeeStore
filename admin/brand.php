@@ -105,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <!-- header -->
 
   <section class="admin-table">
-    <h2>Manage Brands</h2>
+    <br><br><h2>Manage Brands</h2>
     <span>view and manage product brand information</span>
     <div class="table">
       <div class="searchAddS">
