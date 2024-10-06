@@ -1,4 +1,5 @@
-<head>
+<!DOCTYPE html>
+<html lang="en"><head>
     <title>ZeeStore - Home</title>
     <link rel="icon" type="image/x-icon" href="../svg/logo.png" media="(prefers-color-scheme: light)" />
     <link rel="icon" type="image/x-icon" href="../svg/logo.png" media="(prefers-color-scheme: dark)" />
@@ -148,7 +149,24 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <a href="index.php" class="brand">ZeeStore</a>
+    <a href="index.php" class="brand">
+    <img src="../svg/logo.png" alt="ZeeStore Logo" class="logo" />
+    ZeeStore
+</a>
+
+<style>
+.brand {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 60px;
+    height: auto;
+    margin-right: 8px;
+}
+</style>
+
         <section class="search">
             <form method="GET" action="">
                 <input type="text" id="search" name="query" placeholder="Search Products or Brand" />
@@ -160,7 +178,6 @@
         <div>
             <ul id="navbar">
                 <li><a href="index.php" class="active">Home</a></li>
-                <li><a href="../index.php">Logout</a></li>
                 <li><a href="order.php">Orders</a></li>
                 <li><a href="cart.php">Cart</a></li>
                 <li class="user" id="user">
@@ -170,7 +187,6 @@
                 <a href="#" id="close"><i class="far fa-times"></i></a>
             </ul>
             <div id="userbar">
-                <li><a href="settings.php">Setting</a></li>
                 <li><a href="../login.php">Logout</a></li>
                 <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
             </div>
@@ -301,19 +317,6 @@ $conn->close();
         </form>
     </div>
 </div>
-
-<footer class="ftco-footer ftco-bg-light ftco-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <p>
-                    &copy; 2024 ZeeStore. All rights reserved.
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
-
 <script>
     // Modal handling
     var modal = document.getElementById("myModal");
@@ -441,4 +444,5 @@ $conn->close();
   <script src="../js/main.js"></script>
   <script src="../js/home.js"></script>
 </body>
+<?php include '../footer.php'; ?>
 </html>

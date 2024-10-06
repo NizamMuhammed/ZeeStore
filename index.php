@@ -290,5 +290,5 @@ function handleCartClick(event) {
   <script src="js/main.js"></script>
   <script src="js/home.js"></script>
 </body>
-
+<?php include 'footer.php'; ?>
 </html>
