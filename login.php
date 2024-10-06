@@ -104,24 +104,24 @@
       }
       $user_data_json = json_encode($user_data);
 
-        // Set cookie
-        setcookie('user_data', $user_data_json, time() + (86400 * 30), "/"); // set cookie
+      // Set cookie
+      setcookie('user_data', $user_data_json, time() + (86400 * 30), "/"); // set cookie
 
-        // Redirect based on user role
-        if ($user_data['is_admin']) {
-            header("Location: admin/dashboard.php");
-        } elseif ($user_data['is_staff']) {
-            header("Location: staff/dashboard.php"); // Assuming you have a staff dashboard
-        } elseif ($user_data['is_customer']) {
-            header("Location: customer/index.php");
-        }
-        exit();
+      // Redirect based on user role
+      if ($user_data['is_admin']) {
+        header("Location: admin/dashboard.php");
+      } elseif ($user_data['is_staff']) {
+        header("Location: staff/dashboard.php"); // Assuming you have a staff dashboard
+      } elseif ($user_data['is_customer']) {
+        header("Location: customer/index.php");
+      }
+      exit();
     }
 
     // If credentials are invalid
     $ghr = true; // Set error flag
-}
-?>
+  }
+  ?>
 
   <section class="ftco-section ftco-no-pt ftco-no-pb">
     <div class="container">
@@ -166,7 +166,7 @@
               </div>
               <div class="col-md-12 mt-3" style="margin: -50px 0;">
                 <div class="form-group">
-                  <p><a href="signUp.php">Sing up now</a></p>
+                  <p> Not A Customer <a href="signUp.php">Sing up now</a></p>
                 </div>
               </div>
             </div>
