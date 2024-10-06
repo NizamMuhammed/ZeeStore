@@ -4,63 +4,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Statuses</title>
+    <title>ZeeStore - Orders</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #1a1a1a; /* Dark background */
+            background-color: #333; /* Dark gray background */
             margin: 0;
             padding: 0;
-            color: #f5f5f5;
+            color: #e0e0e0; /* Light gray text */
         }
 
+        /* Header Bar Styles */
+        header {
+            background-color: #444; /* Medium dark gray header */
+            padding: 10px 0;
+        }
+
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: #e0e0e0; /* Light gray title */
+            margin: 0;
+            font-size: 24px;
+        }
+
+        header ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        header ul li a {
+            color: #e0e0e0; /* Light gray links */
+            text-decoration: none;
+        }
+
+        /* Container */
         .container {
             max-width: 800px;
             margin: 50px auto;
             padding: 30px;
-            background-color: #2c2c2c; /* Darker container background */
+            background-color: #444; /* Medium gray background */
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
         }
 
         h2 {
             text-align: center;
-            color: #ffa500; /* Orange color for headers */
+            color: #bbb; /* Lighter gray for headings */
             margin-bottom: 30px;
             font-size: 28px;
             font-weight: 600;
         }
 
+        /* Table Styling */
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            background-color: #333; /* Table background */
+            background-color: #555; /* Table background - medium gray */
             border-radius: 8px;
         }
 
         table th, table td {
             padding: 14px;
             text-align: left;
-            color: #f5f5f5;
-            border-bottom: 1px solid #444; /* Border between rows */
+            color: #e0e0e0; /* Light gray text */
+            border-bottom: 1px solid #666; /* Border between rows - darker gray */
         }
 
         table th {
-            background-color: #444; /* Dark header background */
-            color: #ffa500;
+            background-color: #666; /* Dark gray table header */
+            color: #e0e0e0;
             font-weight: 500;
             font-size: 16px;
         }
 
         table tr:nth-child(even) {
-            background-color: #2c2c2c;
+            background-color: #4d4d4d; /* Lighter gray for even rows */
         }
 
         table tr:hover {
-            background-color: #3d3d3d;
+            background-color: #3d3d3d; /* Darker gray on hover */
         }
 
+        /* Status Badge Styles */
         .status {
             padding: 8px 12px;
             border-radius: 5px;
@@ -70,21 +104,22 @@
         }
 
         .status.processing {
-            background-color: #ffb200;
+            background-color: #b3b300; /* Soft yellow for processing */
         }
 
         .status.shipped {
-            background-color: #17a2b8;
+            background-color: #5da2b8; /* Grayish blue for shipped */
         }
 
         .status.delivered {
-            background-color: #28a745;
+            background-color: #5da47b; /* Muted green for delivered */
         }
 
         .status.cancelled {
-            background-color: #dc3545;
+            background-color: #b85d5d; /* Muted red for cancelled */
         }
 
+        /* Responsive Design */
         @media (max-width: 600px) {
             .container {
                 width: 90%;
@@ -98,37 +133,6 @@
             h2 {
                 font-size: 24px;
             }
-        }
-
-        /* Header Bar Styles */
-        header {
-            background-color: #1a1a1a; 
-            padding: 10px 0;
-        }
-
-        header nav {
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-        }
-
-        header h1 {
-            color: #ffa500; 
-            margin: 0; 
-            font-size: 24px;
-        }
-
-        header ul {
-            list-style: none; 
-            padding: 0; 
-            margin: 0; 
-            display: flex; 
-            gap: 20px;
-        }
-
-        header ul li a {
-            color: #f5f5f5; 
-            text-decoration: none;
         }
     </style>
 </head>
@@ -157,7 +161,7 @@
             <thead>
                 <tr>
                     <th>Order ID</th>
-                    <th>Product Name</th>
+                    <th>Customer ID</th>
                     <th>Order Date</th>
                     <th>Status</th>
                 </tr>
@@ -169,7 +173,7 @@
             $servername = "localhost"; // Replace with your server name
             $username = "root"; // Replace with your database username
             $password = ""; // Replace with your database password
-            $dbname = "zeestore"; // Replace with your database name
+            $dbname = "zee_store"; // Replace with your database name
 
             // Create connection
             $conn = new mysqli($servername, $username, $password, $dbname);
@@ -179,19 +183,23 @@
                 die("Connection failed: " . $conn->connect_error);
             }
 
-            // Replace 'customer_id' with the session or request identifier for logged-in customer
-            $customer_id = 1; // For example, static value for testing
+            // Retrieve user ID from cookies
+            if (isset($_COOKIE['user_data'])) {
+                $cookie_exampleData = stripslashes($_COOKIE['user_data']);
+                $arr = json_decode($_COOKIE['user_data'], true);
+                $customer_id = $arr['user_id'];
+            } 
 
             // SQL query to fetch orders for a specific customer
-            $sql = "SELECT id, product_name, order_date, status FROM orders WHERE customer_id = $customer_id";
+            $sql = "SELECT order_id, customer_id, total_amount, order_date, status FROM orders WHERE customer_id = $customer_id";
+            
             $result = $conn->query($sql);
-
-            if ($result->num_rows > 0) {
+            if ($result -> num_rows > 0) {
                 // Output data for each row
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
-                    echo "<td>" . $row['id'] . "</td>";
-                    echo "<td>" . $row['product_name'] . "</td>";
+                    echo "<td>" . $row['order_id'] . "</td>";
+                    echo "<td>" . $row['customer_id'] . "</td>";
                     echo "<td>" . $row['order_date'] . "</td>";
                     echo "<td><span class='status " . strtolower($row['status']) . "'>" . $row['status'] . "</span></td>";
                     echo "</tr>";
@@ -199,7 +207,6 @@
             } else {
                 echo "<tr><td colspan='4'>No orders found.</td></tr>";
             }
-
             $conn->close();
             ?>
 
