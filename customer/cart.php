@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+session_start(); // Start the session at the top
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <title>ZeeStore - Cart</title>
@@ -97,13 +99,47 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <a href="index.php" class="brand">ZeeStore</a>
-        <ul id="navbar">
-            <li><a href="index.php">Home</a></li>
-            <li><a href="order.php">Orders</a></li>
-            <li><a href="cart.php" class="active">Cart</a></li>
-            <li><a href="../index.php">Logout</a></li>
-        </ul>
+    <a href="index.php" class="brand">
+    <img src="../svg/logo.png" alt="ZeeStore Logo" class="logo" />
+    ZeeStore
+</a>
+
+<style>
+.brand {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 60px;
+    height: auto;
+    margin-right: 8px;
+}
+</style>
+        <div>
+            <ul id="navbar">
+                <li><a href="index.php" >Home</a></li>
+                <li><a href="order.php">Orders</a></li>
+                <li><a href="cart.php" class="active">Cart</a></li>
+                <li class="user" id="user">
+                    <div class="circle"></div>
+                    <i class="fa fa-user"></i>
+                </li>
+                <a href="#" id="close"><i class="far fa-times"></i></a>
+            </ul>
+            <div id="userbar">
+                <li><a href="../login.php">Logout</a></li>
+                <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
+            </div>
+        </div>
+        <div class="show">
+            <div class="user2" id="user2">
+                <div class="circle"></div>
+                <i class="fa fa-user"></i>
+                <i class="fa fa-exclamation-circle"></i>
+            </div>
+            <i id="bar" class="fas fa-outdent"></i>
+        </div>
     </nav>
     <!-- END nav -->
 
@@ -120,7 +156,6 @@
             </thead>
             <tbody>
             <?php
-                session_start();
                 if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
                     $total = 0;
                     foreach ($_SESSION['cart'] as $item) {
@@ -157,17 +192,6 @@
             </form>
         </div>
     </div>
-
-    <footer class="ftco-footer ftco-bg-light ftco-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <p>&copy; 2024 ZeeStore. All rights reserved.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
     <script src="../js/jquery.min.js"></script>
     <script>
         // Modal handling
@@ -200,4 +224,5 @@
         }
     </script>
 </body>
+<?php include '../footer.php'; ?>
 </html>

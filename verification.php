@@ -85,7 +85,7 @@
     $otp = $user_data['otp'];
     if ($code != $otp) $ghr = "Wrong code inserted";
     else {
-      if (array_key_exists('name', $user_data))  $sql = "INSERT INTO `user` (`name`, `address`, `dob`, `username`, `password`, `email`, `mobile`,`is_customer`) VALUES ('" . $user_data['name'] . "', '" . $user_data['address'] . "', '" . $user_data['day'] . "', '" . $user_data['uname'] . "', '" . $user_data['password'] . "', '" . $user_data['email'] . "', '" . $user_data['mobile'] . "', '1') ";
+      if (array_key_exists('name', $user_data))  $sql = "INSERT INTO `user` (`user_id`,`name`, `address`, `dob`, `username`, `password`, `email`, `mobile`,`is_customer`) VALUES ( Null ,'" . $user_data['name'] . "', '" . $user_data['address'] . "', '" . $user_data['day'] . "', '" . $user_data['uname'] . "', '" . $user_data['password'] . "', '" . $user_data['email'] . "', '" . $user_data['mobile'] . "', '1') ";
       else  $sql = "UPDATE `user` SET `password`='" . $user_data['password'] . "' WHERE `username` = '" . $user_data['uname'] . "' AND `email` = '" . $user_data['email'] . "'; ";
 
       if ($conn->query($sql)) {
