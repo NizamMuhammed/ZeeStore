@@ -79,51 +79,45 @@
 
 
   <?php
-require_once './php/DbConnect.php';
-session_start(); // Start the session if it's not already started
-$ghr = false;
+  require_once './php/DbConnect.php';
+  $ghr = false;
 
-// Check if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Check if form is submitted
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Retrieve form data and confirm with database
-    $result = $conn->query("SELECT * FROM user WHERE username = '" . $conn->real_escape_string($_POST['username']) . "' AND password = '" . $conn->real_escape_string($_POST['password']) . "' AND is_active = true;");
-    
+    // Retrieve form data and confirm with data base
+    $result = $conn->query("SELECT * FROM user WHERE username = '" . $_POST['username'] . "' AND password = '" . $_POST['password'] . "' AND is_active = true;");
     if ($result->num_rows > 0) {
-        // Set session variable username
-        $_SESSION['username'] = $_POST['username'];
 
-        // Create user data array in JSON format
-        while ($row = $result->fetch_assoc()) {
-            $user_data = [
-                'name' => $row['name'],
-                'user_id' => $row['user_id'],
-                'is_admin' => $row['is_admin'],
-                'is_staff' => $row['is_staff'],
-                'is_customer' => $row['is_customer']
-            ];
-        }
-        $user_data_json = json_encode($user_data);
+      // set session varieble username
+      $_SESSION['username'] = $_POST['username'];
 
-        // Set cookie
-        setcookie('user_data', $user_data_json, time() + (86400 * 30), "/"); // set cookie
+      // create uswer data array json
+      while ($row = $result->fetch_assoc()) {
+        $user_data = [
+          'name' => $row['name'],
+          'user_id' => $row['user_id'],
+          'is_admin' => $row['is_admin'],
+          'is_staff' => $row['is_staff'],
+          'is_customer' => $row['is_customer']
+        ];
+      }
+      $user_data_json = json_encode($user_data);
 
-        // Redirect based on user role
-        if ($user_data['is_admin']) {
-            header("Location: admin/dashboard.php");
-        } elseif ($user_data['is_staff']) {
-            header("Location: staff/dashboard.php"); // Assuming you have a staff dashboard
-        } elseif ($user_data['is_customer']) {
-            header("Location: customer/index.php");
-        }
+      // Set session variable
+      if (!isset($_SESSION['username'])) {
+        header("Location: login.php"); //Redirect to login page if not logged in 
         exit();
+      }
+
+      setcookie('user_data', $user_data_json, time() + (86400 * 30), "/"); // set cockie
+      if ($user_data['is_admin']) header("Location: admin/dashboard.php");
+      else if ($user_data['is_customer']) header("Location: index.php");
+      exit();
     }
-
-    // If credentials are invalid
-    $ghr = true; // Set error flag
-}
-?>
-
+    $ghr = true;
+  }
+  ?>
 
   <section class="ftco-section ftco-no-pt ftco-no-pb">
     <div class="container">
@@ -164,6 +158,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     type="submit"
                     value="Login"
                     class="btn btn-primary py-3 px-5" />
+                </div>
+              </div>
+              <div class="col-md-12 mt-3" style="margin: -50px 0;">
+                <div class="form-group">
+                  <p><a href="signUp.php">Sing up now</a></p>
                 </div>
               </div>
             </div>

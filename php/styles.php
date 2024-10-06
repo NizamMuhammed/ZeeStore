@@ -1,12 +1,12 @@
 <link
   rel="icon"
   type="image/x-icon"
-  href="../svg/logo.png"
+  href="../svg/logo2.png"
   media="(prefers-color-scheme: light)" />
 <link
   rel="icon"
   type="image/x-icon"
-  href="../svg/logo.png"
+  href="../svg/logo1.png"
   media="(prefers-color-scheme: dark)" />
 <meta charset="utf-8" />
 <meta
