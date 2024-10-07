@@ -105,30 +105,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $user_data_json = json_encode($user_data);
 
-        // Set cookie
-        setcookie('user_data', $user_data_json, time() + (86400 * 30), "/"); // set cookie
+      // Set cookie
+      setcookie('user_data', $user_data_json, time() + (86400 * 30), "/"); // set cookie
 
-        // Redirect based on user role
-        if ($user_data['is_admin']) {
-            header("Location: admin/dashboard.php");
-        } elseif ($user_data['is_staff']) {
-            header("Location: staff/dashboard.php"); // Assuming you have a staff dashboard
-        } elseif ($user_data['is_customer']) {
-            header("Location: customer/index.php");
-        }
-        exit();
+      // Redirect based on user role
+      if ($user_data['is_admin']) {
+        header("Location: admin/dashboard.php");
+      } elseif ($user_data['is_staff']) {
+        header("Location: staff/dashboard.php"); // Assuming you have a staff dashboard
+      } elseif ($user_data['is_customer']) {
+        header("Location: customer/index.php");
+      }
+      exit();
     }
 
     // If credentials are invalid
     $ghr = true; // Set error flag
-}
-?>
+  }
+  ?>
 
 
-  <section class="ftco-section ftco-no-pt ftco-no-pb">
+<section class="ftco-section ftco-no-pt ftco-no-pb" style="margin: 93px 0">
     <div class="container">
       <div class="row d-flex">
-        <div
+      <div
           class="col-md-5 ftco-animate img img-2"
           style="background-image: url(svg/logo.png)"></div>
         <div class="col-md-7 ftco-animate makereservation p-4 p-md-5">
@@ -164,6 +164,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     type="submit"
                     value="Login"
                     class="btn btn-primary py-3 px-5" />
+                </div>
+              </div>
+              <div class="col-md-12 mt-3" style="margin: -50px 0;">
+                <div class="form-group">
+                  <p> Not A Customer <a href="signUp.php">Sing up now</a></p>
                 </div>
               </div>
             </div>

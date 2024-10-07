@@ -18,6 +18,7 @@
         <li><a href="product.php" class="active">Products</a></li>
         <li><a href="orders.php">Orders</a></li>  <!-- Added Orders tab -->
         <li><a href="payments.php">Payments</a></li>  <!-- Added Payments tab -->
+        <li><a href="manageaccount.php">Accounts</a></li>  
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
@@ -25,8 +26,8 @@
         <a href="#" id="close"><i class="far fa-times"></i></a>
       </ul>
       <div id="userbar">
-        <li><a href="settings.php">Setting</a></li>
         <li><a href="../login.php">Logout</a></li>
+        <li><a href="newusercreate.php">Create Account</a></li>
         <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
       </div>
     </div>
@@ -168,37 +169,8 @@
     </form>
   </div>
   <!-- popup -->
-
-  <section
-    class="hero-wrap hero-wrap-2"
-    style="background-image: url('../images/shopping.jpg')"
-    data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
-    <div class="container">
-      <div
-        class="row no-gutters slider-text align-items-center justify-content-center">
-        <div class="col-md-9 ftco-animate text-center">
-          <h1 class="mb-2 bread">Manage Products</h1>
-          <p class="breadcrumbs">
-            <span class="mr-2">
-              <a href="index.html">
-                Dashboard
-                <i class="ion-ios-arrow-forward"></i>
-              </a>
-            </span>
-            <span>
-              Products
-              <i class="ion-ios-arrow-forward"></i>
-            </span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- header -->
-
-  <section class="admin-table">
-    <h2>Product table</h2>
+<section class="admin-table">
+<br><br><h2>Manage Product</h2>
     <span>View and manage product details</span>
     <div class="table">
       <div class="searchAddS">

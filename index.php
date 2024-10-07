@@ -74,65 +74,86 @@
       font-size: 1rem;
     }
 
-    /* Style for the search section */
-.search {
-  display: flex;
-  justify-content: center; /* Center the search bar if desired */
-  margin: 20px; /* Add some margin */
-}
+    .search {
+      display: flex;
+      justify-content: center;
+      margin: 20px;
+    }
 
-/* Style for the input field */
-#search {
-  padding: 10px;
-  border: 2px solid #f96d00; /* Orange border */
-  border-radius: 5px 0 0 5px; /* Rounded corners */
-  outline: none;
-  transition: border-color 0.3s;
-  flex-grow: 1; /* Allow input to grow */
-  width: 500px; /* Set a longer width, e.g., 400px */
-}
+    #search {
+      padding: 10px;
+      border: 2px solid #f96d00;
+      border-radius: 5px 0 0 5px;
+      outline: none;
+      flex-grow: 1;
+      width: 500px;
+    }
 
-/* Change border color on focus */
-#search:focus {
-  border-color: #ff8800; /* Darker orange when focused */
-}
+    #search-bt {
+      background-color: #f96d00;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+    }
 
-/* Style for the search button */
-#search-bt {
-  background-color: #f96d00; /* Orange background */
-  border: none;
-  color: white; /* White text */
-  padding: 10px 15px;
-  border-radius: 0 5px 5px 0; /* Rounded corners */
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+    #search-bt i {
+      font-size: 16px;
+    }
 
-/* Change background color on hover */
-#search-bt:hover {
-  background-color: #ff8800; /* Darker orange on hover */
-}
+    .product {
+      margin: 20px 0;
+      display: inline-block;
+      width: 300px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+    }
 
-/* Icon styles */
-#search-bt i {
-  font-size: 16px; /* Adjust icon size */
-}
+    .product .pimage {
+      background-size: cover;
+      background-position: center;
+      width: 100%;
+      height: 200px;
+      margin-bottom: 10px;
+    }
+
+    .des h4 {
+      color: #f96d00;
+    }
   </style>
 </head>
 
 <body style="margin-top: -30px">
+  <!-- Navigation -->
   <nav>
-    <a href="index.php" class="brand">ZeeStore</a>
-    <section class="search">
-  <form method="GET" action="">
-    <input type="text" id="search" name="query" placeholder="search" />
-    <button type="submit" id="search-bt">
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
-  </form>
-</section>
+    <a href="index.php" class="brand">
+      <img src="svg/logo.png" alt="ZeeStore Logo" class="logo" />
+      ZeeStore
+    </a>
 
-</section>
+    <style>
+      .brand {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo {
+        width: 60px;
+        height: auto;
+        margin-right: 8px;
+      }
+    </style>
+    <section class="search">
+      <form method="GET" action="">
+        <input type="text" id="search" name="query" placeholder="Search Products or Brand" />
+        <button type="submit" id="search-bt">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </section>
     <div>
       <ul id="navbar">
         <li><a href="index.php" class="active">Home</a></li>
@@ -149,7 +170,7 @@
   </nav>
   <!-- END nav -->
 
-  <section class="hero-wrap hero-wrap-2" style="background-image: url('images/home.jpg')"
+  <section class="hero-wrap hero-wrap-2" style="background-image: url('images/shopping.jpg')"
     data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
@@ -171,76 +192,78 @@
   <!-- header -->
 
   <div class="container">
-    <h1>Rising Trends
-    </h1>
+    <h1>Products</h1>
     <div class="box">
-    <?php
-// Include your database connection
-require_once 'php/DbConnect.php';
+      <?php
+      // Include your database connection
+      require_once 'php/DbConnect.php';
 
-// Get the search query if it exists
-$searchQuery = isset($_GET['query']) ? $_GET['query'] : '';
+      // Get the search query if it exists
+      $searchQuery = isset($_GET['query']) ? $_GET['query'] : '';
 
-// Prepare a SQL query based on the search input
-if ($searchQuery) {
-    // Search in both product_name and brand (assuming brand_id relates to a brand name or there's a brand table)
-    $stmt = $conn->prepare("
+      // Prepare a SQL query based on the search input
+      if ($searchQuery) {
+        // Search in both product_name and brand (assuming brand_id relates to a brand name or there's a brand table)
+        $stmt = $conn->prepare("
         SELECT products.*, brand.brand_name 
         FROM `products` 
         JOIN `brand` ON products.brand_id = brand.brand_id
         WHERE `product_name` LIKE ? OR `brand_name` LIKE ?");
-    $likeQuery = '%' . $searchQuery . '%';
-    $stmt->bind_param('ss', $likeQuery, $likeQuery);
-} else {
-    // Fetch all products if no search query is provided
-    $stmt = $conn->prepare("
+        $likeQuery = '%' . $searchQuery . '%';
+        $stmt->bind_param('ss', $likeQuery, $likeQuery);
+      } else {
+        // Fetch all products if no search query is provided
+        $stmt = $conn->prepare("
         SELECT products.*, brand.brand_name 
         FROM `products` 
         JOIN `brand` ON products.brand_id = brand.brand_id");
-}
+      }
 
-$stmt->execute();
-$result = $stmt->get_result();
+      $stmt->execute();
+      $result = $stmt->get_result();
 
-// Check if products are available
-if ($result->num_rows > 0) {
-    // Loop through each product and display its details
-    while ($row = $result->fetch_assoc()) {
-        echo '<div class="product">';
-        
-        // Display the product image
-        echo '<div class="pimage" style="background-image: url(\'data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '\');"></div>';
-        
-        // Display product description with brand and product name
-        echo '<div class="des">';
-        echo '<span>' . htmlspecialchars($row['brand_name']) . '</span>';
-        echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
-        echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
-        echo '</div>';
-        
-        // Add to cart button
-        echo '<a href="login.php" onclick="handleCartClick(event)">';
-echo '<img src="svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
-echo '</a>';
-        
-        echo '</div>'; // Close product div
-    }
-} else {
-    echo '<p>No products found.</p>';
-}
+      // Check if products are available
+      if ($result->num_rows > 0) {
+        // Loop through each product and display its details
+        while ($row = $result->fetch_assoc()) {
+          echo '<div class="product">';
 
-$stmt->close();
-?>
+          // Display the product image
+          echo '<div class="pimage" style="background-image: url(\'data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '\');"></div>';
 
-      <script>
-function handleCartClick(event) {
-    event.preventDefault(); // Prevent the default link behavior
-    alert("You need to log in or sign up to do this."); // Show alert
-    window.location.href = "login.php"; // Redirect to login page
-}
-</script>
+          // Display product description with brand and product name
+          echo '<div class="des">';
+          echo '<span>' . htmlspecialchars($row['brand_name']) . '</span>';
+          echo '<h5>' . htmlspecialchars($row['product_name']) . '</h5>';
+          echo '<h4>Rs.' . number_format($row['price'], 2) . '</h4>';
+          echo '</div>';
+
+          // Add to cart button
+          echo '<a href="login.php" onclick="handleCartClick(event)">';
+          echo '<img src="svg/shopping-cart-svgrepo-com.svg" style="width: 24px; height: 24px;" />';
+          echo '</a>';
+
+          echo '</div>'; // Close product div
+        }
+      } else {
+        echo '<p>No products found.</p>';
+      }
+
+      $stmt->close();
+      ?>
     </div>
   </div>
+
+  <?php
+  // Include your database connection
+  require_once 'php/DbConnect.php';
+  require_once 'php/panel.php';
+
+  $result = $conn->query("SELECT * FROM `category`;");
+  while ($row = $result->fetch_assoc()) {
+    panel($row['category_name'], $row['category_id']);
+  }
+  ?>
 
 
   <div id="ftco-loader" class="show fullscreen">
@@ -266,6 +289,13 @@ function handleCartClick(event) {
   </div>
   <!-- loader -->
 
+  <script>
+    function handleCartClick(event) {
+      event.preventDefault(); // Prevent the default link behavior
+      alert("You need to log in or sign up to do this."); // Show alert
+      window.location.href = "login.php"; // Redirect to login page
+    }
+  </script>
   <script src="js/jquery.min.js"></script>
   <script src="js/jquery-migrate-3.0.1.min.js"></script>
   <script src="js/popper.min.js"></script>
@@ -285,5 +315,6 @@ function handleCartClick(event) {
   <script src="js/main.js"></script>
   <script src="js/home.js"></script>
 </body>
+<?php include 'footer.php'; ?>
 
 </html>

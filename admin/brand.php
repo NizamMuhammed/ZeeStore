@@ -18,6 +18,7 @@
         <li><a href="product.php">Products</a></li>
         <li><a href="orders.php">Orders</a></li>  <!-- Added Orders tab -->
         <li><a href="payments.php">Payments</a></li>  <!-- Added Payments tab -->
+        <li><a href="manageaccount.php">Accounts</a></li>  
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
@@ -25,8 +26,8 @@
         <a href="#" id="close"><i class="far fa-times"></i></a>
       </ul>
       <div id="userbar">
-        <li><a href="settings.php">Setting</a></li>
         <li><a href="../login.php">Logout</a></li>
+        <li><a href="newusercreate.php">Create Account</a></li>
         <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
       </div>
     </div>
@@ -42,12 +43,11 @@
   <!-- END nav -->
 
   <?php
-  require_once '../php/DbConnect.php';
-  $ghr = "";
+require_once '../php/DbConnect.php';
+$ghr = "";
 
-  // retreve data if form is submitted
-  if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+// Retrieve data if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get image file info
     $image = $_FILES['image']['tmp_name'];
     $iimage_type = $_FILES['image']['type'];
@@ -56,14 +56,18 @@
     // Read the image as a binary string
     $image_data = addslashes(file_get_contents($image));
 
-    // input data to db
+    // Input data to db
     $sql = "INSERT INTO `brand`(`brand_name`,`image`, `image_type`) VALUES ('" . $_POST['name'] . "','$image_data', '$iimage_type')";
-    $result1 = $conn->query("SELECT * FROM brand WHERE brand_name = '" . $_POST['name'] . "' ;");
-    if ($result1->num_rows > 0)  $ghr = "Brand already exists";
-    elseif ($conn->query($sql)) {
-      $ghr = "Process successfully done";
-    } else $ghr = "Invalid data detected";
-  }
+    $result1 = $conn->query("SELECT * FROM brand WHERE brand_name = '" . $_POST['name'] . "';");
+    
+    if ($result1->num_rows > 0) {
+        $ghr = "Brand already exists";
+    } elseif ($conn->query($sql)) {
+        $ghr = "Process successfully done";
+    } else {
+        $ghr = "Invalid data detected";
+    }
+}
   ?>
 
   <div class="popup <?php if ($ghr == "") echo "hide"; ?>">
@@ -99,37 +103,10 @@
     <?php if (isset($error)) echo "<p>$error</p>" ?>
   </div>
   <!-- popup -->
-
-  <section
-    class="hero-wrap hero-wrap-2"
-    style="background-image: url('../images/shopping.jpg')"
-    data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
-    <div class="container">
-      <div
-        class="row no-gutters slider-text align-items-center justify-content-center">
-        <div class="col-md-9 ftco-animate text-center">
-          <h1 class="mb-2 bread">Manage Brands</h1>
-          <p class="breadcrumbs">
-            <span class="mr-2">
-              <a href="index.html">
-                Dashboard
-                <i class="ion-ios-arrow-forward"></i>
-              </a>
-            </span>
-            <span>
-              Brands
-              <i class="ion-ios-arrow-forward"></i>
-            </span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
   <!-- header -->
 
   <section class="admin-table">
-    <h2>Product brand table</h2>
+    <br><br><h2>Manage Brands</h2>
     <span>view and manage product brand information</span>
     <div class="table">
       <div class="searchAddS">
@@ -144,40 +121,42 @@
       <div class="table-header parent">
         <div class="table-header-data row">Brand ID</div>
         <div class="table-header-data row">Name</div>
-        <div class="table-header-data row">NO_Products</div>
-        <div class="table-header-data row">Status</div>
+        <div class="table-header-data row">No. of Products</div>
       </div>
       <div class="table-data">
         <?php
         // Make sure this file contains a valid connection object
         require_once '../php/DbConnect.php';
 
-        // Fetch products from the database
-        $result = $conn->query("SELECT * FROM `brand` WHERE 1; ");
+        $query = "
+    SELECT b.brand_id, b.brand_name, b.image, b.image_type, 
+           COUNT(p.product_id) AS product_count
+    FROM brand b
+    LEFT JOIN products p ON b.brand_id = p.brand_id
+    GROUP BY b.brand_id
+";
 
-        // Check if any products are found
-        if ($result->num_rows > 0) {
+$result = $conn->query($query);
 
-          // Loop through each product and display its details in the table
-          while ($row = $result->fetch_assoc()) {
-            echo "<div class='table-row parent'>";
-            echo "<div class='table-cell row'>" . $row['brand_id'] . "</div>";
-            echo "<div class='table-cell row'>";
-            echo $row['brand_name'];
-            echo "<div class='logo'>";
-            echo '<img src="data:' . $row['image_type'] . ';base64,' . base64_encode($row['image']) . '" alt="Image" />';
-            echo "</div>";
-            echo "</div>";
-            echo "<div class='table-cell row'>" . 20 . "</div>";
-            echo "<div class='table-cell row'>";
-            if ($row['brand_status']) echo "<a href='disable.php?id=" . $row['brand_id'] . "'> Active<i class='fa-solid fa-circle-check' style='margin-left:5px'></i></a>";
-            else echo "<a href='disable.php?id=" . $row['brand_id'] . "'> Disabled </a>";
-            echo "</div>";
-            echo "</div>";
-          }
-          echo '<div class="flip parent close2" style="height: 60px; line-height: 60px;"><div class="row">No items found</div></div>';
-        } else echo "<div class='table-row parent'> No records found </div>";
-        ?>
+// Check if any brands are found
+if ($result->num_rows > 0) {
+    // Loop through each brand and display its details in the table
+    while ($row = $result->fetch_assoc()) {
+        echo "<div class='table-row parent'>";
+        echo "<div class='table-cell row'>" . htmlspecialchars($row['brand_id']) . "</div>";
+        echo "<div class='table-cell row'>";
+        echo htmlspecialchars($row['brand_name']);
+        echo "<div class='logo'>";
+        echo '<img src="data:' . htmlspecialchars($row['image_type']) . ';base64,' . base64_encode($row['image']) . '" alt="Image" />';
+        echo "</div>";
+        echo "</div>";
+        echo "<div class='table-cell row'>" . htmlspecialchars($row['product_count']) . "</div>"; // Show product count
+        echo "</div>";
+    }
+} else {
+    echo "<div class='table-row parent'> No records found </div>";
+}
+?>
       </div>
     </div>
   </section>

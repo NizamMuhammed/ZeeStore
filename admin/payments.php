@@ -12,6 +12,7 @@
     <div>
       <ul id="navbar">
         <?php navigation(7) ?>
+        <li><a href="manageaccount.php">Accounts</a></li>  
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
@@ -19,8 +20,8 @@
         <a href="#" id="close"><i class="far fa-times"></i></a>
       </ul>
       <div id="userbar">
-        <li><a href="settings.php">Setting</a></li>
         <li><a href="../login.php">Logout</a></li>
+        <li><a href="newusercreate.php">Create Account</a></li>
         <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
       </div>
     </div>
@@ -35,37 +36,11 @@
   </nav>
   <!-- END nav -->
 
-  <section
-    class="hero-wrap hero-wrap-2"
-    style="background-image: url('../images/shopping.jpg')"
-    data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
-    <div class="container">
-      <div
-        class="row no-gutters slider-text align-items-center justify-content-center">
-        <div class="col-md-9 ftco-animate text-center">
-          <h1 class="mb-2 bread">Manage Order Payments</h1>
-          <p class="breadcrumbs">
-            <span class="mr-2">
-              <a href="index.html">
-                Dashboard
-                <i class="ion-ios-arrow-forward"></i>
-              </a>
-            </span>
-            <span>
-              Payments
-              <i class="ion-ios-arrow-forward"></i>
-            </span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- header -->
+ 
 
   <section class="admin-table">
-    <h2>Payment table</h2>
-    <span>View and manage payment details</span>
+  <br><br><h2>Manage Payments</h2>
+      <span>View and manage payment details</span>
     <div class="table" style="max-width:1400px; width:1300px">
       <div class="searchAddS">
         <section class="search">
@@ -74,7 +49,7 @@
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </section>
-        <button id="btt1">Updata</button>
+        <button id="btt1">Update</button>
       </div>
       <div class="table-header parent">
         <div class="table-header-data row">Payment ID</div>
