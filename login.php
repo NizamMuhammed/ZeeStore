@@ -112,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if ($user_data['is_admin']) {
         header("Location: admin/dashboard.php");
       } elseif ($user_data['is_staff']) {
-        header("Location: staff/dashboard.php"); // Assuming you have a staff dashboard
+        header("Location: staff/order.php"); // Assuming you have a staff dashboard
       } elseif ($user_data['is_customer']) {
         header("Location: customer/index.php");
       }

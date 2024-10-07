@@ -79,7 +79,7 @@ $conn->close();
 <html lang="en">
 
 <head>
-  <title>ZeeStore-Update User Details</title>
+  <title>ZeeStore - Update User Details</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <?php require_once '../php/styles.php' ?>
