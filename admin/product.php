@@ -16,9 +16,9 @@
         <li><a href="catagory.php">Catagory</a></li>
         <li><a href="supplier.php">Suppliers</a></li>
         <li><a href="product.php" class="active">Products</a></li>
-        <li><a href="orders.php">Orders</a></li>  <!-- Added Orders tab -->
-        <li><a href="payments.php">Payments</a></li>  <!-- Added Payments tab -->
-        <li><a href="manageaccount.php">Accounts</a></li>  
+        <li><a href="orders.php">Orders</a></li> <!-- Added Orders tab -->
+        <li><a href="payments.php">Payments</a></li> <!-- Added Payments tab -->
+        <li><a href="manageaccount.php">Accounts</a></li>
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
@@ -169,8 +169,9 @@
     </form>
   </div>
   <!-- popup -->
-<section class="admin-table">
-<br><br><h2>Manage Product</h2>
+  <section class="admin-table">
+    <br><br>
+    <h2>Manage Product</h2>
     <span>View and manage product details</span>
     <div class="table">
       <div class="searchAddS">
@@ -186,7 +187,7 @@
         <div class="table-header-data row">Product ID</div>
         <div class="table-header-data row">Name</div>
         <div class="table-header-data row">Quantity</div>
-        <div class="table-header-data row">Status</div>
+        <div class="table-header-data row">Action</div>
       </div>
 
       <div class="table-data">
@@ -208,8 +209,13 @@
             echo "</div>";
             echo "</div>";
             echo "<div class='table-cell row'>" . $row['quantity'] . "</div>";
-            $status = $row['quantity'] > 0 ? 'Active<i class="fa-solid fa-circle-check" style="margin-left:5px"></i>' : 'Out ofstock'; // Set product status
-            echo '<div class="table-cell row"><a>' . $status . '</a></div>';
+
+            // Add the Edit & Delete link
+            echo "<div class='table-cell row'>";
+            echo "<a href='deleteProduct.php?user_id=" . $row['product_id'] . "' onclick='return confirm(\"Are you sure you want to delete this user?\")'>Delete</a>";
+            echo "</div>";
+
+
             echo "</div>";
           }
           echo '<div class="flip parent close2" style="height: 60px; line-height: 60px;"><div class="row">No items found</div></div>';
