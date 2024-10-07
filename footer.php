@@ -6,7 +6,7 @@
     <style>
       /* Footer Styles */
       footer {
-        background-color: #ff9900; /* Orange color */
+        background-color: #f96d00; /* Orange color */
         color: #ffffff;
         padding: 40px 20px;
       }
@@ -64,7 +64,7 @@
         right: 30px;
         z-index: 99;
         font-size: 12px;
-        background-color: #ff9900; /* Orange color */
+        background-color: #f96d00; /* Orange color */
         color: white;
         cursor: pointer;
         padding: 10px;

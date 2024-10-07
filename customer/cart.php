@@ -146,6 +146,7 @@ session_start(); // Start the session at the top
     <div class="container">
     <h1>Your Cart</h1>
     <table>
+        <button id="clearCartBtn" class="btn">Clear Cart</button><br>
         <thead>
             <tr>
                 <th>Product</th>
@@ -174,10 +175,9 @@ session_start(); // Start the session at the top
             }
         ?>
         </tbody>
-    </table>
-    <button id="openCheckoutBtn" class="btn">Open Checkout</button>
-    <a href="checkout.php" class="btn">Proceed to Checkout</a>
-    <button id="clearCartBtn" class="btn">Clear Cart</button> <!-- Clear Cart Button -->
+    </table><br>
+    <button id="openCheckoutBtn" class="btn">Cash On Delivery Checkout</button><br><br>
+    <a href="checkout.php" class="btn">Pay now</a>
 </div>
 
 <!-- Checkout Modal -->

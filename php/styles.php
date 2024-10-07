@@ -1,12 +1,12 @@
 <link
   rel="icon"
   type="image/x-icon"
-  href="../svg/logo2.png"
+  href="../svg/logo.png"
   media="(prefers-color-scheme: light)" />
 <link
   rel="icon"
   type="image/x-icon"
-  href="../svg/logo1.png"
+  href="../svg/logo.png"
   media="(prefers-color-scheme: dark)" />
 <meta charset="utf-8" />
 <meta
@@ -39,7 +39,7 @@ function navigation(int $n)
   echo ($n == 2) ? "<li><a class='active' href='brand.php'>Brands</a></li>" : "<li><a href='brand.php'>Brands</a></li>";
   echo ($n == 3) ? "<li><a class='active' href='catagory.php'>Catagory</a></li>" : "<li><a href='catagory.php'>Catagory</a></li>";
   echo ($n == 4) ? "<li><a class='active' href='supplier.php'>Suppliers</a></li>" : "<li><a href='supplier.php'>Suppliers</a></li>";
-  echo ($n == 5) ? "<li><a class='active' href='product.php'>Product</a></li>" : "<li><a href='product.php'>Product</a></li>";
+  echo ($n == 5) ? "<li><a class='active' href='product.php'>Products</a></li>" : "<li><a href='product.php'>Products</a></li>";
   echo ($n == 6) ? "<li><a class='active' href='orders.php'>Orders</a></li>" : "<li><a href='orders.php'>Orders</a></li>";
   echo ($n == 7) ? "<li><a class='active' href='payments.php'>Payments</a></li>" : "<li><a href='payments.php'>Payments</a></li>";
 }

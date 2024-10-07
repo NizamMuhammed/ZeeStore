@@ -6,8 +6,24 @@
 </head>
 
 <body style="margin-top: -30px">
-  <nav>
-    <a href="index.html" class="brand">ZeeStore</a>
+<nav>
+    <a href="index.php" class="brand">
+      <img src="../svg/logo.png" alt="ZeeStore Logo" class="logo" />
+      ZeeStore
+    </a>
+
+    <style>
+      .brand {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo {
+        width: 60px;
+        height: auto;
+        margin-right: 8px;
+      }
+    </style>
     <div>
             <ul id="navbar">
                 <li><a href="index.php" >Home</a></li>
@@ -72,5 +88,7 @@
   
   <?php require_once '../php/loader.php'; ?>
   <?php require_once '../php/javaScripts.php'; ?>
-</body>
+</body><br>
+<?php include '../footer.php'; ?>
+
 </html>

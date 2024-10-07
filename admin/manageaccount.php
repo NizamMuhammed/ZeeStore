@@ -36,11 +36,18 @@
 </style>
 
 <body style="margin-top: -30px">
-  <nav>
+<nav>
     <a href="index.html" class="brand">ZeeStore</a>
     <div>
       <ul id="navbar">
-        <?php navigation(7) ?>
+        <li><a href="Dashboard.php">Dashboard</a></li>
+        <li><a href="brand.php">Brands</a></li>
+        <li><a href="catagory.php">Catagory</a></li>
+        <li><a href="supplier.php">Suppliers</a></li>
+        <li><a href="product.php">Products</a></li>
+        <li><a href="orders.php">Orders</a></li>  <!-- Added Orders tab -->
+        <li><a href="payments.php">Payments</a></li>  <!-- Added Payments tab -->
+        <li><a href="manageaccount.php" class="active">Accounts</a></li>  
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
@@ -48,9 +55,8 @@
         <a href="#" id="close"><i class="far fa-times"></i></a>
       </ul>
       <div id="userbar">
-      <li><a href="settings.php">Setting</a></li>
         <li><a href="../login.php">Logout</a></li>
-        <li><a href="newusercreate.php">Accounts </a></li>
+        <li><a href="newusercreate.php">Create Account</a></li>
         <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
       </div>
     </div>
