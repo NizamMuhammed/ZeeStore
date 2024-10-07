@@ -6,63 +6,63 @@ session_start();
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Fetch data from the form
-    $name = $_POST['name'];
-    $address = $_POST['address'];
-    $dob = $_POST['day'];
-    $username = $_POST['uname'];
-    $password = $_POST['password'];
-    $email = $_POST['email'];
-    $mobile = $_POST['mobile'];
-    $usertype = $_POST['usertype'];
+  // Fetch data from the form
+  $name = $_POST['name'];
+  $address = $_POST['address'];
+  $dob = $_POST['day'];
+  $username = $_POST['uname'];
+  $password = $_POST['password'];
+  $email = $_POST['email'];
+  $mobile = $_POST['mobile'];
+  $usertype = $_POST['usertype'];
 
-    // Validate if the user already exists by checking mobile, username, and email
-    $result1 = $conn->query("SELECT * FROM user WHERE mobile = '" . $conn->real_escape_string($mobile) . "';");
-    $result2 = $conn->query("SELECT * FROM user WHERE username = '" . $conn->real_escape_string($username) . "';");
-    $result3 = $conn->query("SELECT * FROM user WHERE email = '" . $conn->real_escape_string($email) . "';");
+  // Validate if the user already exists by checking mobile, username, and email
+  $result1 = $conn->query("SELECT * FROM user WHERE mobile = '" . $conn->real_escape_string($mobile) . "';");
+  $result2 = $conn->query("SELECT * FROM user WHERE username = '" . $conn->real_escape_string($username) . "';");
+  $result3 = $conn->query("SELECT * FROM user WHERE email = '" . $conn->real_escape_string($email) . "';");
 
-    if ($result1->num_rows > 0) {
-        $error = "Mobile number already used";
-    } elseif ($result2->num_rows > 0) {
-        $error = "Username already used";
-    } elseif ($result3->num_rows > 0) {
-        $error = "Email already used";
-    } elseif ($_POST['password'] != $_POST['password2']) {
-        $error = "Passwords don't match";
-    } else {
-        // Set user role flags based on the user type
-        $is_admin = ($usertype == 'admin') ? 1 : 0;
-        $is_staff = ($usertype == 'Staff') ? 1 : 0;
-        $is_customer = ($usertype == 'customer') ? 1 : 0;
+  if ($result1->num_rows > 0) {
+    $error = "Mobile number already used";
+  } elseif ($result2->num_rows > 0) {
+    $error = "Username already used";
+  } elseif ($result3->num_rows > 0) {
+    $error = "Email already used";
+  } elseif ($_POST['password'] != $_POST['password2']) {
+    $error = "Passwords don't match";
+  } else {
+    // Set user role flags based on the user type
+    $is_admin = ($usertype == 'admin') ? 1 : 0;
+    $is_staff = ($usertype == 'Staff') ? 1 : 0;
+    $is_customer = ($usertype == 'customer') ? 1 : 0;
 
-        // Hash the password before storing it in the database
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    // Hash the password before storing it in the database
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-       // Prepare an SQL query to insert the new user into the database
-       $stmt = $conn->prepare("INSERT INTO user (name, address, dob, username, password, email, mobile, is_active, is_admin, is_staff, is_customer) 
+    // Prepare an SQL query to insert the new user into the database
+    $stmt = $conn->prepare("INSERT INTO user (name, address, dob, username, password, email, mobile, is_active, is_admin, is_staff, is_customer) 
        VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?)");
-        $stmt->bind_param("sssssssiii", $name, $address, $dob, $username, $hashed_password, $email, $mobile, $is_admin, $is_staff, $is_customer);
+    $stmt->bind_param("sssssssiii", $name, $address, $dob, $username, $hashed_password, $email, $mobile, $is_admin, $is_staff, $is_customer);
 
-        // Execute the query
-        // if ($stmt->execute()) {
-        // echo "<p>User created successfully!</p>";
-        // } else {
-        // $error = "Error: " . $stmt->error;
-        // }
+    // Execute the query
+    // if ($stmt->execute()) {
+    // echo "<p>User created successfully!</p>";
+    // } else {
+    // $error = "Error: " . $stmt->error;
+    // }
 
-        if ($stmt->execute()) {
-            // User created successfully
-            $_SESSION['create'] = "<div class='success'><h3>User Created Successfully!</h3></div>";
-            header("Location: manageaccount.php"); // Redirect to a management page
-        } else {
-            // User creation failed
-            $_SESSION['create'] = "<div class='error'><h3>Failed to Create User!</h3></div>";
-            header("Location: manageaccount.php"); // Redirect back to the create user page
-        }
-
-        // Close the statement
-        $stmt->close();
+    if ($stmt->execute()) {
+      // User created successfully
+      $_SESSION['create'] = "<div class='success'><h3>User Created Successfully!</h3></div>";
+      header("Location: manageaccount.php"); // Redirect to a management page
+    } else {
+      // User creation failed
+      $_SESSION['create'] = "<div class='error'><h3>Failed to Create User!</h3></div>";
+      header("Location: manageaccount.php"); // Redirect back to the create user page
     }
+
+    // Close the statement
+    $stmt->close();
+  }
 }
 
 // Close the database connection
@@ -86,11 +86,11 @@ $conn->close();
 </head>
 
 <style>
-    
+
 </style>
 
 <body>
-<nav>
+  <nav>
     <a href="index.html" class="brand">ZeeStore</a>
     <div>
       <ul id="navbar">
@@ -99,9 +99,9 @@ $conn->close();
         <li><a href="catagory.php">Catagory</a></li>
         <li><a href="supplier.php">Suppliers</a></li>
         <li><a href="product.php">Products</a></li>
-        <li><a href="orders.php">Orders</a></li>  <!-- Added Orders tab -->
-        <li><a href="payments.php">Payments</a></li>  <!-- Added Payments tab -->
-        <li><a href="manageaccount.php">Accounts</a></li>  
+        <li><a href="orders.php">Orders</a></li> <!-- Added Orders tab -->
+        <li><a href="payments.php">Payments</a></li> <!-- Added Payments tab -->
+        <li><a href="manageaccount.php">Accounts</a></li>
         <li class="user" id="user">
           <div class="circle"></div>
           <i class="fa fa-user"></i>
@@ -137,15 +137,14 @@ $conn->close();
           </div>
           <form action="#" class="formi" method="post">
             <div class="row">
-            <div class="col-md-6 form-group">
-              <label>User Type</label>
-              <select name="usertype" id="usertype" placeholder="User Type"required>
-                    <option value="admin">Admin</option>
-                    <option value="Staff">Staff</option>
-                    <option value="customer">Customer</option>
-              </select>
-            </div>
-              
+              <div class="col-md-6 form-group">
+                <label>User Type</label>
+                <select name="usertype" id="usertype" placeholder="User Type" class="form-control" required>
+                  <option value="admin">Admin</option>
+                  <option value="Staff" selected>Staff</option>
+                  <option value="customer">Customer</option>
+                </select>
+              </div>
               <div class="col-md-6 form-group">
                 <label>Name</label>
                 <input type="text" name="name" class="form-control" placeholder="User Full Name" required />
@@ -160,7 +159,7 @@ $conn->close();
               </div>
               <div class="col-md-6 form-group">
                 <label>Contact Number</label>
-                <input type="text" name="mobile" class="form-control" name="mobile"  placeholder="Contact number"required />
+                <input type="text" name="mobile" class="form-control" name="mobile" placeholder="Contact number" required />
               </div>
               <div class="col-md-6 form-group">
                 <label>Birth day</label>
@@ -181,13 +180,13 @@ $conn->close();
               <form action="newusercreate.php" class="formi" method="post">
                 <!-- User type, name, address, email, mobile, dob, username, password fields as defined in your code -->
                 <div class="col-md-12 mt-3">
-                <div class="form-group">
+                  <div class="form-group">
                     <input type="submit" value="Submit" class="btn btn-primary py-3 px-5" />
-                </div>
+                  </div>
                 </div>
               </form>
 
-              
+
             </div>
           </form>
           <?php if (isset($error)) echo "<p>$error</p>" ?>
