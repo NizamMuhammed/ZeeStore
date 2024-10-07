@@ -110,7 +110,7 @@
         <div class="table-header-data row">Email</div>
         <div class="table-header-data row">Address</div>
         <div class="table-header-data row">Contact</div>
-        <div class="table-header-data row">Action</div>
+        <div class="table-header-data row">Actions</div>
       </div>
 
       <div class="table-data">
