@@ -83,7 +83,7 @@
         <div class="footer-section">
           <h4>Get to Know Us</h4>
           <ul>
-            <li><a href="#">About ZeeStore</a></li>
+            <li><a href="php/about.php">About ZeeStore</a></li>
             <li><a href="#">Careers</a></li>
             <li><a href="#">Press Releases</a></li>
             <li><a href="#">ZeeStore Cares</a></li>
