@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>ZeeStore - Orders</title>
   <?php require_once '../php/styles.php'; ?>
 </head>
 
 <body style="margin-top: -30px">
-<nav>
+  <nav>
     <a href="index.php" class="brand">
       <img src="../svg/logo.png" alt="ZeeStore Logo" class="logo" />
       ZeeStore
@@ -25,31 +26,31 @@
       }
     </style>
     <div>
-            <ul id="navbar">
-                <li><a href="index.php" >Home</a></li>
-                <li><a href="order.php">Orders</a></li>
-                <li><a href="cart.php" class="active">Cart</a></li>
-                <li class="user" id="user">
-                    <div class="circle"></div>
-                    <i class="fa fa-user"></i>
-                </li>
-                <a href="#" id="close"><i class="far fa-times"></i></a>
-            </ul>
-            <div id="userbar">
-                <li><a href="../login.php">Logout</a></li>
-                <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
-            </div>
-        </div>
-        <div class="show">
-            <div class="user2" id="user2">
-                <div class="circle"></div>
-                <i class="fa fa-user"></i>
-                <i class="fa fa-exclamation-circle"></i>
-            </div>
-            <i id="bar" class="fas fa-outdent"></i>
-        </div>
-    </nav>
-  <!-- END nav -->  
+      <ul id="navbar">
+        <li><a href="index.php">Home</a></li>
+        <li><a href="order.php" class="active">Orders</a></li>
+        <li><a href="cart.php">Cart</a></li>
+        <li class="user" id="user">
+          <div class="circle"></div>
+          <i class="fa fa-user"></i>
+        </li>
+        <a href="#" id="close"><i class="far fa-times"></i></a>
+      </ul>
+      <div id="userbar">
+        <li><a href="../login.php">Logout</a></li>
+        <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
+      </div>
+    </div>
+    <div class="show">
+      <div class="user2" id="user2">
+        <div class="circle"></div>
+        <i class="fa fa-user"></i>
+        <i class="fa fa-exclamation-circle"></i>
+      </div>
+      <i id="bar" class="fas fa-outdent"></i>
+    </div>
+  </nav>
+  <!-- END nav -->
   <section class="customer-order-status">
     <br><br><br>
     <h2 style="text-align: center;">Your Order Status</h2>
@@ -63,10 +64,13 @@
 
       <div class="table-data">
         <?php
-                require_once '../php/DbConnect.php';
+        require_once '../php/DbConnect.php';
+
+        $user_data = json_decode($_COOKIE['user_data'], true);
+        $user_id = $user_data['user_id'];
 
         // Fetch order status from the database
-        $result = $conn->query("SELECT order_id, total, status FROM orders");
+        $result = $conn->query("SELECT order_id, total, status FROM orders where customer_id = $user_id");
 
         // Check if any orders are found
         if ($result && $result->num_rows > 0) {
@@ -85,7 +89,7 @@
       </div>
     </div>
   </section>
-  
+
   <?php require_once '../php/loader.php'; ?>
   <?php require_once '../php/javaScripts.php'; ?>
 </body><br>
