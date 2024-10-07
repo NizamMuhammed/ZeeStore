@@ -19,16 +19,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Prepare and execute the SQL statement
-    $stmt = $conn->prepare("INSERT INTO orders (customer_name, address, phone, total) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("sssd", $customer_name, $address, $phone, $total);
+$user_data = json_decode($_COOKIE['user_data'], true);
+$user_id = $user_data['user_id'];
+$stmt = $conn->prepare("INSERT INTO orders (customer_name, address, phone, total, customer_id) VALUES (?, ?, ?, ?, ?)");
+$stmt->bind_param("ssssi", $customer_name, $address, $phone, $total, $user_id); // Changed type string to "ssssi"
 
-    if ($stmt->execute()) {
-        // Clear the cart after successful order
-        unset($_SESSION['cart']);
-        $message = "Order placed successfully! Your Order ID is: " . $stmt->insert_id;
-    } else {
-        $message = "Error: " . $stmt->error;
-    }
+if ($stmt->execute()) {
+    // Clear the cart after successful order
+    unset($_SESSION['cart']);
+    $message = "Order placed successfully! Your Order ID is: " . $stmt->insert_id;
+} else {
+    $message = "Error: " . $stmt->error;
+}
 
     // Close the statement and connection
     $stmt->close();
