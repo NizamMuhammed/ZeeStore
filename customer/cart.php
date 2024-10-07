@@ -144,9 +144,9 @@ session_start(); // Start the session at the top
     <!-- END nav -->
 
     <div class="container">
-    <h1>Your Cart</h1>
+    <br><br><h1 style="text-align: center;">Your Cart</h1>
+    <button id="clearCartBtn" style="text-align: center;" class="btn">Clear Cart</button><br>
     <table>
-        <button id="clearCartBtn" class="btn">Clear Cart</button><br>
         <thead>
             <tr>
                 <th>Product</th>
@@ -176,9 +176,16 @@ session_start(); // Start the session at the top
         ?>
         </tbody>
     </table><br>
-    <button id="openCheckoutBtn" class="btn">Cash On Delivery Checkout</button><br><br>
-    <a href="checkout.php" class="btn">Pay now</a>
+
+    <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
+        <button id="openCheckoutBtn" class="btn">Cash On Delivery Checkout</button><br><br>
+        <a href="checkout.php" class="btn">Pay now</a>
+    <?php else: ?>
+        <button id="openCheckoutBtn" class="btn" style="pointer-events: none; opacity: 0.6;">Cash On Delivery Checkout</button><br><br>
+        <a href="checkout.php" class="btn" style="pointer-events: none; opacity: 0.6;">Pay now</a>
+    <?php endif; ?>
 </div>
+
 
 <!-- Checkout Modal -->
 <div id="checkoutModal" class="modal">
@@ -189,13 +196,13 @@ session_start(); // Start the session at the top
             <label for="customer_name">Name:</label>
             <input type="text" id="customer_name" name="customer_name" required />
 
-            <label for="address">Address:</label>
+            <label for="address">Address:</label><br>
             <textarea id="address" name="address" required></textarea>
 
             <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" required />
+            <input type="tel" id="phone" name="phone" required /><br>
 
-            <button type="submit">Place Order</button>
+            <button type="submit" class="btn">Place Order</button>
         </form>
     </div>
 </div>
