@@ -149,7 +149,7 @@
   </style>
 </head>
 
-<body>
+<body style="margin-top: -30px">
   <!-- Navigation -->
   <nav>
     <a href="index.php" class="brand">
