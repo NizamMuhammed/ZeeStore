@@ -1,6 +1,13 @@
 <?php
-session_start(); // Start the session at the top
-?><!DOCTYPE html>
+session_start(); // Start the session
+
+// Redirect to login if not logged in
+if (!isset($_SESSION['user_id'])) {
+
+}
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>ZeeStore - Cart</title>

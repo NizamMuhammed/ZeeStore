@@ -79,8 +79,10 @@
 
 
   <?php
-require_once './php/DbConnect.php';
-session_start(); // Start the session if it's not already started
+  // Start session at the top of your login.php if not already started
+session_start();
+  include '../Eats-Beats/php/DbConnect.php';
+
 $ghr = false;
 
 // Check if form is submitted
@@ -92,6 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         // Set session variable username
         $_SESSION['username'] = $_POST['username'];
+        $_SESSION['user_id'] = $row['user_id'];  // Store user_id in session
 
         // Create user data array in JSON format
         while ($row = $result->fetch_assoc()) {
@@ -122,6 +125,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If credentials are invalid
     $ghr = true; // Set error flag
   }
+
+
   ?>
 
 

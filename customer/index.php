@@ -1,3 +1,11 @@
+<?php
+session_start(); // Start the session
+
+// Redirect to login if not logged in
+if (!isset($_SESSION['user_id'])) {
+
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
