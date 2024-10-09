@@ -37,6 +37,7 @@
         <a href="#" id="close"><i class="far fa-times"></i></a>
       </ul>
       <div id="userbar">
+        <li><a href="aditProfile.php">Edit Profile</a></li>
         <li><a href="../login.php">Logout</a></li>
         <a href="#" id="asd"><i class="fa-solid fa-xmark"></i></a>
       </div>
