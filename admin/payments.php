@@ -49,7 +49,6 @@
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </section>
-        <button id="btt1">Update</button>
       </div>
       <div class="table-header parent">
         <div class="table-header-data row">Payment ID</div>
