@@ -2,22 +2,28 @@
 include("../php/DbConnect.php");
 session_start();
 
-if (isset($_GET['user_id'])) {
-  $userID = $_GET['user_id'];
+if (isset($_GET['order_id'])) {
+    $userID = $_GET['order_id'];
 
-  $sql = "DELETE FROM orders WHERE orders_id = $userID";
+    // Prepare the SQL statement to prevent SQL injection
+    $stmt = $conn->prepare("DELETE FROM orders WHERE orders_id = ?");
+    $stmt->bind_param("i", $userID); // 'i' specifies the variable type as integer
 
-  $res = mysqli_query($conn, $sql);
+    // Execute the statement
+    if ($stmt->execute()) {
+        // Deletion successful
+        $_SESSION['delete'] = "<div class='success'><h3>Order Canceled Successfully..!</h3></div>";
+    } else {
+        // Deletion failed
+        $_SESSION['delete'] = "<div class='error'><h3>Failed to Delete Order: " . $stmt->error . "</h3></div>";
+    }
 
-  if ($res == TRUE) {
-    // Deletion successful
-    $_SESSION['delete'] = "<div class='success'><h3>Order Deleted Successfully..!</h3></div>";
-    header("location: orders.php");
-  } else {
-    // Deletion failed
-    $_SESSION['delete'] = "<div class='error'><h3>Failed to Delete Order..!</h3></div>";
-    header("location: orders.php");
-  }
+    // Close the statement
+    $stmt->close();
 } else {
-  header("location: orders.php");
+    $_SESSION['delete'] = "<div class='error'><h3>No Order ID Provided!</h3></div>";
 }
+
+header("location: orders.php");
+exit(); // Always exit after header redirection
+?>

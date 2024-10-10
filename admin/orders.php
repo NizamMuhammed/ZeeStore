@@ -80,7 +80,7 @@
             echo "<div class='table-cell row'>" . number_format((float)$row['total'], 2, '.', '') . "</div>"; // Format total amount
             echo "<div class='table-cell row'>" . date('Y-m-d H:i:s', strtotime($row['order_date'])) . "</div>";
             echo '<div class="table-cell row"><a href="orderC.php?id=' . $row['order_id'] . '">' . htmlspecialchars($row['status']) . '</a></div>';
-            echo '<div class="table-cell row"><a href="deleteOrder.php?id=' . $row['order_id'] . '" onclick="return confirm(\'Are you sure you want to delete this order?\');">Delete</a></div>'; // Action links
+            echo '<div class="table-cell row"><a href="deleteOrder.php?id=' . $row['order_id'] . '" onclick="return confirm(\'Are you sure you want to delete this order?\');">Cancel</a></div>'; // Action links
             echo "</div>";
           }
         } else {
