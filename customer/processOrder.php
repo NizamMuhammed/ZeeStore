@@ -27,7 +27,7 @@ $stmt->bind_param("ssssi", $customer_name, $address, $phone, $total, $user_id); 
 if ($stmt->execute()) {
     // Clear the cart after successful order
     unset($_SESSION['cart']);
-    $message = "Order placed successfully! Your Order ID is: " . $stmt->insert_id;
+    $message = "Order successfully placed! Remember to answer the phone when the delivery arrives! Prepare Rs.$subtotal.00. Your Order ID is: " . $stmt->insert_id;
 } else {
     $message = "Error: " . $stmt->error;
 }
