@@ -48,7 +48,6 @@
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </section>
-        <button id="btt1">Update</button>
       </div>
       <div class="table-header parent">
         <div class="table-header-data row">Order ID</div>
@@ -73,17 +72,7 @@
             echo "<div class='table-row parent'>";
             echo "<div class='table-cell row'>" . $row['order_id'] . "</div>";
 
-            // Fetch customer name based on customer_id
-            //if (isset($row['customer_id'])) {
-            //    $result2 = $conn->query("SELECT name FROM user WHERE user_id = " . (int)$row['customer_id']);
-            //   if ($row2 = $result2->fetch_assoc()) {
-            //       echo "<div class='table-cell row'>" . htmlspecialchars($row2['name']) . "</div>";
-            //    } else {
-            //        echo "<div class='table-cell row'>Unknown Customer</div>";
-            //   }
-            // } else {
-            //     echo "<div class='table-cell row'>No Customer ID</div>";
-            //  }
+          
 
             // Display other order details
             echo "<div class='table-cell row'>" . htmlspecialchars($row['address']) . "</div>";
@@ -91,7 +80,7 @@
             echo "<div class='table-cell row'>" . number_format((float)$row['total'], 2, '.', '') . "</div>"; // Format total amount
             echo "<div class='table-cell row'>" . date('Y-m-d H:i:s', strtotime($row['order_date'])) . "</div>";
             echo '<div class="table-cell row"><a href="orderC.php?id=' . $row['order_id'] . '">' . htmlspecialchars($row['status']) . '</a></div>';
-            echo '<div class="table-cell row"><a href="deleteOrder.php?id=' . $row['order_id'] . '" onclick="return confirm(\'Are you sure you want to delete this order?\');">Delete</a></div>'; // Action links
+            echo '<div class="table-cell row"><a href="deleteOrder.php?id=' . $row['order_id'] . '" onclick="return confirm(\'Are you sure you want to delete this order?\');">Cancel</a></div>'; // Action links
             echo "</div>";
           }
         } else {
